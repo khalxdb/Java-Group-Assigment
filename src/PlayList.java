@@ -14,4 +14,8 @@ public class PlayList {
     public void showSong(){
         songList.printList();
     }
+
+    public String getName(){
+        return name;
+    }
 }

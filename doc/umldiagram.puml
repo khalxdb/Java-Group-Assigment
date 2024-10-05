@@ -34,6 +34,7 @@ class DoublyLinkedList {
     + void shuffle()
     + int getSize()
     + Node getNodeAt(int index)
+    + void printList()
 }
 
 ' Define the Playlist class
@@ -52,9 +53,9 @@ class Playlist {
 
 ' Define the SongManager class
 class SongManager {
-    - List<Playlist> playlists
-    - List<Song> songLibrary
-    - Queue<Song> tempQueue
+    - ArrayList<Playlist> playlists
+    - ArrayList<Song> songLibrary
+
     - Playlist currentPlaylist
     + SongManager()
     + void start()

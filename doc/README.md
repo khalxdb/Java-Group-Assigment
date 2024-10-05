@@ -44,35 +44,92 @@ Ideally loaded in a the terminal by calling the file for the interface
 - Testing: 
 - Documentation: Java doc, user guide
 
-Responsiblities: 
-Vathana Khun: plan out the class structure and overall structure on how the program should work
 ## System Design
 ###
- Image of the class structure
+ Image of the class structure to be changed
 ![alt text](image-1.png)
 
 ## Project MileStone
-Milestone 1: Initial System design and core Requirements
-Milestone 2: Core Functionality Implementation
+### Milestone 1: Initial System design and core Requirements 
+### MileStone 2: Core Functionality Implementation
 
-**Song Class**
+---
+## Class Structure and Progress
+**Song Class** 
 - Purpose: Represents an individual song in the music library.
+- class Song { // ALL DONE
+    - String title
+    - String artist
+    + Song(String title, String artist)
+    + String getTitle()
+    + String getArtist()
+    + String toString()
+}
 
 **Node Class**
 - Purpose: Serves as a node in the doubly linked list, holding a Song object and references to the next and previous nodes.
+- class Node {
+    - Song song // DONE
+    - Node next // DONE
+    - Node prev // DONE
+    + Node(Song song) // DONE
+    + Song getSong()
+    + Node getNext()
+    + void setNext(Node next)
+    + Node getPrev()
+    + void setPrev(Node prev)
+}
 
 **DoublyLinkedList Class**
 - Purpose: Manages a list of SongNode objects, allowing navigation through songs.
-
+- class DoublyLinkedList {
+    - Node head // DONE
+    - Node tail // DONE
+    - Node current // DONE
+    + void addNode(Song song) // DONE
+    + void next()
+    + void printList() // DONE
+    + void previous()
+    + void shuffle()
+    + int getSize()
+    + Node getNodeAt(int index)
+}
 **Playlist Class**
 - Purpose: Represents a playlist containing a collection of songs. Also made up of the doublelinkedlist
+- class Playlist {
+    - String name // DONE
+    - DoublyLinkedList songList // DONE
+    + Playlist(String name) // DONE
+    + void addSong(Song song) // DONE
+    + void play()
+    + void playNext()
+    + void playPrevious()
+    + void shufflePlay()
+    + void showSongs() // DONE
+    + String getName() // DONE
+}
 
 **SongManager Class**
 - Purpose: Acts as the central controller for user interactions, managing playlists, songs, and the temporary queue. 
+- class SongManager {
+    - ArrayList<Playlist> playlists // DONE
+    - ArrayList<Song> songLibrary // DONE
+    - Playlist currentPlaylist
+    + SongManager()
+    + void start()
+    + void createPlaylist(String name)
+    + void addSongToPlaylist(String playlistName, Song song)
+    + void playPlaylist(String playlistName)
+    + void enqueueSong(Song song)
+    + void playQueue()
+    + void showPlaylists()
+    + void showSongs()
+    + void exit()
+}
 
 
 Responsibility: 
 ### Vathana Khun:
 - Setting up the initial documentation
 - came up with the class structure
-- Plan out the overview of the project
+- Plan out the overview of the project, documented initial requirement

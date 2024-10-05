@@ -1,4 +1,4 @@
-public class Cilent {
+public class Client {
     public static void main(String[] args) throws Exception {
 
         // TODO : MAKE INTERFACE THAT USE THE SONG MANAGER
