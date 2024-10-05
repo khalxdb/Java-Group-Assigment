@@ -71,3 +71,8 @@ Milestone 2: Core Functionality Implementation
 - Purpose: Acts as the central controller for user interactions, managing playlists, songs, and the temporary queue. 
 
 
+Responsibility: 
+### Vathana Khun:
+- Setting up the initial documentation
+- came up with the class structure
+- Plan out the overview of the project

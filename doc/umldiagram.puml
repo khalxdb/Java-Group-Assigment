@@ -65,7 +65,6 @@ class SongManager {
     + void playQueue()
     + void showPlaylists()
     + void showSongs()
-    + void processCommand(String command)
     + void exit()
 }
 
