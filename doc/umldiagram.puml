@@ -1,0 +1,80 @@
+@startuml
+
+' Define the Song class
+class Song {
+    - String title
+    - String artist
+    + Song(String title, String artist)
+    + String getTitle()
+    + String getArtist()
+    + String toString()
+}
+
+' Define the Node class
+class Node {
+    - Song song
+    - Node next
+    - Node prev
+    + Node(Song song)
+    + Song getSong()
+    + Node getNext()
+    + void setNext(Node next)
+    + Node getPrev()
+    + void setPrev(Node prev)
+}
+
+' Define the DoublyLinkedList class
+class DoublyLinkedList {
+    - Node head
+    - Node tail
+    - Node current
+    + void addNode(Song song)
+    + void next()
+    + void previous()
+    + void shuffle()
+    + int getSize()
+    + Node getNodeAt(int index)
+}
+
+' Define the Playlist class
+class Playlist {
+    - String name
+    - DoublyLinkedList songList
+    + Playlist(String name)
+    + void addSong(Song song)
+    + void play()
+    + void playNext()
+    + void playPrevious()
+    + void shufflePlay()
+    + void showSongs()
+    + String getName()
+}
+
+' Define the SongManager class
+class SongManager {
+    - List<Playlist> playlists
+    - List<Song> songLibrary
+    - Queue<Song> tempQueue
+    - Playlist currentPlaylist
+    + SongManager()
+    + void start()
+    + void createPlaylist(String name)
+    + void addSongToPlaylist(String playlistName, Song song)
+    + void playPlaylist(String playlistName)
+    + void enqueueSong(Song song)
+    + void playQueue()
+    + void showPlaylists()
+    + void showSongs()
+    + void processCommand(String command)
+    + void exit()
+}
+
+' Relationships between classes
+Node --> Song : contains
+DoublyLinkedList --> Node : manages
+Playlist --> DoublyLinkedList : uses
+SongManager --> Playlist : manages
+SongManager --> Song : has
+SongManager --> Queue : temporaryQueue
+
+@enduml
