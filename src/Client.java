@@ -2,6 +2,7 @@ import java.util.Scanner;
 
 public class Client {
     public static void main(String[] args) throws Exception {
+        
         // TODO : MAKE INTERFACE THAT USE THE SONG MANAGER
 
         // Create an instance of SongManager
@@ -14,7 +15,7 @@ public class Client {
         Song d = new Song("Queen", "Bohemian Rhapsody");
         Song e = new Song("The Beatles", "Let it Be");
         
-        // Create a node and make a doublylinked list
+        // Create a node and make a DoublyLinked list
         Node node1 = new Node(a);
         Node node2 = new Node(b);
         Node node3 = new Node(c);
@@ -41,7 +42,7 @@ public class Client {
         // }
         // System.out.println();
 
-        // Testing out the DoublylinkedList
+        // Testing out the DoublyLinked List:
         DoublyLinkedList list = new DoublyLinkedList();
         list.addNode(a);
         list.addNode(b);

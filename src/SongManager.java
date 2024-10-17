@@ -5,29 +5,32 @@ import java.util.Queue;
 public class SongManager {
     public ArrayList<PlayList> playLists;
     public ArrayList<Song> songLibrary;
-    public Queue<Song> songQueue;                                                           //We would be using Queue to manage songs in sequence
+    public Queue<Song> songQueue;
     // Constructor
     public SongManager() {
         playLists = new ArrayList<>();   
         songLibrary = new ArrayList<>();
         songQueue = new LinkedList<>(); 
     }
+    // TODO: added isValidMethod() to check for song validity;
 
-    // TODO: addSong
-    // TODO: create Playlist
-    // TODO: addSongToPlayList
-    // TODO: showPlaylist
-    //TODO showSongs
- 
     // Method to add a song to the library
     public void addSong(Song song) {
-        songLibrary.add(song);
+        if ( song == null){
+            System.out.println("Can't added a Null Song");;
+        }else{songLibrary.add(song);}
+    }
+
+    public boolean isValidSong(Song song){
+        return false;
     }
 
     // Method to create a new playlist
-    public void createPlayList(String name) {
+    // TODO: Make a false stated for adding playlist with the same name
+    public boolean createPlayList(String name) {
         PlayList playList = new PlayList(name);
         playLists.add(playList);
+        return true;
     }
 
     // Method to add a song to a specific playlist
