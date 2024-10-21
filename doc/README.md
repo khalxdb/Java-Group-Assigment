@@ -124,7 +124,6 @@ Ideally loaded in a the terminal by calling the file for the interface
     + void playQueue()
     + void showPlaylists()
     + void showSongs()
-    + void exit()
 }
 
 

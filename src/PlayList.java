@@ -18,4 +18,12 @@ public class PlayList {
     public String getName(){
         return name;
     }
+
+    public DoublyLinkedList getSongPlayList(){
+        return songList;
+    }
+
+    public int size(){
+        return songList.size();
+    }
 }
