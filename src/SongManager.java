@@ -46,6 +46,10 @@ public class SongManager {
         player.enqueueSong(song);
     }
 
+    public void clearPlayer(){
+        player.clearPlayer();
+    }
+
     // Method to play the next song in the queue
     public Song playCurrentSong(){
         return player.playCurrentSong();

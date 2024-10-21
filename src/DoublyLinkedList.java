@@ -17,6 +17,8 @@ public class DoublyLinkedList {
         if (head == null){
             head = newNode;
             tail = newNode;
+            head.next = head;  // Circular link for single node
+            head.prev = head;  // Circular link for single node
         }
         else{
             /*
@@ -24,78 +26,83 @@ public class DoublyLinkedList {
              * connect the NewNode previous to the current tail,
              * update the tail
              */
-            tail.next = newNode; 
+            tail.next = newNode;  // Add the new node at the end
             newNode.prev = tail;
-            tail = newNode;
+            tail = newNode;      // Update the tail
+            tail.next = head;    // Circular link from tail to head
+            head.prev = tail;    // Circular link from head to tail
         }
     }
 
     // Print out Node
     public void printList(){
+        if (head == null) {
+            System.out.println("List is empty.");
+            return;
+        }
+
         Node current = head;
-        while (current != null) {
+        do {
             System.out.print(current.song.getTitle() + " ");
             current = current.next;
-        }
+        } while (current != head); // Stop when we loop back to the head
         System.out.println();
     }
 
     public Song get(int index) {
-        // Check if index is negative
-        if (index < 0) { 
-            return null; 
+        if (index < 0 || head == null) { 
+            return null;  // Invalid index or empty list
         }
-    
+
         Node current = head;
         int count = 0;
-    
-        // Traverse the list until we reach the desired index
-        while (current != null) {
+
+        do {
             if (count == index) {
                 return current.song;
             }
             count++;
             current = current.next;
-        }
-    
-        return null; // If index is out of bounds, return null
-    }
-    
+        } while (current != head && count <= index);  // Stop if looped back to head or found index
 
-    //Method: get the size of doubly linked list: 
-    public int size(){
-        return getSizeRecursive(head);
+        return null;  // If index is out of bounds, return null
     }
 
-    // Helper function to get size
-    public int getSizeRecursive(Node node) {
-        // Base case: if the node is null
-        if (node == null) {
-            return 0;
+    // Method: Get the size of the doubly linked list
+    public int size() {
+        if (head == null) {
+            return 0; // Empty list
         }
-        // Recursive case: return 1
-        return 1 + getSizeRecursive(node.next);
+
+        Node current = head;
+        int size = 0;
+
+        do {
+            size++;
+            current = current.next;
+        } while (current != head);  // Stop when we loop back to the head
+
+        return size;
     }
 
     // TODO: Method for checking if the list contains a specific song
     public boolean contains(Song song) {
-        Node current = head;
-        while (current != null) {
-            if (current.song.equals(song)) { // Use equals method to compare songs
-                return true; // Song found in the list
-            }
-            current = current.next; // Move to the next node
+        if (head == null) {
+            return false;  // Empty list, return false
         }
-        return false; // Song not found after traversing the list
+
+        Node current = head;
+
+        do {
+            if (current.song.equals(song)) {  // Use equals method to compare songs
+                return true;  // Song found in the list
+            }
+            current = current.next;
+        } while (current != head);  // Stop when we loop back to the head
+
+        return false;  // Song not found after traversing the list
     }
 
-    // public boolean contains(){
-    //     Node current = head;
-    //     while ( current != null){
-    //         if (current.song == this.song)
-    //         current = current.next;
-    //     }
-    // }
 
     // Shuffle method
 

@@ -20,10 +20,18 @@ public class Player {
     // Method: Add a single song to the queue (ad-hoc song, not part of the playlist)
     public void enqueueSong(Song song) {
         songQueue.addNode(song);
-        currentSongNode = songQueue.head; 
+        if (currentSongNode == null) {
+            currentSongNode = songQueue.head;
+        }
         System.out.println(song.getTitle() + " added to the queue.");
     }
 
+    public void clearPlayer() {
+        // Clear the playlist and reset the current song node
+        songQueue = new DoublyLinkedList();  // Reset the songQueue to an empty list
+        currentSongNode = null;  // Reset the current song pointer
+        System.out.println("Player has been cleared.");
+    }
     // Method: Play the current song
     public Song playCurrentSong() {
         if (currentSongNode != null) {
@@ -37,37 +45,29 @@ public class Player {
 
     // Method: Play the next song in the playlist/queue
     public Song playNextSong() {
-        if (currentSongNode != null && currentSongNode.next != null) {
-            currentSongNode = currentSongNode.next;  // Move to the next song
+        if (currentSongNode != null) {
+            // Move to the next song, if we're at the tail, we circle back to the head
+            currentSongNode = currentSongNode.next;  // Automatically circles back to head due to circular nature
             System.out.println("Playing next song: " + currentSongNode.song.getTitle());
-            return currentSongNode.song;
-        } else if (currentSongNode != null && currentSongNode.next == null) {
-            // If we're at the tail, stay at the currentSongNode (end of list)
-            System.out.println("Reached the end of the playlist.");
             return currentSongNode.song;
         }
     
-        System.out.println("No more songs in the playlist or queue.");
+        System.out.println("No songs available to play.");
         return null;
     }
-
+    
     // Method: Play the previous song in the playlist/queue
     // TODO: THIS MIGHT NEED TO BE CHANGE TO A CIRCULAR LINKED LIST
     public Song playPreviousSong() {
-        if (currentSongNode != null && currentSongNode.prev != null) {
-            currentSongNode = currentSongNode.prev;
+        if (currentSongNode != null) {
+            // Move to the previous song, if we're at the head, we circle back to the tail
+            currentSongNode = currentSongNode.prev;  // Automatically circles back to tail due to circular nature
             System.out.println("Playing previous song: " + currentSongNode.song.getTitle());
             return currentSongNode.song;
-        } else if (currentSongNode == null) {
-            // If we've reached the end and want to go backward, start from the tail
-            currentSongNode = songQueue.tail;
-            if (currentSongNode != null) {
-                System.out.println("Playing previous song from tail: " + currentSongNode.song.getTitle());
-                return currentSongNode.song;
-            }
         }
-
-        System.out.println("No previous songs in the playlist or queue.");
+    
+        System.out.println("No songs available to play.");
         return null;
     }
+    
 }

@@ -71,12 +71,12 @@ class SongManagerTest {
         assertEquals(a, songManager.playCurrentSong()); 
         assertEquals(b, songManager.playNextSong()); 
         assertEquals(c, songManager.playNextSong()); 
-        assertEquals(c, songManager.playNextSong()); // Queue should be empty now print out message:Reached the end of the playlist 
+        assertEquals(a, songManager.playNextSong()); // circular in nature 
 
         // Test playing the previous song
+        assertEquals(c, songManager.playPreviousSong()); 
         assertEquals(b, songManager.playPreviousSong()); 
-        assertEquals(a, songManager.playPreviousSong()); 
-        assertNull(songManager.playPreviousSong()); // No more previous songs, should return null
+        assertEquals(a, songManager.playPreviousSong());
     }
 
     @Test
@@ -90,5 +90,28 @@ class SongManagerTest {
         assertTrue(favorite.getSongPlayList().contains(b));
         assertTrue(favorite.getSongPlayList().contains(c));
     }
+    @Test
+    void testQueueAfterSettingPlaylist() {
+        // Step 1: Set the playlist
+        songManager.setPlaylist(favorite);  // favorite has songs a, b, c
+        assertEquals(3, favorite.getSongPlayList().size());  // Verify playlist size
+
+        // Step 2: Verify playlist is set correctly
+        assertEquals(a, songManager.playCurrentSong());  // Play first song from playlist
+        assertEquals(b, songManager.playNextSong());     // Play next song from playlist
+        assertEquals(c, songManager.playNextSong());     // Play next song from playlist
+        assertEquals(a, songManager.playNextSong());     // circular by nature
+
+        songManager.clearPlayer();
+
+        // Step 3: Now enqueue songs after setting the playlist
+        songManager.enqueueSong(d);  // New song "d"
+        songManager.enqueueSong(e);  // New song "e"
+
+        // Step 4: Ensure the queue is a new DoublyLinkedList, and does not contain previous playlist songs
+        assertEquals(d, songManager.playCurrentSong());  // Play the first enqueued song "d"
+        assertEquals(e, songManager.playNextSong());     // Play the next enqueued song "e"      
+    }
+
 
 }
