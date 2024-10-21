@@ -2,7 +2,6 @@ import java.util.Scanner;
 
 public class Client {
     public static void main(String[] args) throws Exception {
-        
         // TODO : MAKE INTERFACE THAT USE THE SONG MANAGER
 
         // Create an instance of SongManager
@@ -11,11 +10,11 @@ public class Client {
         songManager = new SongManager();
         
         // Create songs
-        Song a = new Song("Frank Sinatra","My Way a ");
-        Song b = new Song("Frank Sinatra","Fly me to the Moon b ");
-        Song c = new Song("Bruno Mars","That's What I Like c ");
-        Song d = new Song("Queen", "Bohemian Rhapsody d ");
-        Song e = new Song("The Beatles", "Let it Be e ");
+        Song a = new Song("Frank Sinatra","My Way");
+        Song b = new Song("Frank Sinatra","Fly me to the Moon");
+        Song c = new Song("Bruno Mars","That's What I Like");
+        Song d = new Song("Queen", "Bohemian Rhapsody");
+        Song e = new Song("The Beatles", "Let it Be");
         
         // Add songs to the song library
         songManager.addSongToLibrary(a);
@@ -40,7 +39,7 @@ public class Client {
         songManager.addSongToPlayList(d, "Classic Hits");
 
         // Show songs in the 'Classic Hits' playlist
-        songManager.showPlayList("Classic Hits");
+        songManager.showPlayListSong("Classic Hits");
         System.out.println();
 
         // Add another playlist
@@ -50,7 +49,7 @@ public class Client {
 
          // Show songs in 'Pop Songs' playlist
         
-        songManager.showPlayList("Pop Songs");
+        songManager.showPlayListSong("Pop Songs");
         System.out.println();
  
         // Queue up some songs
@@ -60,36 +59,73 @@ public class Client {
  
          // Play the queued songs one by one
         System.out.println("Playing songs from the queue:");
-        songManager.playNextSong();                                                                // Plays "My Way"
-        songManager.playNextSong();                                                                // Plays "Fly me to the Moon"
-        songManager.playNextSong();                                                                // Plays "That's What I Like"
-        songManager.playNextSong();                                                                // Queue should be empty now
+        songManager.playCurrentSong(); // Plays "My Way"
+        songManager.playNextSong(); // Plays "Fly me to the Moon"
+        songManager.playNextSong(); // Plays "That's What I Like"
+        songManager.playNextSong();// Circular
 
-        System.out.println("\nDoublyLinkedList operations:");
 
-        // // TESTING OUT COMMAND LINE INTERFACE
-        // System.out.println("Welcome to the Song Manager!");
-        // System.out.println("Commands: play, next, previous, shuffle, exit");
-        // Scanner scanner = new Scanner(System.in);
 
-        // while (true) {
-        //     clearConsole();
-        //     System.out.println("\033[32mWelcome to the Terminal Page!\033[0m"); // Green text
-        //     System.out.println("\033[33mType 'exit' to quit.\033[0m"); // Yellow text
-        //     System.out.println("\033[34mYour options are:\033[0m"); // Blue text
-        //     System.out.println("\033[36m1. Option A\033[0m"); // Cyan text
-        //     System.out.println("\033[36m2. Option B\033[0m"); // Cyan text
-        //     System.out.print("\033[35mChoose an option: \033[0m"); // Magenta text
+        boolean runConsole = true;
+       
+        Scanner scanner = new Scanner(System.in);
 
-        //     String command = scanner.nextLine();
+        // TO BE DECIDED
+        while (true&& runConsole) {
+            clearConsole();
+             // TESTING OUT COMMAND LINE INTERFACE
+            System.out.println("\033[32mWelcome to the Song Manager!\033[0m");
+            System.out.println("Commands: show, play, create, exit");
 
-        //     if (command.equalsIgnoreCase("exit")) {
-        //         break;
-        //     }
+            String command = scanner.nextLine();
 
-        // }
-        // System.out.println("\033[31mGoodbye!\033[0m"); // Red text for goodbye
-        // scanner.close();
+            // TODO: Write if statments for different interactions : for all the different command
+            if (command.equalsIgnoreCase("show")) {
+                System.out.println("Would you like to see all the songs or playlists?");
+                System.out.println("Type 'songs' to view all songs or 'playlists' to view all playlists.");
+
+                // Get the user's response for songs or playlists
+                String showCommand = scanner.nextLine(); 
+
+                if (showCommand.equalsIgnoreCase("songs")) {
+                    clearConsole();
+                    System.out.println("Displaying all songs...");
+                    songManager.showSongs();
+                } else if (showCommand.equalsIgnoreCase("playlists")) {
+                    clearConsole();
+                    System.out.println("Displaying all playlists...");
+                    songManager.showPlayList();
+                } else {
+                    clearConsole();
+                    System.out.println("Invalid option. Returning to main menu.");
+                }
+                // After displaying the information, prompt to return to the main menu
+                System.out.println("\033[33mPress Enter to return to the main menu...\033[0m");
+                // Wait for the user to press Enter before returning
+                scanner.nextLine();  
+                clearConsole();
+            }
+
+            if (command.equalsIgnoreCase("create")) {
+                clearConsole();
+                System.out.println("What would you like to name your playlists as?");
+                String playlistName = scanner.nextLine();
+                songManager.createPlayList(playlistName);
+                songManager.showPlayListSong(playlistName);
+                scanner.nextLine();  
+           
+            }
+            if (command.equalsIgnoreCase("shuffle")) {
+                break;
+            }
+
+            if (command.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+        }
+        System.out.println("\033[31mGoodbye!\033[0m"); // Red text for goodbye
+        scanner.close();
     }
 
     public static void clearConsole() {

@@ -16,7 +16,7 @@ public class PlaylistManager {
         return true;
     }
 
-    // TODO: addSongToPlayList
+    // METHOD : addSongToPlayList
     public void addSongToPlayList(Song song, String playlistName) {
         for (PlayList playList : listOfPlayList) {
             if (playList.getName().equals(playlistName)) {
@@ -26,13 +26,9 @@ public class PlaylistManager {
         }
         System.out.println("Playlist not found");
     }
-    
-    // TODO: enqueueSong
-    
-    // TODO: getPlayList
 
-    // TODO: showPlayList
-    public void showPlayList(String playlistName) {
+    // METHOD : show song in playlist
+    public void showPlayListSong(String playlistName) {
         for (PlayList playList : listOfPlayList) {
             if (playList.getName().equals(playlistName)) {
                 System.out.println("Songs in playlist: " + playlistName);
@@ -43,7 +39,7 @@ public class PlaylistManager {
         System.out.println("Playlist not found");
     }
 
-    //TODO: Method for getting specific song playlist
+    //METHOD: Method for getting specific song playlist
     public PlayList getPlayList(String playlistName) {
         for ( PlayList playlist : listOfPlayList){
             if (playlist.getName().equals(playlistName)) {  
@@ -54,13 +50,16 @@ public class PlaylistManager {
         throw new IllegalArgumentException("Playlist with name '" + playlistName + "' not found."); 
     }
 
-    // TODO: GET All the song in the specific playlist
+    // METHOD: GET All the song in the specific playlist
     public DoublyLinkedList getSongPlayList(String playlistName){
         PlayList currentPlaylist = this.getPlayList(playlistName);
         return currentPlaylist.getSongPlayList();
     }
 
-    
-    
+    public void showPlayList(){
+        for (PlayList playlist : listOfPlayList){
+            System.out.println('-'+ playlist.getName());
+        }   
+    }
 
 }

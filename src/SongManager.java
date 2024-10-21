@@ -64,14 +64,18 @@ public class SongManager {
      }
 
     // Method to display all songs in a playlist
-    public void showPlayList(String playlistName) {
-        playlistManager.showPlayList(playlistName);
+    public void showPlayListSong(String playlistName) {
+        playlistManager.showPlayListSong(playlistName);
     }
     
-
-    // TODO: Method for getting specific song playlist
+    // METHOD: for getting specific song playlist
     public PlayList getPlayList(String s){
         return playlistManager.getPlayList(s);
+    }
+
+    // TODO: Show all the PlayList
+    public void showPlayList() {
+        playlistManager.showPlayList();
     }
     
 }
