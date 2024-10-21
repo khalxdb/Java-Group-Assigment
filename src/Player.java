@@ -32,13 +32,14 @@ public class Player {
         currentSongNode = null;  // Reset the current song pointer
         System.out.println("Player has been cleared.");
     }
+    
     // Method: Play the current song
+    // TODO : Added a Preview Features
     public Song playCurrentSong() {
         if (currentSongNode != null) {
             System.out.println("Playing current song: " + currentSongNode.song.getTitle());
             return currentSongNode.song;
         }
-
         System.out.println("No current song to play.");
         return null;
     }

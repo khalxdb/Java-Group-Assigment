@@ -64,8 +64,6 @@ public class Client {
         songManager.playNextSong(); // Plays "That's What I Like"
         songManager.playNextSong();// Circular
 
-
-
         boolean runConsole = true;
        
         Scanner scanner = new Scanner(System.in);
@@ -113,10 +111,30 @@ public class Client {
                 songManager.createPlayList(playlistName);
                 songManager.showPlayListSong(playlistName);
                 scanner.nextLine();  
-           
             }
-            if (command.equalsIgnoreCase("shuffle")) {
-                break;
+
+            if (command.equalsIgnoreCase("play")) {
+                clearConsole();
+                System.out.println("Now Playing: ");
+                songManager.playCurrentSong();
+
+                // Loop to continuously handle next, prev, and exit
+                while (true) {  
+                    System.out.println("\nEnter 'next' to play the next song, 'prev' to play the previous song, or 'exit' to return to the main menu.");
+                    String playCommand = scanner.nextLine();
+                    if (playCommand.equalsIgnoreCase("next")) {
+                        songManager.playNextSong();
+                    } else if (playCommand.equalsIgnoreCase("prev")) {
+                        songManager.playPreviousSong();
+                    } else if (playCommand.equalsIgnoreCase("exit")) {
+                        clearConsole();
+                        System.out.println("Exiting play mode. Returning to the main menu.");
+                        break;  // Exit the loop and return to the main menu
+                    } else {
+                        clearConsole();
+                        System.out.println("Invalid option. Please enter 'next', 'prev', or 'exit'.");
+                    }
+                }
             }
 
             if (command.equalsIgnoreCase("exit")) {
@@ -124,7 +142,7 @@ public class Client {
             }
 
         }
-        System.out.println("\033[31mGoodbye!\033[0m"); // Red text for goodbye
+        System.out.println("\033[31mGoodbye!\033[0m"); // Red Text
         scanner.close();
     }
 
