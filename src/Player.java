@@ -1,5 +1,5 @@
 public class Player {
-    public DoublyLinkedList songQueue;  // the songQueue for playing our songs
+    public static DoublyLinkedList songQueue;  // the songQueue for playing our songs
     public Node currentSongNode;  // keeping track of the current song node
 
     // Constructor
@@ -16,7 +16,7 @@ public class Player {
         System.out.println("Playlist set to: " + playlist.getName());
     }
 
-    // Method: Add a single song to the queue (ad-hoc song, not part of the playlist)
+    // Method: Add song to the queue
     public void enqueueSong(Song song) {
         songQueue.addNode(song);
         if (currentSongNode == null) {
@@ -57,11 +57,10 @@ public class Player {
     }
     
     // Method: Play the previous song in the playlist/queue
-    // TODO: THIS MIGHT NEED TO BE CHANGE TO A CIRCULAR LINKED LIST
     public Song playPreviousSong() {
+        // Automatically comeback to the same song because of circular linked list
         if (currentSongNode != null) {
-            // Move to the previous song, if we're at the head, we circle back to the tail
-            currentSongNode = currentSongNode.prev;  // Automatically circles back to tail due to circular nature
+            currentSongNode = currentSongNode.prev; 
             System.out.println("Playing previous song: " + currentSongNode.song.getTitle());
             return currentSongNode.song;
         }

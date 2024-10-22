@@ -6,7 +6,6 @@ public class Client {
 
         // Create an instance of SongManager
         SongManager songManager = new SongManager();
-
         songManager = new SongManager();
         
         // Create songs
@@ -23,7 +22,20 @@ public class Client {
         songManager.addSongToLibrary(d);
         songManager.addSongToLibrary(e);
 
+        String fileName = "data/testing.csv";
+        songManager.loadFromCSV(fileName);
+
+        songManager.showSongs();
+
         // Create playlist and add songs to the playlist method 1
+        // PlayList favorite = new PlayList("favorite");
+        songManager.createPlayList("favorite");
+        songManager.addSongByNameToPlaylist("My Way", "favorite");
+        songManager.addSongByNameToPlaylist("Fly me to the Moon", "favorite");
+        // Song a = songManager.findSongByName("My Way");
+
+        songManager.showPlayList();
+        
         PlayList favorite = new PlayList("favorite");
         favorite.addSong(a);
         favorite.addSong(b);

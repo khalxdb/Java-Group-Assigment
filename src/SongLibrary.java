@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 public class SongLibrary {
     // The Song Library Class Roles is for handling all the possible song
-    public ArrayList<Song> songLibrary;
+    public static ArrayList<Song> songLibrary;
 
     // constructor
     public SongLibrary(){

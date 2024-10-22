@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.io.*;
+import java.util.*;
 
 public class SongManager {
     public SongLibrary songLibrary;
@@ -12,8 +14,31 @@ public class SongManager {
         this.player = new Player(); 
     }
     
+    // Method for adding Song to the Song Library
     public void addSongToLibrary(Song song) {
         songLibrary.addSongToLibrary(song);
+    }
+
+    // Method to add a song by searching for its exact name and adding it to a playlist
+    public void addSongByNameToPlaylist(String songName, String playlistName) {
+        Song foundSong = findSongByName(songName);
+
+        if (foundSong != null) {
+            System.out.println("Adding song to playlist: " + foundSong.getTitle() + " by " + foundSong.getArtist());
+            playlistManager.addSongToPlayList(foundSong, playlistName);  // Add the song to the playlist
+        } else {
+            System.out.println("No song found with the name: " + songName);
+        }
+    }
+
+    // Helper method to find a song by its exact name in the static SongLibrary
+    public Song findSongByName(String name) {
+        for (Song song : SongLibrary.songLibrary) {  // Access static songLibrary
+            if (song.title.equalsIgnoreCase(name)) {  // Case-insensitive exact match
+                return song;  // Return the matching song
+            }
+        }
+        return null;  // No match found
     }
 
     // Method to display all songs in the song library
@@ -27,7 +52,6 @@ public class SongManager {
     }
 
     // Method to create a new playlist
-    // TODO: Make a false stated for adding playlist with the same name
     public void createPlayList(String name) {
         playlistManager.createPlayList(name);
     }
@@ -76,6 +100,22 @@ public class SongManager {
     // TODO: Show all the PlayList
     public void showPlayList() {
         playlistManager.showPlayList();
+    }
+
+    public void loadFromCSV(String fileName) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(fileName));
+        String headerLine = reader.readLine();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            String[] parts = line.split(",");
+            String artist = parts[0];
+            String  songName = parts[1];
+            
+            // Create the New Song Object
+            Song loadSong = new Song(artist, songName);
+            songLibrary.addSongToLibrary(loadSong);
+        } 
+        reader.close();
     }
     
 }
