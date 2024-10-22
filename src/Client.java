@@ -6,6 +6,7 @@ public class Client {
 
         // Create an instance of SongManager
         SongManager songManager = new SongManager();
+
         songManager = new SongManager();
         
         // Create songs

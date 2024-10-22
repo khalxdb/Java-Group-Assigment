@@ -103,8 +103,11 @@ public class DoublyLinkedList {
         return false;  // Song not found after traversing the list
     }
 
+    public boolean isEmpty() {
+        return head == null;  // If head is null, the list is empty
+    }
 
-    // Shuffle method
+
 
     // FORWARD TRAVERSAL
 

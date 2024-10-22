@@ -3,7 +3,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SongManagerTest {
-
     public  SongManager songManager;
     public Song a, b, c, d, e;
     public PlayList favorite;
@@ -37,11 +36,22 @@ class SongManagerTest {
     @Test
     void testAddSongsToLibrary() {
         // Check if the library contains the correct songs
-        assertTrue(songManager.getLibrary().contains(a));
-        assertTrue(songManager.getLibrary().contains(b));
-        assertTrue(songManager.getLibrary().contains(c));
-        assertTrue(songManager.getLibrary().contains(d));
-        assertTrue(songManager.getLibrary().contains(e));
+        assertTrue(SongLibrary.songLibrary.contains(a));
+        assertTrue(SongLibrary.songLibrary.contains(b));
+        assertTrue(SongLibrary.songLibrary.contains(c));
+        assertTrue(SongLibrary.songLibrary.contains(d));
+        assertTrue(SongLibrary.songLibrary.contains(e));
+    }
+    // Adding sames song
+    @Test
+    void testAddSameSong() {
+        // Check if the library contains the correct songs
+        // This should not be allowed
+        assertFalse(songManager.addSongToLibrary(a));
+        assertFalse(songManager.addSongToLibrary(b));
+        assertFalse(songManager.addSongToLibrary(c));
+        assertFalse(songManager.addSongToLibrary(d));
+        assertFalse(songManager.addSongToLibrary(e));
     }
 
     @Test
@@ -53,7 +63,7 @@ class SongManagerTest {
         songManager.addSongToPlayList(d, "Classic Hits");
 
         // Check that the playlist contains the expected songs
-        PlayList classicHits = songManager.getPlayList("Classic Hits");
+        PlayList classicHits = songManager.playlistManager.getPlayList("Classic Hits");
         assertNotNull(classicHits);
         assertEquals(3, classicHits.getSongPlayList().size());
         assertTrue(classicHits.getSongPlayList().contains(a));
@@ -83,7 +93,7 @@ class SongManagerTest {
     @Test
     void testShowSongsInPlayList() {
         // Check playlist has the correct songs
-        favorite.showSong();
+        favorite.showSongs();
         
         songManager.setPlaylist(favorite);
         assertEquals(3, favorite.getSongPlayList().size());

@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public class PlaylistManager {
-    public static ArrayList<PlayList> listOfPlayLists;
+    public ArrayList<PlayList> listOfPlayLists;
 
     // Constructor
     public PlaylistManager() {
@@ -71,11 +71,6 @@ public class PlaylistManager {
         return getPlayList(playlistName) != null;
     }
 
-    // Helper Function: Check if playlist name is already taken
-    public boolean isPlaylistNameTaken(String playlistName) {
-        return getPlayList(playlistName) != null;
-    }
-
     // METHOD: Add a song to a playlist by name
     public boolean addSongToPlayList(Song song, String playlistName) {
         PlayList playlist = getPlayList(playlistName);
@@ -101,17 +96,6 @@ public class PlaylistManager {
         return null; 
     }
 
-    // METHOD: Display songs in a specific playlist
-    public void showPlayListSong(String playlistName) {
-        PlayList playlist = getPlayList(playlistName);
-        if (playlist != null) {
-            System.out.println("Songs in playlist '" + playlistName + "':");
-            playlist.showSong();
-        } else {
-            System.out.println("Playlist '" + playlistName + "' not found.");
-        }
-    }
-
     // METHOD: GET All the song in the specific playlist
     public DoublyLinkedList getSongPlayList(String playlistName) {
         PlayList playlist = getPlayList(playlistName);
@@ -135,3 +119,4 @@ public class PlaylistManager {
     }
 
 }
+

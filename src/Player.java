@@ -68,5 +68,7 @@ public class Player {
         System.out.println("No songs available to play.");
         return null;
     }
+
+    // TODO: Shuffle method
     
 }
