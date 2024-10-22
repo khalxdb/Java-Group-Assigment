@@ -1,8 +1,9 @@
 public class Song {
+    // a song contains an artist and a title
     String artist;
     String title;
     
-
+    // constructor
     public Song(String artist, String title ){
         this.artist = artist;
         this.title = title;

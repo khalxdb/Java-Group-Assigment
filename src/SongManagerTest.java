@@ -10,6 +10,7 @@ class SongManagerTest {
 
     @BeforeEach
     void setUp() {
+        // Initialized the song manager object
         songManager = new SongManager();
         
         // Create songs

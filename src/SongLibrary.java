@@ -1,13 +1,14 @@
 import java.util.ArrayList;
 public class SongLibrary {
-    // TODO: Make a class for song library 
+    // The Song Library Class Roles is for handling all the possible song
     public ArrayList<Song> songLibrary;
 
+    // constructor
     public SongLibrary(){
         songLibrary = new ArrayList<Song>();
     }
 
-    // TODO: addSongToLibrary
+    // addSong to Library
     public void addSongToLibrary(Song song) {
         if ( song == null){
             System.out.println("Can't added a Null Song");;
@@ -19,11 +20,11 @@ public class SongLibrary {
         return false;
     }
 
-   // Method to display all songs in the song library
+   // method to display all songs in the song library
     public void showSongs() {
         System.out.println("Songs in the library:");
         for (Song song : songLibrary) {
-            System.out.println(song.toString());
+            System.out.println('-'+song.toString());
         }
     }
     

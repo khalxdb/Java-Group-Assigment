@@ -1,7 +1,6 @@
 public class Player {
-    // The doubly linked list will now hold the current playlist songs
-    public DoublyLinkedList songQueue;  // This acts as both the queue and the playlist
-    public Node currentSongNode;  // To keep track of the current song
+    public DoublyLinkedList songQueue;  // the songQueue for playing our songs
+    public Node currentSongNode;  // keeping track of the current song node
 
     // Constructor
     public Player() {

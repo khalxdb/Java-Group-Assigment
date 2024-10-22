@@ -73,7 +73,7 @@ public class Client {
             clearConsole();
              // TESTING OUT COMMAND LINE INTERFACE
             System.out.println("\033[32mWelcome to the Song Manager!\033[0m");
-            System.out.println("Commands: show, play, create, exit");
+            System.out.println("Commands: show, play, create, save, exit");
 
             String command = scanner.nextLine();
 
@@ -100,6 +100,22 @@ public class Client {
                 // After displaying the information, prompt to return to the main menu
                 System.out.println("\033[33mPress Enter to return to the main menu...\033[0m");
                 // Wait for the user to press Enter before returning
+                scanner.nextLine();  
+                clearConsole();
+            }
+
+            if (command.equalsIgnoreCase("show playlists")){
+                clearConsole();
+                System.out.println("Displaying all songs...");
+                songManager.showSongs();
+                scanner.nextLine();  
+                clearConsole();
+            }
+
+            if (command.equalsIgnoreCase("show songs")){
+                clearConsole();
+                System.out.println("Displaying all songs...");
+                songManager.showSongs();
                 scanner.nextLine();  
                 clearConsole();
             }
