@@ -1,5 +1,5 @@
 public class Player {
-    public static CircularDoublyLinkedList songQueue;  // the songQueue for playing our songs
+    public CircularDoublyLinkedList songQueue;  // the songQueue for playing our songs
     public Node currentSongNode;  // keeping track of the current song node
 
     // Constructor

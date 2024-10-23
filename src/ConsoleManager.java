@@ -54,7 +54,7 @@ public class ConsoleManager {
 
     // Method to wait for user to press Enter
     public void waitForEnter() {
-        System.out.println("\033[33mPress Enter to return to the main menu...\033[0m");
+        System.out.println("\033[33mPress Enter to return to last page...\033[0m");
         scanner.nextLine();
     }
 

@@ -41,13 +41,13 @@ public class SongLibrary {
     
     // Method to find a song by its exact name in the library
     // Method: Find a song by its exact name in the library (returns null if not found)
-    public Song findSongByName(String name) {
-        if (name == null || name.isEmpty()) {
+    public Song findSongByName(String songName) {
+        if (songName == null || songName.isEmpty()) {
             return null; 
         }
 
         for (Song song : this.listOfSongs) {
-            if (song.title.equalsIgnoreCase(name)) {
+            if (song.title.equalsIgnoreCase(songName)) {
                 return song;
             }
         }

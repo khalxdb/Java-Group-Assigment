@@ -23,6 +23,16 @@ public class SongManager {
         }
     }
 
+    // Method: For playing a playlist
+    public void playPlaylist(PlayList playlist) {
+        if (playlist != null) {
+            player.setPlaylist(playlist);
+            player.playCurrentSong();
+        } else {
+            System.out.println("Playlist not found.");
+        }
+    }
+
     // Method for adding Song to the Song Library
     public boolean addSongToLibrary(Song song) {
         return songLibrary.addSongToLibrary(song);
@@ -31,7 +41,7 @@ public class SongManager {
 
     // Method to add a song by searching for its exact name and adding it to a playlist
     public boolean addSongByNameToPlaylist(String songName, String playlistName) {
-        // make sure that it exist in the first places
+        // Make sure that it exist in the first places
         Song foundSong = songLibrary.findSongByName(songName);
         if (foundSong != null) {
             // Add the song to the playlist
@@ -94,6 +104,9 @@ public class SongManager {
     // Method to display all songs in a playlist
     public void showPlayListSong(String playlistName) {
         playlistManager.findPlaylistbyName(playlistName).showSongs();
+    }
+    public void showPlayListSong(PlayList playlistName) {
+        playlistName.showSongs();;
     }
 
     // TODO: Show all the PlayList

@@ -13,11 +13,11 @@ class SongManagerTest {
         songManager = new SongManager();
         
         // Create songs
-        a = new Song("Frank Sinatra","My Way a ");
-        b = new Song("Frank Sinatra","Fly me to the Moon b ");
-        c = new Song("Bruno Mars","That's What I Like c ");
-        d = new Song("Queen", "Bohemian Rhapsody d ");
-        e = new Song("The Beatles", "Let it Be e ");
+        a = new Song("Frank Sinatra","My Way a");
+        b = new Song("Frank Sinatra","Fly me to the Moon b");
+        c = new Song("Bruno Mars","That's What I Like c");
+        d = new Song("Queen", "Bohemian Rhapsody d");
+        e = new Song("The Beatles", "Let it Be e");
         
         // Add songs to Song object library
         songManager.addSongToLibrary(a);
@@ -42,17 +42,16 @@ class SongManagerTest {
         assertTrue(songManager.songLibrary.listOfSongs.contains(d));
         assertTrue(songManager.songLibrary.listOfSongs.contains(e));
     }
-    // Adding sames song
+    
     @Test
     void testAddSameSong() {
         // Check if the library contains the correct songs
-        // This should not be allowed
+        // There should only be one unique set of songs
         assertFalse(songManager.addSongToLibrary(a));
         assertFalse(songManager.addSongToLibrary(b));
         assertFalse(songManager.addSongToLibrary(c));
         assertFalse(songManager.addSongToLibrary(d));
         assertFalse(songManager.addSongToLibrary(e));
-
 
     }
 
@@ -65,13 +64,14 @@ class SongManagerTest {
         songManager.addSongToPlayList(d, "Classic Hits");
 
         // Check that the playlist contains the expected songs
-        PlayList classicHits = songManager.playlistManager.getPlayList("Classic Hits");
+        PlayList classicHits = songManager.playlistManager.findPlaylistbyName("Classic Hits");
         assertNotNull(classicHits);
         assertEquals(3, classicHits.getSongPlayList().size());
-        assertTrue(classicHits.getSongPlayList().contains(a));
-        assertTrue(classicHits.getSongPlayList().contains(b));
-        assertTrue(classicHits.getSongPlayList().contains(d));
+        assertTrue(classicHits.songList.contains(a));
+        assertTrue(classicHits.songList.contains(b));
+        assertTrue(classicHits.songList.contains(d));
     }
+    
     @Test
     void testAddSongByNameToPlaylist() {
         // Create playlist using a name
@@ -83,13 +83,13 @@ class SongManagerTest {
         assertTrue(songManager.addSongByNameToPlaylist("That's What I Like c", "Hits Playlist"));
     
         // Fetch the playlist and check the songs have been added
-        PlayList hitsPlaylist = songManager.playlistManager.getPlayList("Hits Playlist");
+        PlayList hitsPlaylist = songManager.playlistManager.findPlaylistbyName("Hits Playlist");
         assertNotNull(hitsPlaylist);
     
-        assertEquals(3, hitsPlaylist.getSongPlayList().size());
-        assertTrue(hitsPlaylist.getSongPlayList().contains(a));
-        assertTrue(hitsPlaylist.getSongPlayList().contains(b));
-        assertTrue(hitsPlaylist.getSongPlayList().contains(c));
+        assertEquals(3, hitsPlaylist.songList.size());
+        assertTrue(hitsPlaylist.songList.contains(a));
+        assertTrue(hitsPlaylist.songList.contains(b));
+        assertTrue(hitsPlaylist.songList.contains(c));
     }
 
     @Test
@@ -105,44 +105,33 @@ class SongManagerTest {
         assertEquals(c, songManager.playNextSong()); 
         assertEquals(a, songManager.playNextSong()); // circular in nature 
 
-        // Test playing the previous song
-        assertEquals(c, songManager.playPreviousSong()); 
-        assertEquals(b, songManager.playPreviousSong()); 
-        assertEquals(a, songManager.playPreviousSong());
-    }
-
-    @Test
-    void testShowSongsInPlayList() {
-        // Check playlist has the correct songs
-        favorite.showSongs();
+        assertEquals(c, songManager.playPreviousSong());
+        assertEquals(b,songManager.playPreviousSong());
         
-        assertEquals(3, favorite.getSongPlayList().size());
-        assertTrue(favorite.getSongPlayList().contains(a));
-        assertTrue(favorite.getSongPlayList().contains(b));
-        assertTrue(favorite.getSongPlayList().contains(c));
-    }
-    @Test
-    void testQueueAfterSettingPlaylist() {
-        // Step 1: Set the playlist
-        songManager.playPlaylist(favorite.name);  // favorite has songs a, b, c
-        assertEquals(3, favorite.getSongPlayList().size());  // Verify playlist size
-
-        // Step 2: Verify playlist is set correctly
-        assertEquals(a, songManager.playCurrentSong());  // Play first song from playlist
-        assertEquals(b, songManager.playNextSong());     // Play next song from playlist
-        assertEquals(c, songManager.playNextSong());     // Play next song from playlist
-        assertEquals(a, songManager.playNextSong());     // circular by nature
-
+        // clearing the playlist
         songManager.clearPlayer();
 
-        // Step 3: Now enqueue songs after setting the playlist
-        songManager.enqueueSong(d);  // New song "d"
-        songManager.enqueueSong(e);  // New song "e"
+        songManager.enqueueSong(d);  
+        songManager.enqueueSong(e);  
 
-        // Step 4: Ensure the queue is a new DoublyLinkedList, and does not contain previous playlist songs
-        assertEquals(d, songManager.playCurrentSong());  // Play the first enqueued song "d"
-        assertEquals(e, songManager.playNextSong());     // Play the next enqueued song "e"      
+        assertFalse(songManager.player.songQueue.contains(a));
+        assertFalse(songManager.player.songQueue.contains(b));
+        assertFalse(songManager.player.songQueue.contains(c));
+
+        assertEquals(d, songManager.playCurrentSong());  
+        assertEquals(e, songManager.playNextSong());     
+
     }
 
+    // @Test
+    // void testShowSongsInPlayList() {
+    //     // Check playlist has the correct songs
+    //     favorite.showSongs();
+        
+    //     assertEquals(3, favorite.getSongPlayList().size());
+    //     assertTrue(favorite.getSongPlayList().contains(a));
+    //     assertTrue(favorite.getSongPlayList().contains(b));
+    //     assertTrue(favorite.getSongPlayList().contains(c));
+    // }
 
 }

@@ -96,29 +96,37 @@ public class Client {
                 command.equalsIgnoreCase("sl")) {
                     
                 showCommand(command, songManager, console);
-                console.waitForEnter(); 
-                console.clearConsole();
             }
-
-            if (command.equalsIgnoreCase("play")||
-                command.equalsIgnoreCase("p")) {
-                handlePlayQueue(songManager, console);
-            }
-
-            if (command.equalsIgnoreCase("create")) {
-                console.clearConsole();
-                System.out.println("What would you like to name your playlists as?");
-                String playlistName = console.scanner.nextLine();
-                songManager.createPlayList(playlistName);
-                songManager.showPlayListSong(playlistName);
-                console.getInput();  
-            }
-
             
+            else if (command.equalsIgnoreCase("play") || 
+            command.equalsIgnoreCase("play playlists") || 
+            command.equalsIgnoreCase("ps")||
+            command.equalsIgnoreCase("pl")) {
+                    
+                playCommand(command, songManager, console);
+            }
 
-            if (command.equalsIgnoreCase("exit") || command.equalsIgnoreCase("q")) {
+     
+            else if (command.equalsIgnoreCase("exit") || command.equalsIgnoreCase("q")) {
                 break;
             }
+            
+            else {
+                console.showMessage("Error: Unrecognized command. Please try again.");
+                console.waitForEnter(); 
+                // Do not clear the console here so the user sees the error message
+            }
+
+                   // if (command.equalsIgnoreCase("create")) {
+            //     console.clearConsole();
+            //     System.out.println("What would you like to name your playlists as?");
+            //     String playlistName = console.scanner.nextLine();
+            //     songManager.createPlayList(playlistName);
+            //     songManager.showPlayListSong(playlistName);
+            //     console.getInput();  
+            // }
+
+
 
         }
         System.out.println("\033[31mGoodbye!\033[0m"); // Red Text
@@ -128,12 +136,12 @@ public class Client {
     // New Method to Handle Show Commands
     public static void showCommand(String command, SongManager songManager, ConsoleManager console) {
         if (command.equalsIgnoreCase("show")) {
-            String showCommand = console.promptUser("Would you like to see all the songs or playlists?");
+            String showCommand = console.promptUser("Would you like to see all the songs <s> or playlists <pl>?");
             
-            if (showCommand.equalsIgnoreCase("songs")) {
+            if (showCommand.equalsIgnoreCase("songs")|| showCommand.equalsIgnoreCase("s")) {
                 showSongCommand(songManager,console);
 
-            } else if (showCommand.equalsIgnoreCase("playlists")) {
+            } else if (showCommand.equalsIgnoreCase("playlists") || showCommand.equalsIgnoreCase("pl")) {
                 showPlaylistCommand(songManager,console);
             } else {
                 console.showMessage("Invalid option.");
@@ -151,47 +159,126 @@ public class Client {
         songManager.showSongs();
     }
 
-    public static void showPlaylistCommand(SongManager songManager, ConsoleManager console){
-        console.clearConsole();
-        console.showMessage("Displaying all playlists...");
-        songManager.showPlayList();
-
-        console.showMessage("Type 'show <number>' to view songs in a playlist or 'play <number>' to play the playlist.");
-        
-        String playlistCommand = console.getCommandInput();
-        String[] parts = playlistCommand.split(" ");
-
-        // valid command
-        if (parts.length == 2 ){
-            // check if the user is playing or showing a songs
-            String action = parts[0];  // either "show" or "play"
-            int idx = Integer.parseInt(parts[1]);
-            if (idx > songManager.playlistManager.listOfPlayLists.size()){
-                console.showMessage("Invalid Index");
-                return;
-            }
-            PlayList curPlaylist = songManager.playlistManager.listOfPlayLists.get(idx);
-            if (action.equalsIgnoreCase("show")||
-                action.equalsIgnoreCase("s")){
-                
-                // TODO: Make another method for current playlist.
-                songManager.showPlayListSong(curPlaylist.name);
-            }else if ( action.equalsIgnoreCase("play") || action.equalsIgnoreCase("p")){
-                songManager.playPlaylist(curPlaylist.name);
-            }
-            console.showMessage("Error wrong input command");
-        }
-        console.showMessage("Error more than one input command");
-
-
-        // if show songs in playlists:
+    public static void showPlaylistCommand(SongManager songManager, ConsoleManager console) {
+        // another loop for showing all the songs
+        while (true) {
+            console.clearConsole();
+            displayAllPlaylists(songManager, console);
     
+            console.showMessage("\033[33mType: 'show <number>' to view songs in a playlist, \n'play <number>' to play the playlist, or 'exit' to return to the main menu.\033[0m");
+            
+            // Get the Command for the playlist
+            String playlistCommand = console.getCommandInput();
+
+            // if we found exit break out of the loops
+            if (handleExitCommand(playlistCommand, console)) break;
+    
+            handlePlaylistAction(playlistCommand, songManager, console);
+        }
     }
 
+    public static void displayAllPlaylists(SongManager songManager, ConsoleManager console) {
+        console.showMessage("\033[34mDisplaying all playlists...\033[0m");
+        songManager.showPlayList();
+    }
 
+    public static boolean handleExitCommand(String command, ConsoleManager console) {
+        if (command.equalsIgnoreCase("exit") || command.equalsIgnoreCase("q")) {
+            console.clearConsole();
+            console.showMessage("\033[31mExiting to the main menu...\033[0m");
+            // Exit the outer loop
+            return true; 
+        }
+        // Continue the outer loop
+        return false; 
+    }
 
-    public static void handlePlaySong(SongManager songManager, ConsoleManager console){
+    public static void handlePlaylistAction(String playlistCommand, SongManager songManager, ConsoleManager console) {
+        // Get the command and split it into 2 parts
+        String[] parts = playlistCommand.split(" ");
+        if (parts.length != 2) {
+            console.showMessage("\033[31mInvalid command format. Please use 'show <number>' or 'play <number>'.\033[0m");
+            return;
+        }
+    
+        String action = parts[0];
+        String indexStr = parts[1];
         
+        if (!isNumeric(indexStr)) {
+            console.showMessage("\033[31mInvalid input. Please enter a valid number.\033[0m");
+            return;
+        }
+    
+        int idx = Integer.parseInt(indexStr);
+        if (idx < 0 || idx >= songManager.playlistManager.listOfPlayLists.size()) {
+            console.showMessage("\033[31mInvalid index. Please try again.\033[0m");
+            return;
+        }
+    
+        PlayList curPlaylist = songManager.playlistManager.listOfPlayLists.get(idx);
+        if (action.equalsIgnoreCase("show") || action.equalsIgnoreCase("s")) {
+            // we looped here because we wanted the player to constantly be able to see the playlists songs,
+            showPlaylistSongsLoop(curPlaylist, songManager, console);
+        } else if (action.equalsIgnoreCase("play") || action.equalsIgnoreCase("p")) {
+            // if play then we play put the playlists in queue and playit.
+            playSelectedPlaylist(curPlaylist, songManager, console);
+        } else {
+            console.showMessage("\033[31mInvalid command. Please use 'show <number>' or 'play <number>'.\033[0m");
+        }
+    }
+
+    public static void showPlaylistSongsLoop(PlayList curPlaylist, SongManager songManager, ConsoleManager console) {
+        while (true) {
+            console.clearConsole();
+            console.showMessage("\033[36mShowing songs in the selected playlist:\033[0m");
+            songManager.showPlayListSong(curPlaylist);
+            
+            console.showMessage("\033[33mType 'back' to return to the playlist menu, 'exit' to exit to the main menu, or 'next' to play the playlist.\033[0m");
+            String innerCommand = console.getCommandInput();
+    
+            if (innerCommand.equalsIgnoreCase("back") || innerCommand.equalsIgnoreCase("q")) {
+                console.clearConsole();
+                break; // Return to the playlist selection
+            } else if (innerCommand.equalsIgnoreCase("exit")) {
+                console.clearConsole();
+                console.showMessage("\033[31mExiting to the main menu...\033[0m");
+                return; // Exit both loops and return to the main menu
+            } else if (innerCommand.equalsIgnoreCase("next") || innerCommand.equalsIgnoreCase("play")) {
+                playSelectedPlaylist(curPlaylist, songManager, console);
+            } else {
+                console.showMessage("\033[31mInvalid command. Please try again.\033[0m");
+            }
+        }
+    }
+    public static void playSelectedPlaylist(PlayList curPlaylist, SongManager songManager, ConsoleManager console) {
+        console.showMessage("\033[32mPlaying the selected playlist...\033[0m");
+        songManager.playPlaylist(curPlaylist);
+        handlePlayQueue(songManager, console);
+    }
+    
+    public static boolean isNumeric(String str) {
+        return str.matches("\\d+");  // Returns true if the string contains only digits
+    }
+    
+    public static void playCommand(String command, SongManager songManager, ConsoleManager console) {
+        if (command.equalsIgnoreCase("play")||command.equalsIgnoreCase("p")) {
+            String showCommand = console.promptUser("Would you like play selected songs or playlists?");
+            
+            if (showCommand.equalsIgnoreCase("songs")) {
+                showSongCommand(songManager,console);
+
+            } else if (showCommand.equalsIgnoreCase("playlists")) {
+                showPlaylistCommand(songManager,console);
+
+            } else {
+                console.showMessage("Invalid option.");
+            }
+            
+        } else if (command.equalsIgnoreCase("play playlists") || command.equalsIgnoreCase("pl")) {
+            showPlaylistCommand(songManager,console);
+        } else if(command.equalsIgnoreCase("play songs") || command.equalsIgnoreCase("ps")){
+            showSongCommand(songManager,console);
+        } 
     }
 
 
