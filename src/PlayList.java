@@ -23,20 +23,20 @@ public class PlayList {
 
     // Method to display all songs in the playlist
     public void showSongs() {
-        if (songList.isEmpty()) {
+        if (songList.head == null) {
             System.out.println("No songs in the playlist.");
             return;
         }
 
         Node current = songList.head;
         System.out.println("Songs in playlist '" + name + "':");
-        int count = 1;
+        int countIdx = 0;
         do {
-            System.out.println(count + ". " + current.song.getTitle() + " by " + current.song.getArtist());
+            System.out.println(countIdx + ". " + current.song.getTitle() + " by " + current.song.getArtist());
             current = current.next;
-            count++;
-        }while (current != null);
-
+            countIdx++;
+        }while (current != songList.head);
+        System.out.println();
     }
 
     public String getName(){

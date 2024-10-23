@@ -9,12 +9,12 @@ public class CircularDoublyLinkedList {
     public void addNode(Song song){
         // Create a new node 
         Node newNode = new Node(song);
-        // if list is empty than the new Node become the head and the tail
+        // when our lists is empty the head and tail is the new Node and head always poitn to itself
         if (head == null){
             head = newNode;
             tail = newNode;
-            head.next = head;  // Circular link for single node
-            head.prev = head;  // Circular link for single node
+            head.next = head; 
+            head.prev = head;  
         }
         else{
             /*
