@@ -1,10 +1,10 @@
 public class Player {
-    public static DoublyLinkedList songQueue;  // the songQueue for playing our songs
+    public static CircularDoublyLinkedList songQueue;  // the songQueue for playing our songs
     public Node currentSongNode;  // keeping track of the current song node
 
     // Constructor
     public Player() {
-        songQueue = new DoublyLinkedList();
+        songQueue = new CircularDoublyLinkedList();
         currentSongNode = null;
     }
 
@@ -27,7 +27,7 @@ public class Player {
 
     public void clearPlayer() {
         // Clear the playlist and reset the current song node
-        songQueue = new DoublyLinkedList();  // Reset the songQueue to an empty list
+        songQueue = new CircularDoublyLinkedList();  // Reset the songQueue to an empty list
         currentSongNode = null;  // Reset the current song pointer
         System.out.println("Player has been cleared.");
     }

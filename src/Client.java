@@ -1,4 +1,3 @@
-import java.util.Scanner;
 
 public class Client {
     public static void main(String[] args) throws Exception {
@@ -24,16 +23,22 @@ public class Client {
         String fileName = "data/testing.csv";
         songManager.loadFromCSV(fileName);
 
+        System.out.println("Shows all the current song in the library \n");
         songManager.showSongs();
 
         // Create playlist and add songs to the playlist method 1
         // PlayList favorite = new PlayList("favorite");
+
+        System.out.println("\nCreating the 'favorite' playlist\n");
         songManager.createPlayList("favorite");
+        songManager.showPlayList();
+
         songManager.addSongByNameToPlaylist("My Way", "favorite");
         songManager.addSongByNameToPlaylist("Fly me to the Moon", "favorite");
-        // Song a = songManager.findSongByName("My Way");
 
-        songManager.showPlayList();
+
+        Song i = songManager.songLibrary.findSongByName("My Way");
+
         
         PlayList favorite = new PlayList("favorite");
         favorite.addSong(a);
@@ -60,7 +65,7 @@ public class Client {
 
          // Show songs in 'Pop Songs' playlist
         
-        songManager.showPlayListSong("Pop Songs");
+        songManager.showPlayListSong("favorite");
         System.out.println();
  
         // Queue up some songs
@@ -69,16 +74,15 @@ public class Client {
         }
         
  
-        //  // Play the queued songs one by one
-        // System.out.println("Playing songs from the queue:");
-        // songManager.playCurrentSong(); // Plays "My Way"
-        // songManager.playNextSong(); // Plays "Fly me to the Moon"
-        // songManager.playNextSong(); // Plays "That's What I Like"
-        // songManager.playNextSong();// Circular
+         // Play the queued songs one by one
+        System.out.println("Playing songs from the queue:");
+        songManager.playCurrentSong(); // Plays "My Way"
+        songManager.playNextSong(); // Plays "Fly me to the Moon"
+        songManager.playNextSong(); // Plays "That's What I Like"
+        songManager.playNextSong();// Circular
 
         boolean runConsole = true;
         ConsoleManager console = new ConsoleManager();
-        console.clearConsole();
 
         // TO BE DECIDED
         while (runConsole) {
@@ -151,9 +155,46 @@ public class Client {
         console.clearConsole();
         console.showMessage("Displaying all playlists...");
         songManager.showPlayList();
+
+        console.showMessage("Type 'show <number>' to view songs in a playlist or 'play <number>' to play the playlist.");
+        
+        String playlistCommand = console.getCommandInput();
+        String[] parts = playlistCommand.split(" ");
+
+        // valid command
+        if (parts.length == 2 ){
+            // check if the user is playing or showing a songs
+            String action = parts[0];  // either "show" or "play"
+            int idx = Integer.parseInt(parts[1]);
+            if (idx > songManager.playlistManager.listOfPlayLists.size()){
+                console.showMessage("Invalid Index");
+                return;
+            }
+            PlayList curPlaylist = songManager.playlistManager.listOfPlayLists.get(idx);
+            if (action.equalsIgnoreCase("show")||
+                action.equalsIgnoreCase("s")){
+                
+                // TODO: Make another method for current playlist.
+                songManager.showPlayListSong(curPlaylist.name);
+            }else if ( action.equalsIgnoreCase("play") || action.equalsIgnoreCase("p")){
+                songManager.playPlaylist(curPlaylist.name);
+            }
+            console.showMessage("Error wrong input command");
+        }
+        console.showMessage("Error more than one input command");
+
+
+        // if show songs in playlists:
+    
     }
 
-    public static void handlePlaySong(SongManager songManager, ConsoleManager console)
+
+
+    public static void handlePlaySong(SongManager songManager, ConsoleManager console){
+        
+    }
+
+
 
     // Handling Play Queue
     public static void handlePlayQueue( SongManager songManager, ConsoleManager console){

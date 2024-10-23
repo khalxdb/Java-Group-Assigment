@@ -1,14 +1,10 @@
-public class DoublyLinkedList {
+public class CircularDoublyLinkedList {
     Node head, tail;
     
-    public DoublyLinkedList(){
+    public CircularDoublyLinkedList(){
         this.head = null;
         this.tail = null;
     }
-
-    /*
-     * add a new node to a list
-     */
 
     public void addNode(Song song){
         // Create a new node 

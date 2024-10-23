@@ -10,10 +10,11 @@ public class SongLibrary {
 
     // addSong to Library
     public boolean addSongToLibrary(Song song) {
-        if ( song == null){
+        if (song == null){
             System.out.println("Can't added a Null Song");
             return false;
-        }else if(findSongByName(song.title) != null){
+
+        }else if(listOfSongs.contains(song)){
             System.out.println("Song is not found");
             return false;
         }
@@ -22,19 +23,31 @@ public class SongLibrary {
         return true;
     }
 
-    // TODO: added isValidMethod() to check for song validity;
-    public boolean isValidSong(Song song){
-        return false;
+    // adding song by string name instead
+    public boolean addSongToLibrary(String songName) {
+        if (songName == null){
+            System.out.println("Can't added a Null");
+            return false;
+
+        }else if(findSongByName(songName) == null){
+            System.out.println("Song is not found");
+            return false;
+        }
+        Song foundSong = findSongByName(songName);
+        listOfSongs.add(foundSong);
+        System.out.println("Added " + foundSong.title + "to the Library");
+        return true;
     }
-        // Method to find a song by its exact name in the library
+    
+    // Method to find a song by its exact name in the library
     // Method: Find a song by its exact name in the library (returns null if not found)
     public Song findSongByName(String name) {
         if (name == null || name.isEmpty()) {
             return null; 
         }
 
-        for (Song song : listOfSongs) {
-            if (song.getTitle().equalsIgnoreCase(name)) {
+        for (Song song : this.listOfSongs) {
+            if (song.title.equalsIgnoreCase(name)) {
                 return song;
             }
         }

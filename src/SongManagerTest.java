@@ -19,7 +19,7 @@ class SongManagerTest {
         d = new Song("Queen", "Bohemian Rhapsody d ");
         e = new Song("The Beatles", "Let it Be e ");
         
-        // Add songs to song library
+        // Add songs to Song object library
         songManager.addSongToLibrary(a);
         songManager.addSongToLibrary(b);
         songManager.addSongToLibrary(c);
@@ -52,6 +52,8 @@ class SongManagerTest {
         assertFalse(songManager.addSongToLibrary(c));
         assertFalse(songManager.addSongToLibrary(d));
         assertFalse(songManager.addSongToLibrary(e));
+
+
     }
 
     @Test
@@ -69,6 +71,25 @@ class SongManagerTest {
         assertTrue(classicHits.getSongPlayList().contains(a));
         assertTrue(classicHits.getSongPlayList().contains(b));
         assertTrue(classicHits.getSongPlayList().contains(d));
+    }
+    @Test
+    void testAddSongByNameToPlaylist() {
+        // Create playlist using a name
+        songManager.createPlayList("Hits Playlist");
+    
+        // Add songs by their name
+        assertTrue(songManager.addSongByNameToPlaylist("My Way a", "Hits Playlist"));
+        assertTrue(songManager.addSongByNameToPlaylist("Fly me to the Moon b", "Hits Playlist"));
+        assertTrue(songManager.addSongByNameToPlaylist("That's What I Like c", "Hits Playlist"));
+    
+        // Fetch the playlist and check the songs have been added
+        PlayList hitsPlaylist = songManager.playlistManager.getPlayList("Hits Playlist");
+        assertNotNull(hitsPlaylist);
+    
+        assertEquals(3, hitsPlaylist.getSongPlayList().size());
+        assertTrue(hitsPlaylist.getSongPlayList().contains(a));
+        assertTrue(hitsPlaylist.getSongPlayList().contains(b));
+        assertTrue(hitsPlaylist.getSongPlayList().contains(c));
     }
 
     @Test
@@ -95,7 +116,6 @@ class SongManagerTest {
         // Check playlist has the correct songs
         favorite.showSongs();
         
-        songManager.setPlaylist(favorite);
         assertEquals(3, favorite.getSongPlayList().size());
         assertTrue(favorite.getSongPlayList().contains(a));
         assertTrue(favorite.getSongPlayList().contains(b));
@@ -104,7 +124,7 @@ class SongManagerTest {
     @Test
     void testQueueAfterSettingPlaylist() {
         // Step 1: Set the playlist
-        songManager.setPlaylist(favorite);  // favorite has songs a, b, c
+        songManager.playPlaylist(favorite.name);  // favorite has songs a, b, c
         assertEquals(3, favorite.getSongPlayList().size());  // Verify playlist size
 
         // Step 2: Verify playlist is set correctly
