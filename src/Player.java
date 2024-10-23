@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class Player {
     public CircularDoublyLinkedList songQueue;  // the songQueue for playing our songs
     public Node currentSongNode;  // keeping track of the current song node
@@ -64,11 +67,36 @@ public class Player {
             System.out.println("Playing previous song: " + currentSongNode.song.getTitle());
             return currentSongNode.song;
         }
-    
         System.out.println("No songs available to play.");
         return null;
     }
 
-    // TODO: Shuffle method
+    // Method: Shuffle method
+    public void shuffle(){
+        if (songQueue.head == null){
+            System.out.println("No song to shuffle");
+            return;
+        }
+
+        // Extract song into an arraylist and shuffle it
+        ArrayList<Song> songList = new ArrayList<Song>();
+        Node current = songQueue.head;
+        do{
+            songList.add(current.song);
+            current = current.next;
+        }while(current != songQueue.head);
+
+        Collections.shuffle(songList);
+
+        songQueue = new CircularDoublyLinkedList();
+
+        for (Song song : songList) {
+            songQueue.addNode(song);
+        }
+
+        currentSongNode = songQueue.head;
+        System.out.println("Songs have been shuffled.");
+
+    }
     
 }

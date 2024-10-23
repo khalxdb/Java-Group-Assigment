@@ -15,7 +15,7 @@ public class SongLibrary {
             return false;
 
         }else if(listOfSongs.contains(song)){
-            System.out.println("Song is not found");
+            System.out.println("Song Already Exist");
             return false;
         }
         listOfSongs.add(song);

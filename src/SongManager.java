@@ -99,7 +99,12 @@ public class SongManager {
 
     public Song playPreviousSong() {
         return player.playPreviousSong();
-     }
+    }
+
+    public void shuffle(){
+        player.shuffle();
+    }
+
 
     // Method to display all songs in a playlist
     public void showPlayListSong(String playlistName) {
@@ -108,7 +113,8 @@ public class SongManager {
     public void showPlayListSong(PlayList playlistName) {
         playlistName.showSongs();;
     }
-
+    
+    
     // TODO: Show all the PlayList
     public void showPlayList() {
         playlistManager.showPlayList();

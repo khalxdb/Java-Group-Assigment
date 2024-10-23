@@ -103,7 +103,10 @@ public class Client {
                 case "play":
                 case "play playlists":
                 case "ps":
-                case "pl" :  
+                case "pl" :
+                case "play queue":
+                case "play q":
+                case "p q":  
                     playCommand(command, songManager, console);
                     break;
                 case "search":
@@ -351,6 +354,12 @@ public class Client {
             case "ps":
                 showSongCommand(songManager, console);
                 break;
+
+            case "play queue":
+            case "play q":
+            case "p q":
+                handlePlayQueue(songManager, console);
+                break;
     
             default:
                 console.showMessage("Invalid play command.");
@@ -370,8 +379,9 @@ public class Client {
         System.out.println("\nAvailable Commands: \n");
         console.showMessage("\033[34mnext\033[0m n     - to play the next song");
         console.showMessage("\033[34mprev\033[0m p     - to play the previous song");
+        console.showMessage("\033[34mshuffle\033[0m s  - shuffle songs");
         console.showMessage("\033[34mexit\033[0m q     - to return to the main menu");
-
+        
         boolean queue = true;
 
         while (queue) {
@@ -386,6 +396,11 @@ public class Client {
                 case "prev":
                 case "p":
                     songManager.playPreviousSong();
+                    break;
+                case "shuffle":
+                case "s":
+                    songManager.shuffle();
+                    songManager.player.songQueue.printList();
                     break;
         
                 case "exit":
