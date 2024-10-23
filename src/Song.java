@@ -10,7 +10,7 @@ public class Song {
     }
 
     public String getTitle(){
-        return "'" + title + "'";
+        return "'\033[32m" + title + "'\033[0m";
     }
 
     public String getArtist(){

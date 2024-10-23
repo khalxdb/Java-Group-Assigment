@@ -1,11 +1,16 @@
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Collections;
 public class SongLibrary {
     // The Song Library Class Roles is for handling all the possible song
     public ArrayList<Song> listOfSongs;
+    public ArrayList<String> listOfArtist;
 
     // Constructor
     public SongLibrary(){
         listOfSongs = new ArrayList<Song>();
+        listOfArtist = new ArrayList<>();
     }
 
     // addSong to Library
@@ -54,18 +59,34 @@ public class SongLibrary {
         return null;  // No match found
     }
 
+    public void getArtist() {
+        // Use a Set to store unique artists
+        Set<String> artistSet = new HashSet<>();  
+        
+        for (Song song : listOfSongs) {
+            // Add each artist to the Set , duplicates are automatically handled
+            artistSet.add(song.getArtist());  
+        }
+        
+        // Clear the existing listOfArtist and add all unique artists from the Set
+        listOfArtist.clear();
+        listOfArtist.addAll(artistSet);
+        Collections.sort(listOfArtist);
+    }
+
     // Method: Find a song by artist (returns null if not found)
-    public Song findSongByArtist(String artist) {
+    public CircularDoublyLinkedList findSongByArtist(String artist) {
+        CircularDoublyLinkedList artistSong = new CircularDoublyLinkedList();
         if (artist == null || artist.isEmpty()) {
             return null; 
         }
 
         for (Song song : listOfSongs) {
             if (song.getArtist().equalsIgnoreCase(artist)) {
-                return song;
+                artistSong.addNode(song);
             }
         }
-        return null;  // No match found
+        return artistSong;
     }
 
    // method to display all songs in the song library
@@ -74,6 +95,20 @@ public class SongLibrary {
         for (int i = 0 ; i < listOfSongs.size();i++){
             Song song = listOfSongs.get(i);
             System.out.println(i  + " " + song.toString());
+        }
+    }
+
+    public void showArtist() {
+        getArtist();  // Ensure the artist list is updated
+        System.out.println("Artists in the library:");
+
+        if (listOfArtist.isEmpty()) {
+            System.out.println("No artists found in the library.");
+            return;
+        }
+        
+        for (int i = 0; i < listOfArtist.size(); i++) {
+            System.out.println(i + ". " + listOfArtist.get(i)); 
         }
     }
 

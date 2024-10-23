@@ -39,7 +39,7 @@ public class CircularDoublyLinkedList {
 
         Node current = head;
         do {
-            System.out.print(current.song.getTitle() + " ");
+            System.out.print(current.song.getTitle() + " -> ");
             current = current.next;
         } while (current != head); // Stop when we loop back to the head
         System.out.println();
