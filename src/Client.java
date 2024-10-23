@@ -1,3 +1,4 @@
+import java.io.IOException;
 
 public class Client {
     public static void main(String[] args) throws Exception {
@@ -80,7 +81,7 @@ public class Client {
         songManager.playNextSong(); 
         songManager.playNextSong();
 
-        boolean runConsole = false;
+        boolean runConsole = true;
         ConsoleManager console = new ConsoleManager();
 
         songManager.saveToCSV("data/output.csv");
@@ -114,6 +115,8 @@ public class Client {
                 case "c":
                     createCommand(command, songManager, console);
                     break;
+                case "save":
+                    saveCommand(command, songManager, console);
             default:
                 if (console.goBack(command)) {
                     runConsole = false; // Exit the loop if the user wants to go back
@@ -476,6 +479,18 @@ public class Client {
         songManager.createPlayList(playlistsName);
         console.showMessage("Playlist '" + playlistsName + "' has been created.");
         console.waitForEnter();
+    }
+
+    public static void saveCommand(String command, SongManager songManager, ConsoleManager console){
+        console.showMessage("Please type the locations/ name of the file");
+        String filePath = console.getCommandInput();
+        try {
+            songManager.saveToCSV(filePath + ".csv");
+            console.showMessage("Successfully saved to " + filePath + ".csv");
+        } catch (IOException e) {
+            // Handle any I/O errors during file writing
+            console.showMessage("Error saving the file: " + e.getMessage());
+        }
     }
 }
 
