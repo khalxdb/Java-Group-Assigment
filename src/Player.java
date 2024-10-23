@@ -36,7 +36,7 @@ public class Player {
     // TODO : Added a Preview Features
     public Song playCurrentSong() {
         if (currentSongNode != null) {
-            System.out.println("Playing current song: " + currentSongNode.song.getTitle());
+            System.out.println("Playing current song: " + currentSongNode.song.title + " by " + currentSongNode.song.artist);
             return currentSongNode.song;
         }
         System.out.println("No current song to play.");

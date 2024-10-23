@@ -65,10 +65,6 @@ public class SongManager {
         playlistManager.addSongToPlayList(song, playlistName);
     }
 
-    public void setPlaylist(PlayList playlist){
-        player.setPlaylist(playlist);
-    }
-
     // Method to enqueue a song for playing
     public void enqueueSong(Song song) {
         player.enqueueSong(song);

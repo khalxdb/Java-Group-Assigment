@@ -36,11 +36,11 @@ class SongManagerTest {
     @Test
     void testAddSongsToLibrary() {
         // Check if the library contains the correct songs
-        assertTrue(SongLibrary.songLibrary.contains(a));
-        assertTrue(SongLibrary.songLibrary.contains(b));
-        assertTrue(SongLibrary.songLibrary.contains(c));
-        assertTrue(SongLibrary.songLibrary.contains(d));
-        assertTrue(SongLibrary.songLibrary.contains(e));
+        assertTrue(songManager.songLibrary.listOfSongs.contains(a));
+        assertTrue(songManager.songLibrary.listOfSongs.contains(b));
+        assertTrue(songManager.songLibrary.listOfSongs.contains(c));
+        assertTrue(songManager.songLibrary.listOfSongs.contains(d));
+        assertTrue(songManager.songLibrary.listOfSongs.contains(e));
     }
     // Adding sames song
     @Test

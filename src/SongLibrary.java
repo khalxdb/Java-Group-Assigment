@@ -1,11 +1,11 @@
 import java.util.ArrayList;
 public class SongLibrary {
     // The Song Library Class Roles is for handling all the possible song
-    public static ArrayList<Song> songLibrary;
+    public ArrayList<Song> listOfSongs;
 
     // Constructor
     public SongLibrary(){
-        songLibrary = new ArrayList<Song>();
+        listOfSongs = new ArrayList<Song>();
     }
 
     // addSong to Library
@@ -14,10 +14,10 @@ public class SongLibrary {
             System.out.println("Can't added a Null Song");
             return false;
         }else if(findSongByName(song.title) != null){
-            System.out.println("Can't added a Null Song");
+            System.out.println("Song is not found");
             return false;
         }
-        songLibrary.add(song);
+        listOfSongs.add(song);
         System.out.println("Added " + song.title + "to the Library");
         return true;
     }
@@ -27,32 +27,42 @@ public class SongLibrary {
         return false;
     }
         // Method to find a song by its exact name in the library
+    // Method: Find a song by its exact name in the library (returns null if not found)
     public Song findSongByName(String name) {
-        for (Song song : songLibrary) {
-            if (song.title.equalsIgnoreCase(name)) {
-                return song;  // Return the matching song
+        if (name == null || name.isEmpty()) {
+            return null; 
+        }
+
+        for (Song song : listOfSongs) {
+            if (song.getTitle().equalsIgnoreCase(name)) {
+                return song;
             }
         }
-        System.out.println("No Song Found");
+        return null;  // No match found
+    }
+
+    // Method: Find a song by artist (returns null if not found)
+    public Song findSongByArtist(String artist) {
+        if (artist == null || artist.isEmpty()) {
+            return null; 
+        }
+
+        for (Song song : listOfSongs) {
+            if (song.getArtist().equalsIgnoreCase(artist)) {
+                return song;
+            }
+        }
         return null;  // No match found
     }
 
    // method to display all songs in the song library
     public void showSongs() {
         System.out.println("Songs in the library:");
-        for (Song song : songLibrary) {
-            System.out.println('-'+song.toString());
+        for (int i = 0 ; i < listOfSongs.size();i++){
+            Song song = listOfSongs.get(i);
+            System.out.println(i  + " " + song.toString());
         }
     }
 
-    public Song findSongByArtist(String artist){
-        for (Song song: songLibrary){
-            if (song.getArtist().equalsIgnoreCase(artist)){
-                return song;
-            }
-        }
-        System.out.println("No Song Found or Incorrect Artist Name");
-        return null;
-    }
     
 }
