@@ -63,5 +63,14 @@ public class ConsoleManager {
         scanner.close();
     }
 
+    public boolean goBack(String command){
+        if (command.equalsIgnoreCase("exit") || command.equalsIgnoreCase("q")) {
+            clearConsole();
+            showMessage("\033[31mExiting to the main menu...\033[0m");
+            return true; 
+        }
+        return false; 
+
+    }
 
 }
