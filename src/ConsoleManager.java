@@ -2,6 +2,9 @@ import java.util.Scanner;
 
 public class ConsoleManager {
     public Scanner scanner;
+    /*
+     * main purpose of this class is to handle input and output like reading commands, printing out message etc.
+     */
 
     // Constructor
     public ConsoleManager() {

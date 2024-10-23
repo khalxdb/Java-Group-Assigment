@@ -65,24 +65,25 @@ public class Client {
 
          // Show songs in 'Pop Songs' playlist
         
-        songManager.showPlayListSong("favorite");
+        // songManager.showPlayListSong("favorite")
+        songManager.showPlayList();;
         System.out.println();
  
-        // Queue up some songs
+        //Queue up some songs
         for (Song song : songManager.songLibrary.listOfSongs){
             songManager.enqueueSong(song);
         }
-        
- 
          // Play the queued songs one by one
         System.out.println("Playing songs from the queue:");
-        songManager.playCurrentSong(); // Plays "My Way"
-        songManager.playNextSong(); // Plays "Fly me to the Moon"
-        songManager.playNextSong(); // Plays "That's What I Like"
-        songManager.playNextSong();// Circular
+        songManager.playCurrentSong(); 
+        songManager.playNextSong(); 
+        songManager.playNextSong(); 
+        songManager.playNextSong();
 
-        boolean runConsole = true;
+        boolean runConsole = false;
         ConsoleManager console = new ConsoleManager();
+
+        songManager.saveToCSV("data/output.csv");
 
         // TO BE DECIDED
         while (runConsole) {
@@ -107,6 +108,11 @@ public class Client {
                 case "search":
                 case "se":
                     //searchCommand(command, songManager, console);
+                    break;
+
+                case "create":
+                case "c":
+                    createCommand(command, songManager, console);
                     break;
             default:
                 if (console.goBack(command)) {
@@ -221,7 +227,6 @@ public class Client {
             // handlePlayQueue(songManager, console);
             }
         }
-        
     }
 
     public static void showPlaylistCommand(SongManager songManager, ConsoleManager console) {
@@ -427,7 +432,7 @@ public class Client {
             case "show":
             case "p":
             case "play":
-                handleShowPlay(songManager, console);
+                showPlaylistCommand(songManager, console);
                 break;
 
             case "q":
@@ -441,44 +446,40 @@ public class Client {
     }
 }
 
-public static void handleRemove(String[] parts, SongManager songManager, ConsoleManager console) {
-    if (parts.length != 2) {
-        console.showMessage("\033[31mInvalid command format. Use 'r <number>'.\033[0m");
-        return;
+    public static void handleRemove(String[] parts, SongManager songManager, ConsoleManager console) {
+        if (parts.length != 2) {
+            console.showMessage("\033[31mInvalid command format. Use 'r <number>'.\033[0m");
+            return;
+        }
+        String indexStr = parts[1];
+        if (!isNumeric(indexStr)) {
+            console.showMessage("\033[31mInvalid input. Please enter a valid number.\033[0m");
+            return;
+        }
+        int idx = Integer.parseInt(indexStr);
+        if (idx < 0 || idx >= songManager.playlistManager.listOfPlayLists.size()) {
+            console.showMessage("\033[31mInvalid index. Please try again.\033[0m");
+            return;
+        }
+        PlayList removePlaylist = songManager.playlistManager.listOfPlayLists.get(idx);
+        songManager.removePlaylist(removePlaylist);
+        console.showMessage("Playlist '" + removePlaylist.getName() + "' has been removed.");
+        console.waitForEnter();
     }
-    String indexStr = parts[1];
-    if (!isNumeric(indexStr)) {
-        console.showMessage("\033[31mInvalid input. Please enter a valid number.\033[0m");
-        return;
+
+    public static void handleCreate(String[] parts, SongManager songManager, ConsoleManager console) {
+        if (parts.length != 2) {
+            console.showMessage("\033[31mInvalid command format. Use 'c <playlistName>'.\033[0m");
+            return;
+        }
+        String playlistsName = parts[1];
+        songManager.createPlayList(playlistsName);
+        console.showMessage("Playlist '" + playlistsName + "' has been created.");
+        console.waitForEnter();
     }
-    int idx = Integer.parseInt(indexStr);
-    if (idx < 0 || idx >= songManager.playlistManager.listOfPlayLists.size()) {
-        console.showMessage("\033[31mInvalid index. Please try again.\033[0m");
-        return;
-    }
-    PlayList removePlaylist = songManager.playlistManager.listOfPlayLists.get(idx);
-    songManager.removePlaylist(removePlaylist);
-    console.showMessage("Playlist '" + removePlaylist.getName() + "' has been removed.");
-    console.waitForEnter();
 }
 
-public static void handleCreate(String[] parts, SongManager songManager, ConsoleManager console) {
-    if (parts.length != 2) {
-        console.showMessage("\033[31mInvalid command format. Use 'c <playlistName>'.\033[0m");
-        return;
-    }
-    String playlistsName = parts[1];
-    songManager.createPlayList(playlistsName);
-    console.showMessage("Playlist '" + playlistsName + "' has been created.");
-    console.waitForEnter();
-}
-
-private static void handleShowPlay(SongManager songManager, ConsoleManager console) {
-    showPlaylistCommand(songManager, console); // Assuming this command shows or plays playlists
-}
  
 
-
-}
 
 

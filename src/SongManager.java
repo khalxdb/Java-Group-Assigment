@@ -129,5 +129,26 @@ public class SongManager {
         } 
         reader.close();
     }
-    
+
+    public void saveToCSV(String fileName) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
+
+        // Write headers
+        writer.write("Playlist Name,Song Title,Artist");
+        writer.newLine();  
+
+        for (PlayList playlist : playlistManager.listOfPlayLists) {
+
+            Node currentNode = playlist.songList.head;
+            if (currentNode != null) {
+                do {
+                    Song song = currentNode.song;
+                    writer.write(playlist.name + "," + song.title + "," + song.artist);
+                    writer.newLine();  // Move to the next line for the next song
+                    currentNode = currentNode.next;
+                } while (currentNode != playlist.songList.head);  // Circular list, stop at the head
+            }
+        }
+        writer.close();
+    }
 }
