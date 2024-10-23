@@ -139,7 +139,7 @@ public class Client {
 
             case "show songs":
             case "ss":
-                showSongCommand(songManager,console);
+                showSongPage(songManager,console);
                 return;
             default:
                 console.showMessage("\033[31mInvalid command. Please try again.\033[0m");
@@ -153,7 +153,7 @@ public class Client {
         switch(showCommand){
             case "songs":
             case "s":
-                showSongCommand(songManager,console);
+                showSongPage(songManager,console);
                 return;
 
             case "playlists":
@@ -168,64 +168,77 @@ public class Client {
         }
     }
 
-    public static void showSongCommand(SongManager songManager, ConsoleManager console){
-
-        while (true){
+    public static void showSongPage(SongManager songManager, ConsoleManager console) {
+        while (true) {
             // Display the message
             console.clearConsole();
             console.showMessage("Displaying all songs...");
             songManager.showSongs();
-
+            songManager.player.songQueue.printList();
+    
             // Get input
             String showSongCommand = console.getCommandInput().toLowerCase();
-            String[] parts = showSongCommand.split(" ");
-            
             // single word command like exit or q
-            if (parts.length == 1) {
-                if (showSongCommand.equals("q") || showSongCommand.equals("exit")) {
-                    return; // Exit the loop
-                } else {
-                    console.showMessage("\033[31mInvalid command format. Please use 'show <number>' or 'play <number>'.\033[0m");
-                    console.waitForEnter();
-                    continue; // Go back to prompt
+            if (showSongCommand.equals("q") || showSongCommand.equals("exit")) {
+                return; // Exit the loop
+            } 
+            // Handle 'play q' to play from the queue
+            // Check for 'play q' to play from the queue
+            else if (showSongCommand.equals("p q")) {
+                if (handlePlayQueue(songManager, console)) {
+                    return;
                 }
+                continue;
             }
+            
+            String[] parts = showSongCommand.split(" ");
+
+            if (parts.length == 1) {
+                console.showMessage("\033[31mInvalid command format. Please use 'show <number>' or 'play <number>'.\033[0m");
+                console.waitForEnter();
+                continue; // Go back to prompt
+            }
+            
             // Handle two-word commands  'play 1'
             if (parts.length == 2) {
-
                 String action = parts[0];
                 String indexStr = parts[1];
                 
                 if (!isNumeric(indexStr)) {
                     console.showMessage("\033[31mInvalid input. Please enter a valid number.\033[0m");
                     console.waitForEnter();
+                    continue;
                 }
             
                 int idx = Integer.parseInt(indexStr);
-
-                // Validated index
-                if (idx < 0 || idx >= songManager.playlistManager.listOfPlayLists.size()) {
+    
+                // Validate index against the song list size, not the playlist size
+                if (idx < 0 || idx >= songManager.songLibrary.listOfSongs.size()) {
                     console.showMessage("\033[31mInvalid index. Please try again.\033[0m");
                     console.waitForEnter();
                     continue;
                 }
-
+    
                 if (action.equals("play") || action.equals("p")) {
                     Song curSong = songManager.songLibrary.listOfSongs.get(idx);
                     songManager.enqueueSong(curSong);
-                    console.showMessage("Song '" + curSong.title + "' has been added to the queue.");
+                    console.showMessage("Song '" + curSong.getTitle() + "' has been added to the queue.");
                     console.waitForEnter();
-                
                 } else {
                     console.showMessage("\033[31mUnknown command. Use 'show' or 'play'.\033[0m");
                     console.waitForEnter();
                     continue; // Loop back for another input
                 }
-            
-            // handlePlayQueue(songManager, console);
+            }else {
+                // If more than two parts were entered, it's invalid
+                console.showMessage("\033[31mInvalid command format. Please use 'play <number>' or 'play q'.\033[0m");
+                console.waitForEnter();
             }
         }
     }
+    
+    
+    
 
     public static void showPlaylistPage(SongManager songManager, ConsoleManager console) {
         // another loop for showing all the songs
@@ -361,7 +374,7 @@ public class Client {
     
             case "play songs":
             case "ps":
-                showSongCommand(songManager, console);
+                showSongPage(songManager, console);
                 break;
 
             case "play queue":
