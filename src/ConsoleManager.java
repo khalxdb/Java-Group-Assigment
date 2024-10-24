@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleManager {
@@ -74,6 +76,26 @@ public class ConsoleManager {
         }
         return false; 
 
+    }
+
+    // TODO: Method for Display song list for nice fommating
+    public void displaySongList(ArrayList<Song> listOfSongs) {
+        System.out.println("\033[34m--- Songs ---\033[0m");
+    for (int i = 0; i < listOfSongs.size(); i++) {
+        System.out.println(i + ": " + listOfSongs.get(i).title);
+        }
+    }
+
+    public void displaySongList(PlayList playlist){
+        System.out.println("\033[34m---Selected Playlist Songs Lists ---\033[0m");
+        playlist.showSongs();
+    }
+
+    public void displayPlaylistList(ArrayList<PlayList> playlists) {
+        System.out.println("\033[34m--- PlayLists ---\033[0m");
+        for (int i = 0; i < playlists.size(); i++) {
+            System.out.println(i + ": " + playlists.get(i).getName());
+        }
     }
 
 }
