@@ -52,79 +52,166 @@ Ideally loaded in a the terminal by calling the file for the interface
 ## Project MileStone
 ### Milestone 1: Initial System design and core Requirements 
 ### MileStone 2: Core Functionality Implementation
+### complete the song manager class
+### Break song manager class to delegated the task even further
+### Make Unit testing for the song manager class
+### Implemented basic interfaces
+### Input CSV 
+
+### Implemneted circular linked list 
+### Ouput CSV
+### completete the console intercaees
+### Refactors the class based on different design pattern
 
 ---
-## Class Structure and Progress
-**Song Class** 
-- Purpose: Represents an individual song in the music library.
-- class Song { // ALL DONE
-    - String title
-    - String artist
-    + Song(String title, String artist)
-    + String getTitle()
-    + String getArtist()
-    + String toString()
-}
+# **Class Structure: Music Library Management System**
 
-**Node Class**
-- Purpose: Serves as a node in the doubly linked list, holding a Song object and references to the next and previous nodes.
-- class Node {
-    - Song song // DONE
-    - Node next // DONE
-    - Node prev // DONE
-    + Node(Song song) // DONE
-    + Song getSong()
-    + Node getNext()
-    + void setNext(Node next)
-    + Node getPrev()
-    + void setPrev(Node prev)
-}
+## **1. Entry Point**
 
-**DoublyLinkedList Class**
-- Purpose: Manages a list of SongNode objects, allowing navigation through songs.
-- class DoublyLinkedList {
-    - Node head // DONE
-    - Node tail // DONE
-    - Node current // DONE
-    + void addNode(Song song) // DONE
-    + void next()
-    + void printList() // DONE
-    + void previous()
-    + void shuffle()
-    + int getSize()
-    + Node getNodeAt(int index)
-}
-**Playlist Class**
-- Purpose: Represents a playlist containing a collection of songs. Also made up of the doublelinkedlist
-- class Playlist {
-    - String name // DONE
-    - DoublyLinkedList songList // DONE
-    + Playlist(String name) // DONE
-    + void addSong(Song song) // DONE
-    + void play()
-    + void playNext()
-    + void playPrevious()
-    + void shufflePlay()
-    + void showSongs() // DONE
-    + String getName() // DONE
-}
+### **Client**
+- **Purpose**: Serves as the entry point of the application. Contains the `main` method, which initializes the system and starts the application loop.
 
-**SongManager Class**
-- Purpose: Acts as the central controller for user interactions, managing playlists, songs, and the temporary queue. 
-- class SongManager {
-    - ArrayList<Playlist> playlists // DONE
-    - ArrayList<Song> songLibrary // DONE
-    - Playlist currentPlaylist
-    + SongManager()
-    + void start()
-    + void createPlaylist(String name)
-    + void addSongToPlaylist(String playlistName, Song song)
-    + void playPlaylist(String playlistName)
-    + void enqueueSong(Song song)
-    + void playQueue()
-    + void showPlaylists()
-    + void showSongs()
-}
+---
+
+## **2. Core Application Context**
+
+### **MusicSimulator**
+- **Purpose**: Acts as the main context of the application. It maintains the current state and runs the main application loop.
+- **Key Responsibilities**:
+  - Manages the current `State` of the application.
+  - Provides access to shared resources like `SongManager` and `ConsoleManager`.
+  - Controls the flow of the application by delegating tasks to different states.
+
+---
+
+## **3. State Management**
+
+### **State Interface**
+- **Purpose**: Defines the contract for all state classes in the application.
+- **Key Responsibilities**:
+  - Declares methods that all concrete state classes must implement, such as `display()` and `handleInput()`.
+
+### **Concrete State Classes**
+- **MainMenuState**
+  - **Purpose**: Manages user interactions at the main menu.
+- **CreateState**
+  - **Purpose**: Handles the creation of new playlists.
+- **ShowSongState**
+  - **Purpose**: Displays the list of available songs and handles song-related actions.
+- **ShowPlaylistsState**
+  - **Purpose**: Displays the list of playlists and handles playlist selection.
+- **ViewPlaylistState**
+  - **Purpose**: Shows the songs within a selected playlist and allows actions on them.
+- **PlayQueueState**
+  - **Purpose**: Manages the playback controls and the current play queue.
+- **SearchState**
+  - **Purpose**: Provides functionality for searching songs by artist or title.
+- **SaveState**
+  - **Purpose**: Handles saving the current song library and playlists to a file.
+
+---
+
+## **4. Models**
+
+### **Song**
+- **Purpose**: Represents an individual song in the music library.
+- **Attributes**:
+  - `String title`
+  - `String artist`
+
+### **Playlist**
+- **Purpose**: Represents a collection of songs (a playlist).
+- **Attributes**:
+  - `String name`
+  - `ArrayList<Song>` or a custom linked list of songs.
+
+### **Node**
+- **Purpose**: Represents a node in a linked list data structure.
+- **Attributes**:
+  - `Song song`
+  - `Node next`
+  - `Node prev`
+
+---
+
+## **5. Data Structures**
+
+### **CircularDoublyLinkedList**
+- **Purpose**: Custom data structure used for managing the play queue and playlist navigation.
+- **Key Features**:
+  - Allows traversal in both directions (next and previous).
+  - Supports shuffling of songs.
+
+---
+
+## **6. Managers and Controllers**
+
+### **SongManager**
+- **Purpose**: Acts as the central controller for managing songs, playlists, and playback.
+- **Key Responsibilities**:
+  - Manages the song library and playlists.
+  - Handles song playback and queue management.
+  - Interacts with `PlaylistManager` and `Player` for specific functionalities.
+
+### **PlaylistManager**
+- **Purpose**: Manages the collection of playlists.
+- **Key Responsibilities**:
+  - Creates, deletes, and retrieves playlists.
+  - Adds songs to playlists.
+
+### **SongLibrary**
+- **Purpose**: Maintains the unique collection of all songs in the system.
+- **Key Responsibilities**:
+  - Stores and manages the master list of songs.
+  - Provides methods to add, remove, and search songs.
+
+### **DataManager**
+- **Purpose**: Handles data persistence for the application.
+- **Key Responsibilities**:
+  - Loads songs and playlists from files.
+  - Saves the current state of songs and playlists to files.
+
+---
+
+## **7. Utilities and Helpers**
+
+### **ConsoleManager**
+- **Purpose**: Manages console input and output operations.
+- **Key Responsibilities**:
+  - Displays messages and menus to the user.
+  - Captures user input.
+  - Handles console formatting and clearing.
+
+### **Player**
+- **Purpose**: Manages song playback and the play queue.
+- **Key Responsibilities**:
+  - Controls playback actions like play, pause, next, previous, and shuffle.
+  - Maintains the current song and play queue.
+
+---
+
+## **8. Testing**
+
+### **SongManagerTest**
+- **Purpose**: Contains test cases for validating the functionality of the `SongManager` class.
+- **Key Responsibilities**:
+  - Tests methods related to song and playlist management.
+  - Ensures that the business logic works as expected.
+
+---
+
+## **Summary**
+Class organization:
+
+- **Core Classes**: `MusicSimulator`, `Client`
+- **State Management**: `State` interface and various concrete state classes like `MainMenuState`, `ShowSongState`, etc.
+- **Models**: `Song`, `Playlist`, `Node`
+- **Managers**: `SongManager`, `PlaylistManager`, `SongLibrary`, `DataManager`
+- **Utilities**: `ConsoleManager`, `Player`, `CircularDoublyLinkedList`
+- **Testing**: `SongManagerTest`
+
+
+
 
 
 Responsibility: 
@@ -132,3 +219,17 @@ Responsibility:
 - Setting up the initial documentation
 - came up with the class structure
 - Plan out the overview of the project, documented initial requirement
+- Complete the Initial class structure
+- delegated class songManager into different class
+- Make Unit testing for the song manager class
+- Implemented basic interfaces
+- Make Input CSV 
+- Implemneted circular linked list 
+- Implemented Ouput CSV
+- completete the console intercaees
+- Refactors the class based on different design pattern
+  
+### Sunny And Angus
+- complete the song manager class
+
+### Kahlid

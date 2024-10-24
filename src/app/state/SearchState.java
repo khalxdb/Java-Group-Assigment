@@ -1,9 +1,9 @@
 package app.state;
-import java.util.ArrayList;
+
 import app.*;
 import app.manager.*;
 import app.util.*;
-import app.model.*;
+
 
 public class SearchState implements State {
     public MusicSimulator simulator;

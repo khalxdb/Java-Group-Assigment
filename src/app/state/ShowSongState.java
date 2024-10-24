@@ -4,9 +4,6 @@ import app.*;
 import app.manager.*;
 import app.util.*;
 import app.model.*;
-
-import java.util.ArrayList;
-
 public class ShowSongState implements State {
     public MusicSimulator simulator;
     public SongManager songManager;

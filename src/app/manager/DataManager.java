@@ -13,7 +13,7 @@ public class DataManager {
 
     public void loadFromCSV(String fileName) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(fileName));
-        String headerLine = reader.readLine();
+        reader.readLine();
         String line;
         while ((line = reader.readLine()) != null) {
             String[] parts = line.split(",");

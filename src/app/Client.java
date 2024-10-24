@@ -1,8 +1,6 @@
 package app;
-import java.util.Stack;
 import app.util.*;
 import app.manager.*;
-import app.state.*;
 import app.model.*;
 
 public class Client {
@@ -85,8 +83,8 @@ public class Client {
 
         ConsoleManager console = new ConsoleManager();
         
-        boolean runConsole = false;
-        CommandProcessor commandProcessor = new CommandProcessor(console, songManager);
+        // boolean runConsole = false;
+        // CommandProcessor commandProcessor = new CommandProcessor(console, songManager);
 
         // THIS is the NEW VERSION
         MusicSimulator simulator = new MusicSimulator(console,songManager);

@@ -1,5 +1,6 @@
 @startuml
 
+
 ' Define the Song class
 class Song {
     - String title
@@ -23,11 +24,10 @@ class Node {
     + void setPrev(Node prev)
 }
 
-' Define the DoublyLinkedList class
-class DoublyLinkedList {
+' Define the CircularDoublyLinkedList class
+class CircularDoublyLinkedList {
     - Node head
     - Node tail
-    - Node current
     + void addNode(Song song)
     + void next()
     + void previous()
@@ -40,7 +40,7 @@ class DoublyLinkedList {
 ' Define the Playlist class
 class Playlist {
     - String name
-    - DoublyLinkedList songList
+    - CircularDoublyLinkedList songList
     + Playlist(String name)
     + void addSong(Song song)
     + void play()
@@ -51,11 +51,27 @@ class Playlist {
     + String getName()
 }
 
-' Define the SongManager class
-class SongManager {
-    - ArrayList<Playlist> playlists
-    - ArrayList<Song> songLibrary
+' Define the PlaylistManager class
+class PlaylistManager <<controller>> {
+    - ArrayList<Playlist> listOfPlaylists
+    + void createPlaylist(String name)
+    + void removePlaylist(String name)
+    + Playlist findPlaylistByName(String name)
+    + void showPlaylists()
+}
 
+' Define the SongLibrary class
+class SongLibrary <<library>> {
+    - ArrayList<Song> listOfSongs
+    + void addSong(Song song)
+    + Song findSongByName(String name)
+    + void showSongs()
+}
+
+' Define the SongManager class
+class SongManager <<controller>> {
+    - ArrayList<Playlist> playlists
+    - SongLibrary songLibrary
     - Playlist currentPlaylist
     + SongManager()
     + void start()
@@ -69,12 +85,89 @@ class SongManager {
     + void exit()
 }
 
+' Define the Player class
+class Player <<controller>> {
+    - CircularDoublyLinkedList songQueue
+    + void playCurrentSong()
+    + void playNextSong()
+    + void playPreviousSong()
+    + void shuffle()
+}
+
+' Define the ConsoleManager class
+class ConsoleManager <<utility>> {
+    + void clearConsole()
+    + String getCommandInput()
+    + void showMessage(String message)
+    + void waitForEnter()
+    + void displayPlaylistList(ArrayList<Playlist> playlists)
+    + void displaySongList(ArrayList<Song> songs)
+}
+
+' Define the State interface
+interface State <<interface>> {
+    + void display()
+    + void handleInput(String input)
+}
+
+' Define Concrete State Classes
+class MainMenuState <<state>> {
+    + display()
+    + handleInput(String input)
+}
+
+class ShowPlaylistsState <<state>> {
+    + display()
+    + handleInput(String input)
+}
+
+class PlayQueueState <<state>> {
+    + display()
+    + handleInput(String input)
+}
+
+class CreateState <<state>> {
+    + display()
+    + handleInput(String input)
+}
+
+class ShowSongState <<state>> {
+    + display()
+    + handleInput(String input)
+}
+
+' Define the MusicSimulator (Context) class
+class MusicSimulator <<context>> {
+    - State currentState
+    + ConsoleManager console
+    + SongManager songManager
+    + void setState(State state)
+    + void run()
+}
+
 ' Relationships between classes
 Node --> Song : contains
-DoublyLinkedList --> Node : manages
-Playlist --> DoublyLinkedList : uses
-SongManager --> Playlist : manages
-SongManager --> Song : has
-SongManager --> Queue : temporaryQueue
+CircularDoublyLinkedList --> Node : manages
+Playlist --> CircularDoublyLinkedList : uses
+PlaylistManager --> Playlist : manages
+SongLibrary --> Song : stores
+
+SongManager --> PlaylistManager : controls
+SongManager --> SongLibrary : controls
+SongManager --> Player : controls
+Player --> CircularDoublyLinkedList : uses as queue
+
+ConsoleManager -down-> SongManager : interacts
+MusicSimulator --|> State : has
+MusicSimulator --|> ConsoleManager : interacts
+MusicSimulator --|> SongManager : interacts
+
+State --> MainMenuState: implements
+State --> ShowPlaylistsState: implements
+State --> PlayQueueState: implements
+State --> CreateState : implements
+State --> ShowSongState: implements
+
+
 
 @enduml
