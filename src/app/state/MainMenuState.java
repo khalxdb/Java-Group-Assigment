@@ -16,13 +16,24 @@ public class MainMenuState implements State{
 
     @Override
     public void display() {
-        simulator.getConsole().printWelcome();
+        // Print out the welcome message and relevant details
+       console.printWelcome();
     }
 
     @Override
     public void handleInput(String input){
+        /*
+         * The main menu have 5 main different states
+         * show: show songs and playlists
+         * play: play songs and playlists
+         * queue: play the current queue
+         * create: create a playlists
+         * search: search for song by artist
+         * save: save our current output
+         * exit: exit out of the program
+         */
+        input = input.toLowerCase(); // Make the input not case sensitive
         switch (input) {
-            // // Any Command with show in them, run the show command.
             case "show":
                 handlePlaySelection();
                 break;
@@ -48,7 +59,8 @@ public class MainMenuState implements State{
                 break;
             case "play queue":
             case "play q":
-            case "p q":  
+            case "pq": 
+            case "queue": 
                 simulator.setState(new PlayQueueState(simulator,null));
                 break;
     
@@ -69,11 +81,13 @@ public class MainMenuState implements State{
             case "exit":
             case "q":
                 simulator.clearStateStack();
+                console.showMessage("Exiting Program");
                 System.exit(0);
                 break;
             default:
-                simulator.getConsole().showMessage("Error: Unrecognized command. Please try again.");
-                simulator.getConsole().waitForEnter();
+                // Error none of the message
+                console.showMessage("\033[31mError: Unrecognized command. Please try again.\033");
+                console.waitForEnter(); // for showing message
                 break;
             }
     }
@@ -92,12 +106,11 @@ public class MainMenuState implements State{
             case "pl":
                 simulator.setState( new ShowPlaylistsState(simulator));
                 return;
-
+            
             default:
-                console.showMessage("Invalid option. Please enter 'songs' or 'playlists'.");
+                console.showMessage("\033[31mInvalid option. Please enter 'songs' or 'playlists'.\033");
                 console.waitForEnter();
                 return;
         }
     }
-
 }

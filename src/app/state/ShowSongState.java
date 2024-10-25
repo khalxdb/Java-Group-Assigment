@@ -37,7 +37,10 @@ public class ShowSongState implements State {
             console.showMessage("\033[33m'play' or 'p' - Play the queue.\033[0m");
             console.showMessage("\033[33m'add \"<song title>\" by \"<artist>\"' - Add new song to library.\033[0m");
             console.showMessage("\nCurrent Queue:");
-            songManager.printQueue();
+            
+            CircularDoublyLinkedList songQueue = songManager.player.songQueue;
+            Node curSongNode = songManager.player.currentSongNode;
+            console.displayQueue(songQueue,curSongNode);
         } else {
             // Showing playlists songs
             System.out.println();
@@ -103,76 +106,56 @@ public class ShowSongState implements State {
         console.waitForEnter();
     }
 
-    // Method to handle adding an existing song to the playlist
-    public void handleAddToPlaylist(String addCommand) {
-        String[] parts = addCommand.split(" ");
-
+    // Helper method to validate command and retrieve song by index
+    private Song getSongFromCommand(String command, String expectedAction) {
+        // Split the songs into two parts
+        String[] parts = command.split(" ");
+        
+        // Validate command format of the second parts, it needed to be a songs
         if (parts.length != 2 || !isNumeric(parts[1])) {
-            console.showMessage("\033[31mInvalid command format. Please use 'add <number>'.\033[0m");
+            console.showMessage("\033[31mInvalid command format. Please use '" + expectedAction + " <number>'.\033[0m");
             console.waitForEnter();
-            return;
+            return null;
         }
 
+        // Parse and validate the song index
         int songIndex = Integer.parseInt(parts[1]);
-
-        ArrayList<Song> listOfSongs = songManager.songLibrary.listOfSongs;
+        ArrayList<Song> listOfSongs = songManager.getListofSong();
         if (songIndex < 0 || songIndex >= listOfSongs.size()) {
             console.showMessage("\033[31mInvalid index. Please try again.\033[0m");
             console.waitForEnter();
-            return;
+            return null;
         }
 
-        Song songToAdd = listOfSongs.get(songIndex);
-        if (playlist.addSong(songToAdd)){
+        // Return the song if all checks pass
+        return listOfSongs.get(songIndex);
+    }
+
+    // Method to handle adding an existing song to the playlist
+    public void handleAddToPlaylist(String addCommand) {
+        // expecting our command to be add
+        Song songToAdd = getSongFromCommand(addCommand, "add");
+        if (songToAdd == null) return; // Exit if command is invalid
+
+        if (playlist.addSong(songToAdd)) {
             console.showMessage("\033[32mSong '" + songToAdd.title + "' added to playlist '" + playlist.getName() + "'.\033[0m");
         }
-        else{
-            console.waitForEnter();
-        };
-        
-        
+        console.waitForEnter();
     }
 
-    // Method to handle showing and adding songs to the queue
+    // Method to handle showing songs
     public void handleShowSong(String showSongCommand) {
-        String[] parts = showSongCommand.split(" ");
+        Song songToPlay = getSongFromCommand(showSongCommand, "play");
+        if (songToPlay == null) return; // Exit if command is invalid
 
-        if (parts.length != 2) {
-            console.showMessage("\033[31mInvalid command format. Please use 'play <number>' or 'play'.\033[0m");
-            console.waitForEnter();
-            return;
-        }
-
-        String action = parts[0].toLowerCase();
-        String indexStr = parts[1];
-
-        if (!isNumeric(indexStr)) {
-            console.showMessage("\033[31mInvalid input. Please enter a valid number.\033[0m");
-            console.waitForEnter();
-            return;
-        }
-
-        int idx = Integer.parseInt(indexStr);
-
-        ArrayList<Song> listOfSongs = songManager.songLibrary.listOfSongs;
-        if (idx < 0 || idx >= listOfSongs.size()) {
-            console.showMessage("\033[31mInvalid index. Please try again.\033[0m");
-            console.waitForEnter();
-            return;
-        }
-
-        if (action.equals("play") || action.equals("p")) {
-            Song curSong = listOfSongs.get(idx);
-            songManager.enqueueSong(curSong);
-            console.showMessage("\033[32mSong '" + curSong.title + "' added to queue.\033[0m");
-            console.waitForEnter();
-        } else {
-            console.showMessage("\033[31mUnknown command. Use 'play'.\033[0m");
-            console.waitForEnter();
-        }
+        songManager.enqueueSong(songToPlay);
+        console.showMessage("\033[32mSong '" + songToPlay.title + "' added to queue.\033[0m");
+        console.waitForEnter();
     }
 
+    // Utility method to check if a string is numeric
     public boolean isNumeric(String str) {
         return str.matches("\\d+");
     }
+
 }

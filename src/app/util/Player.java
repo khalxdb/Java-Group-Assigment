@@ -16,8 +16,9 @@ public class Player {
     // Method: Set the current playlist by converting it into a doubly linked list
     public void setPlaylist(Playlist playlist) {
          // Reset the song queue
-        songQueue = playlist.songList; 
-        currentSongNode = songQueue.head; 
+        clearPlayer();
+        this.songQueue = playlist.songList; 
+        this.currentSongNode = songQueue.head; 
         System.out.println("Playlist set to: " + playlist.getName());
     }
 

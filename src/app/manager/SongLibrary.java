@@ -63,7 +63,7 @@ public class SongLibrary {
         return null;  // No match found
     }
 
-    public void getArtist() {
+    public ArrayList<String> getArtist() {
         // Use a Set to store unique artists
         Set<String> artistSet = new HashSet<>();  
         
@@ -76,6 +76,7 @@ public class SongLibrary {
         listOfArtist.clear();
         listOfArtist.addAll(artistSet);
         Collections.sort(listOfArtist);
+        return listOfArtist;
     }
 
     // Method: Find a song by artist (returns null if not found)
@@ -103,16 +104,16 @@ public class SongLibrary {
     }
 
     public void showArtist() {
-        getArtist();  // Ensure the artist list is updated
+        ArrayList<String> artists = getArtist();  // Ensure the artist list is updated
         System.out.println("Artists in the library:");
 
-        if (listOfArtist.isEmpty()) {
+        if (artists.isEmpty()) {
             System.out.println("No artists found in the library.");
             return;
         }
         
-        for (int i = 0; i < listOfArtist.size(); i++) {
-            System.out.println(i + ". " + listOfArtist.get(i)); 
+        for (int i = 0; i < artists.size(); i++) {
+            System.out.println(i + ". " + artists.get(i)); 
         }
     }
 

@@ -141,7 +141,14 @@ public class SongManager {
     public ArrayList<Playlist> getPlaylists(){
         return playlistManager.listOfPlayLists;
     }
-
+    
+    public ArrayList<Song> getListofSong(){
+        return songLibrary.listOfSongs;
+    }
+    // Method getting to songs from the song library at particular index
+    public Song getSongAtIndex(int n){
+        return songLibrary.listOfSongs.get(n);
+    }
 
     public void printQueue (){
         player.songQueue.printList();
