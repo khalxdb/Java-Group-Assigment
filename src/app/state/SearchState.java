@@ -19,7 +19,7 @@ public class SearchState implements State {
     @Override
     public void display() {
         console.clearConsole();
-        console.displayArtist(songManager.songLibrary.getArtist());
+        console.displayArtist(songManager.songLibrary.getArtists());
         console.showMessage("Please enter a number to select an artist, or 'q' to go back.");
     }
 

@@ -5,8 +5,6 @@ import app.model.*;
 
 public class Client {
     public static void main(String[] args) throws Exception {
-        // TODO : MAKE INTERFACE THAT USE THE SONG MANAGER
-
         // Create an instance of SongManager
         SongManager songManager = new SongManager();
         
@@ -34,11 +32,11 @@ public class Client {
         songManager.createPlayList("favorite");
 
         // add songs by name
-        songManager.addSongByNameToPlaylist("My Way", "favorite");
-        songManager.addSongByNameToPlaylist("Fly me to the Moon", "favorite");
+        songManager.addSongToPlaylist("My Way", "favorite");
+        songManager.addSongToPlaylist("Fly me to the Moon", "favorite");
         
         // make our playlist into an actual variable
-        Playlist favorite = songManager.playlistManager.findPlaylistbyName("favorite");
+        Playlist favorite = songManager.playlistLibrary.findPlaylistByName("favorite");
 
         // add song by object
         favorite.addSong(a);
@@ -51,9 +49,9 @@ public class Client {
 
         // Create a new playlist and add songs
         songManager.createPlayList("Classic Hits");
-        songManager.addSongToPlayList(a, "Classic Hits");
-        songManager.addSongToPlayList(b, "Classic Hits");
-        songManager.addSongToPlayList(d, "Classic Hits");
+        songManager.addSongToPlaylist(a, "Classic Hits");
+        songManager.addSongToPlaylist(b, "Classic Hits");
+        songManager.addSongToPlaylist(d, "Classic Hits");
 
         // Show songs in the 'Classic Hits' playlist
         songManager.showPlayListSong("Classic Hits");
@@ -61,8 +59,8 @@ public class Client {
 
         // Add another playlist
         songManager.createPlayList("Pop Songs");
-        songManager.addSongToPlayList(c, "Pop Songs");
-        songManager.addSongToPlayList(e, "Pop Songs");
+        songManager.addSongToPlaylist(c, "Pop Songs");
+        songManager.addSongToPlaylist(e, "Pop Songs");
 
         songManager.showPlayList();;
         System.out.println();

@@ -4,54 +4,50 @@ public class Playlist {
     public String name; 
     public CircularDoublyLinkedList songList;
     
+    // Constructor
     public Playlist(String name){
         this.name = name;
         this.songList = new CircularDoublyLinkedList();
     }
 
-    // Method to add a song to the playlist
+    /**
+     * Method for Adding song to playlist
+     * @param song
+     * @return true when we sucessfully add songs, false otherwise
+     */
     public boolean addSong(Song song) {
-        // check if song is already in playlists
-        if (songList.contains(song)) {
-            System.out.println("The song " + song.title + " is already in the playlist.");
-            return false;
-        
-        } else {// a new unique songs added it to the songlist
+        if (songList.contains(song)|| song == null) {
+            return false; // song already exist or it's null;
+        } 
+        else {// new songs, add it to playlist
             songList.addNode(song);
-            System.out.println("Added " + song.title + " to the playlist " + this.getName() + ".");
             return true;
         }
     }
 
-    // TODO: Remove Song Method
+    // TODO: Remove song form playlist METHOD
 
-    // Method to display all songs in the playlist
+    // Method for showing all the Songs in the playlists
     public void showSongs() {
-        if (songList.head == null) {
+        if (songList.head == null) { // check if playlists is empty
             System.out.println("No songs in the playlist.");
             return;
         }
 
-        Node current = songList.head;
+        // Traverse the song and each times print out the song index, name and artist.
+        Node curNode = songList.head;
         System.out.println("Songs in playlist '" + name + "':");
         int countIdx = 0;
         do {
-            System.out.println(countIdx + ". " + current.song.title + " by " + current.song.artist);
-            current = current.next;
+            System.out.println(countIdx + ". " + curNode.song.title + " by " + curNode.song.artist);
+            curNode = curNode.next;
             countIdx++;
-        }while (current != songList.head);
+        }
+        while (curNode != songList.head); // reach our head again break;
         System.out.println();
     }
 
-
-    public String getName(){
-        return "'" + name + "'";
-    }
-
-    public CircularDoublyLinkedList getSongPlayList(){
-        return songList;
-    }
-
+    // Method for returning the size of the playlists
     public int size(){
         return songList.size();
     }

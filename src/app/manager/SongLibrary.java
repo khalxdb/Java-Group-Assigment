@@ -6,10 +6,14 @@ import java.util.Collections;
 import app.model.*;
 import app.util.*;
 
+/**
+ * The SongLibrary class manages the collection of songs in the library,
+ * supporting operations like adding songs, retrieving unique artists, and
+ * searching by song title or artist.
+ */
 public class SongLibrary {
-    // The Song Library Class Roles is for handling all the possible song
-    public ArrayList<Song> listOfSongs;
-    public ArrayList<String> listOfArtist;
+    public ArrayList<Song> listOfSongs; // List of all songs in the library
+    public ArrayList<String> listOfArtist; // List of unique artists in the library
 
     // Constructor
     public SongLibrary(){
@@ -17,105 +21,127 @@ public class SongLibrary {
         listOfArtist = new ArrayList<>();
     }
 
-    // addSong to Library
+    /**
+     * Adds a Song object to the library if it doesn't already exist.
+     * 
+     * @param song The Song object to be added.
+     * @return true if the song was added successfully, false otherwise.
+    */
     public boolean addSongToLibrary(Song song) {
-        if (song == null){
-            System.out.println("Can't added a Null Song");
-            return false;
-
-        }else if(listOfSongs.contains(song)){
-            System.out.println("Song Already Exist");
+        if (song == null || listOfSongs.contains(song)){
             return false;
         }
         listOfSongs.add(song);
-        System.out.println("Added " + song.title + "to the Library");
+        updateArtistList(); // Update artist list after adding a song
         return true;
     }
 
-    // adding song by string name instead
+    /**
+     * Adds a song to the library by its title if the song is found.
+     * 
+     * @param songName The title of the song to add.
+     * @return true if the song was added successfully, false if not found.
+     */
     public boolean addSongToLibrary(String songName) {
-        if (songName == null){
-            System.out.println("Can't added a Null");
-            return false;
-
-        }else if(findSongByName(songName) == null){
-            System.out.println("Song is not found");
+        Song foundSong = findSongByName(songName);
+        if (foundSong == null) {
             return false;
         }
-        Song foundSong = findSongByName(songName);
         listOfSongs.add(foundSong);
-        System.out.println("Added " + foundSong.title + "to the Library");
+        updateArtistList();
         return true;
     }
     
-    // Method to find a song by its exact name in the library
-    // Method: Find a song by its exact name in the library (returns null if not found)
+     /**
+     * Finds a song by its exact title in the library.
+     * 
+     * @param songName The title of the song to search for.
+     * @return The Song if found, otherwise null.
+     */
     public Song findSongByName(String songName) {
         if (songName == null || songName.isEmpty()) {
             return null; 
         }
 
         for (Song song : this.listOfSongs) {
-            if (song.title.equalsIgnoreCase(songName)) {
+            if (song.title.equals(songName)) {
                 return song;
             }
         }
         return null;  // No match found
     }
 
-    public ArrayList<String> getArtist() {
-        // Use a Set to store unique artists
-        Set<String> artistSet = new HashSet<>();  
-        
-        for (Song song : listOfSongs) {
-            // Add each artist to the Set , duplicates are automatically handled
-            artistSet.add(song.artist);  
+    /**
+     * Retrieves a sorted list of unique artist names in the library.
+     * 
+     * @return A sorted ArrayList of unique artist names.
+     */
+    public ArrayList<String> getArtists() {
+        updateArtistList();
+        return new ArrayList<>(listOfArtist); 
+    }
+
+    /**
+     * Finds songs by a specific artist and returns them in a circular doubly linked list.
+     * 
+     * @param artist The artist name to search for.
+     * @return A CircularDoublyLinkedList of songs by the specified artist, or an empty list if none found.
+     */
+    public CircularDoublyLinkedList findSongByArtist(String artistName) {
+        CircularDoublyLinkedList artistSongs = new CircularDoublyLinkedList();
+        if (artistName == null || artistName.isEmpty()) {
+            return artistSongs; 
         }
-        
-        // Clear the existing listOfArtist and add all unique artists from the Set
+
+        for (Song song : listOfSongs) {
+            if (song.artist.equalsIgnoreCase(artistName)) {
+                artistSongs.addNode(song);
+            }
+        }
+        return artistSongs;
+    }
+
+    /**
+     * Updates the list of unique artists based on the current songs in the library.
+     */
+    private void updateArtistList() {
+        Set<String> artistSet = new HashSet<>();
+        listOfSongs.forEach(song -> artistSet.add(song.artist));
         listOfArtist.clear();
         listOfArtist.addAll(artistSet);
         Collections.sort(listOfArtist);
-        return listOfArtist;
     }
 
-    // Method: Find a song by artist (returns null if not found)
-    public CircularDoublyLinkedList findSongByArtist(String artist) {
-        CircularDoublyLinkedList artistSong = new CircularDoublyLinkedList();
-        if (artist == null || artist.isEmpty()) {
-            return null; 
-        }
-
-        for (Song song : listOfSongs) {
-            if (song.artist.equalsIgnoreCase(artist)) {
-                artistSong.addNode(song);
-            }
-        }
-        return artistSong;
+    /**
+     * Returns all songs in the library.
+     * 
+     * @return An ArrayList of all songs.
+     */
+    public ArrayList<Song> getAllSongs() {
+        return new ArrayList<>(listOfSongs); // Return a copy for encapsulation
     }
 
-   // method to display all songs in the song library
-    public void showSongs() {
-        System.out.println("Songs in the library:");
-        for (int i = 0 ; i < listOfSongs.size();i++){
-            Song song = listOfSongs.get(i);
-            System.out.println(i  + " " + song.toString());
-        }
-    }
+//    // method to display all songs in the song library
+//     public void showSongs() {
+//         System.out.println("Songs in the library:");
+//         for (int i = 0 ; i < listOfSongs.size();i++){
+//             Song song = listOfSongs.get(i);
+//             System.out.println(i  + " " + song.toString());
+//         }
+//     }
 
-    public void showArtist() {
-        ArrayList<String> artists = getArtist();  // Ensure the artist list is updated
-        System.out.println("Artists in the library:");
+//     public void showArtist() {
+//         ArrayList<String> artists = getArtist();  // Ensure the artist list is updated
+//         System.out.println("Artists in the library:");
 
-        if (artists.isEmpty()) {
-            System.out.println("No artists found in the library.");
-            return;
-        }
+//         if (artists.isEmpty()) {
+//             System.out.println("No artists found in the library.");
+//             return;
+//         }
         
-        for (int i = 0; i < artists.size(); i++) {
-            System.out.println(i + ". " + artists.get(i)); 
-        }
-    }
+//         for (int i = 0; i < artists.size(); i++) {
+//             System.out.println(i + ". " + artists.get(i)); 
+//         }
+//     }
 
-    
 }

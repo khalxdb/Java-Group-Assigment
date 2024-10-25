@@ -35,7 +35,7 @@ public class DataManager {
             writer.newLine();  
     
             // Loop through each playlist
-            for (Playlist playlist : playlistLibrary.listOfPlayLists) {
+            for (Playlist playlist : playlistLibrary.listOfPlaylists) {
                 Node currentNode = playlist.songList.head;
                 
                 // Handle empty playlist (no songs in the playlist)

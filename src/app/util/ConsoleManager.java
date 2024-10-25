@@ -145,7 +145,7 @@ public class ConsoleManager {
     
         // Print each playlist with formatted columns
         for (int i = 0; i < playlists.size(); i++) {
-            System.out.printf("%-5d %-30s\n", i, playlists.get(i).getName());
+            System.out.printf("%-5d %-30s\n", i, playlists.get(i).name);
         }
     
         System.out.println("\033[34m==========================================\033[0m\n");

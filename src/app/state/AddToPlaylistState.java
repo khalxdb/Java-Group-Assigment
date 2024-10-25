@@ -66,10 +66,7 @@ public class AddToPlaylistState implements State {
     public void handleAddToPlaylist(String addCommand) {
         Song songToAdd = getSongFromCommand(addCommand, "add");
         if (songToAdd == null) return;
-
-        if (playlist.addSong(songToAdd)) {
-            console.showMessage("\033[32mSong '" + songToAdd.title + "' added to playlist '" + playlist.getName() + "'.\033[0m");
-        }
+        playlist.addSong(songToAdd);
         console.waitForEnter();
     }
 

@@ -5,10 +5,7 @@ public class CircularDoublyLinkedList {
     public Node head;
     public Node tail;
     
-    /**
-     * Constructor for the CircularDoublyLinkedList.
-     * Initializes an empty list.
-     */
+    // Constructor for the CircularDoublyLinkedList.
     public CircularDoublyLinkedList(){
         this.head = null;
         this.tail = null;
@@ -56,7 +53,6 @@ public class CircularDoublyLinkedList {
             System.out.println("List is empty.");
             return;
         }
-
         /*
          * To traverse a circular linked lists we must going next until we return back to the head
          * this is done with the do while loop.
@@ -98,7 +94,6 @@ public class CircularDoublyLinkedList {
 
     /**
      * Gets the number of songs in the list.
-     *
      * @return The size of the list.
      */
     public int size() {
@@ -119,7 +114,6 @@ public class CircularDoublyLinkedList {
 
     /**
      * Checks if the list contains a specific song.
-     *
      * @param song The song to search for in the list.
      * @return True if the song is found, false otherwise.
      */
@@ -138,5 +132,14 @@ public class CircularDoublyLinkedList {
         } 
         while (curNode != head);  // Stop when we loop back to the head
         return false;  // Song not found after traversing the list
+    }
+
+    /**
+     * Given a song remove it from the doubly linked list
+     * @param Song
+     * @return true if the song was removed successfully, false otherwise
+     */
+    public void removeNode(Song Node){
+        //TODO: removeNode from the Circular Doubly Linked List
     }
 }

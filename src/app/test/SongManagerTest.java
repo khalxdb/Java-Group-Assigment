@@ -63,14 +63,14 @@ class SongManagerTest {
     void testCreatePlaylistAndAddSongs() {
         // Create playlist
         songManager.createPlayList("Classic Hits");
-        songManager.addSongToPlayList(a, "Classic Hits");
-        songManager.addSongToPlayList(b, "Classic Hits");
-        songManager.addSongToPlayList(d, "Classic Hits");
+        songManager.addSongToPlaylist(a, "Classic Hits");
+        songManager.addSongToPlaylist(b, "Classic Hits");
+        songManager.addSongToPlaylist(d, "Classic Hits");
 
         // Check that the playlist contains the expected songs
-        Playlist classicHits = songManager.playlistManager.findPlaylistbyName("Classic Hits");
+        Playlist classicHits = songManager.playlistLibrary.findPlaylistByName("Classic Hits");
         assertNotNull(classicHits);
-        assertEquals(3, classicHits.getSongPlayList().size());
+        assertEquals(3, classicHits.size());
         assertTrue(classicHits.songList.contains(a));
         assertTrue(classicHits.songList.contains(b));
         assertTrue(classicHits.songList.contains(d));
@@ -82,12 +82,12 @@ class SongManagerTest {
         songManager.createPlayList("Hits Playlist");
     
         // Add songs by their name
-        assertTrue(songManager.addSongByNameToPlaylist("My Way a", "Hits Playlist"));
-        assertTrue(songManager.addSongByNameToPlaylist("Fly me to the Moon b", "Hits Playlist"));
-        assertTrue(songManager.addSongByNameToPlaylist("That's What I Like c", "Hits Playlist"));
+        assertTrue(songManager.addSongToPlaylist("My Way a", "Hits Playlist"));
+        assertTrue(songManager.addSongToPlaylist("Fly me to the Moon b", "Hits Playlist"));
+        assertTrue(songManager.addSongToPlaylist("That's What I Like c", "Hits Playlist"));
     
         // Fetch the playlist and check the songs have been added
-        Playlist hitsPlaylist = songManager.playlistManager.findPlaylistbyName("Hits Playlist");
+        Playlist hitsPlaylist = songManager.playlistLibrary.findPlaylistByName("Hits Playlist");
         assertNotNull(hitsPlaylist);
     
         assertEquals(3, hitsPlaylist.songList.size());

@@ -84,7 +84,7 @@ public class CreateState implements State {
         }
 
         int idx = Integer.parseInt(indexStr);
-        if (idx < 0 || idx >= songManager.playlistManager.listOfPlayLists.size()) {
+        if (idx < 0 || idx >= songManager.playlistLibrary.listOfPlaylists.size()) {
             console.showMessage("\033[31mInvalid index. Please try again.\033[0m");
             console.waitForEnter();
             return;
