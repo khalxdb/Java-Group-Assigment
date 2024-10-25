@@ -52,7 +52,7 @@ public class ViewPlaylistState implements State {
                 return;
             case "add":
             case "a":
-                simulator.setState(new ShowSongState(simulator ,playlist));
+                simulator.setState(new AddToPlaylistState(simulator ,playlist));
                 return;
 
             default:

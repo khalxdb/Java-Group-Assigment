@@ -71,7 +71,7 @@ public class PlayQueueState implements State {
                 return;
             case "a":
             case "add":
-                simulator.setState(new ShowSongState(simulator, null));
+                simulator.setState(new ShowSongState(simulator));
                 return;
             case "q":
                 simulator.goBack();

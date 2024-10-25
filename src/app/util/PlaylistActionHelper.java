@@ -60,4 +60,23 @@ public class PlaylistActionHelper {
     public static boolean isNumeric(String str) {
         return str.matches("\\d+");
     }
-}
+        // // Helper to validate and retrieve song by command
+        // public Song getSongFromCommand(String command, String expectedAction) {
+        //     String[] parts = command.split(" ");
+        //     if (parts.length != 2 || !isNumeric(parts[1])) {
+        //         console.showMessage("\033[31mInvalid command format. Use '" + expectedAction + " <number>'.\033[0m");
+        //         console.waitForEnter();
+        //         return null;
+        //     }
+    
+        //     int songIndex = Integer.parseInt(parts[1]);
+        //     ArrayList<Song> listOfSongs = songManager.getListofSong();
+        //     if (songIndex < 0 || songIndex >= listOfSongs.size()) {
+        //         console.showMessage("\033[31mInvalid index. Please try again.\033[0m");
+        //         console.waitForEnter();
+        //         return null;
+        //     }
+        //     return listOfSongs.get(songIndex);
+        // }
+    
+    }

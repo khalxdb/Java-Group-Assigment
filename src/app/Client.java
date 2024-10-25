@@ -90,13 +90,6 @@ public class Client {
         MusicSimulator simulator = new MusicSimulator(console,songManager);
         simulator.run();
 
-        // //
-        // while (runConsole) {
-        //     console.printWelcome();
-        //     // Get the command input from the user
-        //     String command = console.getCommandInput().toLowerCase();
-        //     runConsole = commandProcessor.processCommand(command);
-        // }
     }
 }
 
