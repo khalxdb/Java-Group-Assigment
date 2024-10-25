@@ -21,11 +21,12 @@ public class CreateState implements State {
         console.clearConsole();
         ArrayList<Playlist> playlists = songManager.getPlaylists();
         console.displayPlaylistList(playlists);
-        console.showMessage("Commands: Remove (r <number>), Create (c <name>), Show (s), Play (p), or Exit (q)");
+        console.showMessage("Commands: Remove (r <number>), Create (c <name>, use \"\" for longer name), Show (s), Play (p), or Exit (q)");
     }
 
     @Override
     public void handleInput(String input) {
+        // Take in 2 inputs, one for command like create and remove
         String[] parts = input.split(" ");
         
         if (parts.length < 1) {
@@ -43,7 +44,7 @@ public class CreateState implements State {
 
             case "c":
             case "create":
-                handleCreate(parts);
+                handleCreate(input);
                 break;
 
             case "s":
@@ -66,38 +67,56 @@ public class CreateState implements State {
         }
     }
 
+    // Function for removing playlists 
     public void handleRemove(String[] parts) {
         if (parts.length != 2) {
             console.showMessage("\033[31mInvalid command format. Use 'r <number>'.\033[0m");
+            console.waitForEnter();
             return;
         }
 
         String indexStr = parts[1];
         if (!isNumeric(indexStr)) {
             console.showMessage("\033[31mInvalid input. Please enter a valid number.\033[0m");
+            console.waitForEnter();
             return;
         }
 
         int idx = Integer.parseInt(indexStr);
         if (idx < 0 || idx >= songManager.playlistManager.listOfPlayLists.size()) {
             console.showMessage("\033[31mInvalid index. Please try again.\033[0m");
+            console.waitForEnter();
             return;
         }
 
         Playlist removePlaylist = songManager.playlistManager.listOfPlayLists.get(idx);
         songManager.removePlaylist(removePlaylist);
-        console.showMessage("Playlist '" + removePlaylist.getName() + "' has been removed.");
         console.waitForEnter();
     }
 
-    public void handleCreate(String[] parts) {
-        if (parts.length != 2) {
-            console.showMessage("\033[31mInvalid command format. Use 'c <playlistName>'.\033[0m");
+    // Function for handling creating playlists
+    public void handleCreate(String input) {
+        /*
+        * Use regular expression to check for both 'c' or 'create', followed by space(s),
+        * and then the playlist name inside double quotes.
+        * It also makes the check case-insensitive.
+        */
+        if (!input.toLowerCase().matches("(c|create)\\s+\"[^\"]+\"")) {
+            console.showMessage("\033[31mInvalid command format. Use 'c \"<playlistName>\"' or 'create \"<playlistName>\"'.\033[0m");
+            console.waitForEnter();
             return;
         }
 
-        String playlistName = parts[1];
+        // Extract the playlist name from the quotes
+        int firstQuoteIndex = input.indexOf("\"");
+        int lastQuoteIndex = input.lastIndexOf("\"");
+
+        // Get the playlist name between the quotes
+        String playlistName = input.substring(firstQuoteIndex + 1, lastQuoteIndex).trim();
+
+        // Create the playlist with the full name
         songManager.createPlayList(playlistName);
+        // console.showMessage("Playlist '" + playlistName + "' created successfully!");
         console.waitForEnter();
     }
 

@@ -50,7 +50,7 @@ public class MusicSimulator {
         while(true){
             // Activated the display method in every states class
             currentState.display();
-            String input = console.getCommandInput().toLowerCase().trim();
+            String input = console.getCommandInput().trim();
             // Activated Handling Input in every state class
             currentState.handleInput(input);
         }
