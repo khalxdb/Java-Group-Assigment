@@ -21,7 +21,7 @@ public class CreateState implements State {
         console.clearConsole();
         ArrayList<Playlist> playlists = songManager.getPlaylists();
         console.displayPlaylistList(playlists);
-        console.showMessage("Commands: Remove (r <number>), Create (c <name>, use \"\" for longer name), Show (s), Play (p), or Exit (q)");
+        console.showMessage("Commands: Remove (r <number>), Create (c \"<name>\", use \"\"), Show (s), Play (p), or Exit (q)");
     }
 
     @Override
@@ -49,7 +49,8 @@ public class CreateState implements State {
 
             case "s":
             case "show":
-                showPlaylistPage();
+                // Handle Selecting Songs 
+                PlaylistActionHelper.handlePlaylistAction(input, simulator);
                 break;
 
             case "p":
