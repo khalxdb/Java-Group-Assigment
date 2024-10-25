@@ -24,6 +24,7 @@ public class ViewPlaylistState implements State {
         console.clearConsole();
         console.displayPlaylistSong(playlist);
         console.showMessage("\033[33mType 'back' to return to the playlist menu, 'exit' to exit to the main menu, or 'play' to play the playlist.\033[0m");
+        console.showMessage("add | a for adding songs");
     }
 
     @Override
@@ -46,7 +47,12 @@ public class ViewPlaylistState implements State {
                 return;
 
             case "play":
+            case "p":
                 simulator.setState(new PlayQueueState(simulator,playlist));
+                return;
+            case "add":
+            case "a":
+                simulator.setState(new ShowSongState(simulator ,playlist));
                 return;
 
             default:

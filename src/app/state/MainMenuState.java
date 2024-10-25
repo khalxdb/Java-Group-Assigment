@@ -32,7 +32,7 @@ public class MainMenuState implements State{
                 break;
             case "show songs":
             case "ss":
-                simulator.setState( new ShowSongState(simulator));
+                simulator.setState( new ShowSongState(simulator, null));
                 break;
             
             case "play":
@@ -44,7 +44,7 @@ public class MainMenuState implements State{
                 simulator.setState( new ShowPlaylistsState(simulator));
                 break;
             case "ps":
-                simulator.setState( new ShowSongState(simulator));
+                simulator.setState( new ShowSongState(simulator, null));
                 break;
             case "play queue":
             case "play q":
@@ -85,7 +85,7 @@ public class MainMenuState implements State{
         switch(showCommand){
             case "songs":
             case "s":
-                simulator.setState( new ShowSongState(simulator));
+                simulator.setState( new ShowSongState(simulator,null));
                 return;
 
             case "playlists":

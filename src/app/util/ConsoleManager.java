@@ -83,11 +83,11 @@ public class ConsoleManager {
     // TODO: Method for Display song list for nice fommating
     public void displaySongList(ArrayList<Song> listOfSongs) {
         System.out.println("\033[34m===============================");
-        System.out.println("                Songs              ");
+        System.out.println("         Available Songs              ");
         System.out.println("===============================\033[0m\n");
 
     for (int i = 0; i < listOfSongs.size(); i++) {
-        System.out.println(i + ": " + listOfSongs.get(i).title);
+        System.out.println(i + ": '" + listOfSongs.get(i).title + "' by '" +listOfSongs.get(i).artist + "'");
         }
     }
 

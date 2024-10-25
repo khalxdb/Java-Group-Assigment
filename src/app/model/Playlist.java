@@ -14,12 +14,12 @@ public class Playlist {
         // check if song is already in playlists
         if (songList.contains(song)) {
             System.out.println("The song " + song.title + " is already in the playlist.");
-            return true;
+            return false;
         
         } else {// a new unique songs added it to the songlist
             songList.addNode(song);
             System.out.println("Added " + song.title + " to the playlist " + this.getName() + ".");
-            return false;
+            return true;
         }
     }
 

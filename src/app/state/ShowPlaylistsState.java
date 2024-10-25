@@ -37,7 +37,7 @@ public class ShowPlaylistsState implements State {
             simulator.setState(new MainMenuState(simulator));
         }
         else {
-            // Handling the playlist selection that the user choose
+            // Handling the playlist selection that the user choose 'show' and 'play'
             PlaylistActionHelper.handlePlaylistAction(input,simulator);
         }
  
