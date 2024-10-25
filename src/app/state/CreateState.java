@@ -90,7 +90,7 @@ public class CreateState implements State {
             return;
         }
 
-        Playlist removePlaylist = songManager.playlistManager.listOfPlayLists.get(idx);
+        Playlist removePlaylist = songManager.getPlaylistAtIndex(idx);
         songManager.removePlaylist(removePlaylist);
         console.waitForEnter();
     }

@@ -24,7 +24,7 @@ public class PlaylistManager {
     }
 
     // METHOD: Adding a playlist using a playlist object
-    public boolean createPlaylist(Playlist playlist) {
+    public boolean addPlaylist(Playlist playlist) {
         if (playlist == null) {
             System.out.println("Cannot add a null playlist.");
             return false;
