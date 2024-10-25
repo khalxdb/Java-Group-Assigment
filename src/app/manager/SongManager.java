@@ -16,23 +16,12 @@ public class SongManager {
         this.songLibrary = new SongLibrary();
         this.playlistManager = new PlaylistManager();
         this.player = new Player();
-        this.dataManager = new DataManager(this.songLibrary,this.playlistManager);
+        this.dataManager = new DataManager(this.songLibrary, this.playlistManager);
     }
 
     // Method: For playing a playlist
     public void playPlaylist(String playlistName) {
         Playlist playlist = playlistManager.findPlaylistbyName(playlistName);
-        if (playlist != null) {
-            player.setPlaylist(playlist);
-            player.playCurrentSong();
-        } 
-        else {
-            System.out.println("Playlist not found.");
-        }
-    }
-
-    // Method: For playing a playlist
-    public void playPlaylist(Playlist playlist) {
         if (playlist != null) {
             player.setPlaylist(playlist);
             player.playCurrentSong();
@@ -46,17 +35,18 @@ public class SongManager {
         return songLibrary.addSongToLibrary(song);
     }
 
+    // Method for adding playlist
+    public void addPlaylist(Playlist playlist){
+        playlistManager.addPlaylist(playlist);
+    }
 
     // Method to add a song by searching for its exact name and adding it to a playlist
     public boolean addSongByNameToPlaylist(String songName, String playlistName) {
-        // Make sure that it exist in the first places
         Song foundSong = songLibrary.findSongByName(songName);
         if (foundSong != null) {
-            // Add the song to the playlist
             playlistManager.addSongToPlayList(foundSong, playlistName);
-            return true;  
-        } 
-        else {
+            return true;
+        } else {
             System.out.println("No song found with the name: " + songName);
             return false;
         }
@@ -67,29 +57,32 @@ public class SongManager {
         songLibrary.showSongs();
     }
 
-    public void showArtist(){
+    // Method for showing all the artist
+    public void showArtist() {
         songLibrary.showArtist();
     }
-
-    // Creating Playlists
+    
+    // Creating Playlists, we create a playlist by name
     public void createPlayList(String name) {
         playlistManager.createPlaylist(name);
     }
-    public void createPlayList(Playlist playlist) {
-        playlistManager.createPlaylist(playlist);
-    }
-    
-    //Removing Playlist
-    public void removePlaylist(String name){
-        playlistManager.removePlaylist(name);
-    }
-    public void removePlaylist(Playlist playlist){
-        playlistManager.removePlaylist(playlist);
+
+    // Overloading removeplaylists by name and by object
+    public void removePlaylist(Object input){
+        if (input instanceof String){
+            String name = (String) input;
+            playlistManager.removePlaylist(name);
+        }
+        else{
+            Playlist playlist = (Playlist) input;
+            playlistManager.removePlaylist(playlist);
+        }
     }
 
     // Method to add a song to a specific playlist
     public void addSongToPlayList(Song song, String playlistName) {
         playlistManager.addSongToPlayList(song, playlistName);
+        
     }
 
     // Method to enqueue a song for playing
@@ -98,34 +91,36 @@ public class SongManager {
     }
 
     // Method to play the next song in the queue
-    public Song playCurrentSong(){
+    public Song playCurrentSong() {
         return player.playCurrentSong();
     }
 
     public Song playNextSong() {
-       return player.playNextSong();
+        return player.playNextSong();
     }
 
     public Song playPreviousSong() {
         return player.playPreviousSong();
     }
 
-    public void clearPlayer(){
+    public void clearPlayer() {
         player.clearPlayer();
     }
 
-    public void shuffle(){
+    public void shuffle() {
         player.shuffle();
     }
 
     // Method to display all songs in a playlist
     public void showPlayListSong(String playlistName) {
-        playlistManager.findPlaylistbyName(playlistName).showSongs();
+        Playlist playlist = playlistManager.findPlaylistbyName(playlistName);
+        if (playlist != null) {
+            playlist.showSongs();
+        } else {
+            System.out.println("Playlist not found.");
+        }
     }
-    public void showPlayListSong(Playlist playlistName) {
-        playlistName.showSongs();;
-    }
-    
+
     public void showPlayList() {
         playlistManager.showPlayList();
     }
@@ -138,23 +133,34 @@ public class SongManager {
         dataManager.saveToCSV(fileName);
     }
 
-    public ArrayList<Playlist> getPlaylists(){
+    public ArrayList<Playlist> getPlaylists() {
         return playlistManager.listOfPlayLists;
     }
-    
-    public ArrayList<Song> getListofSong(){
+
+    public ArrayList<Song> getListofSong() {
         return songLibrary.listOfSongs;
     }
+
     // Method getting to songs from the song library at particular index
-    public Song getSongAtIndex(int n){
-        return songLibrary.listOfSongs.get(n);
+    public Song getSongAtIndex(int n) {
+        if (n >= 0 && n < songLibrary.listOfSongs.size()) {
+            return songLibrary.listOfSongs.get(n);
+        } else {
+            System.out.println("Index out of range.");
+            return null;
+        }
     }
 
-    public void printQueue (){
+    public Playlist getPlaylistAtIndex(int n){
+        if (n >= 0 && n < songLibrary.listOfSongs.size()) {
+            return playlistManager.listOfPlayLists.get(n);
+        } else {
+            System.out.println("Index out of range.");
+            return null;
+        }
+    }
+
+    public void printQueue() {
         player.songQueue.printList();
     }
-    
 }
-
-
-
