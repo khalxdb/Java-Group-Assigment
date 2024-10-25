@@ -4,11 +4,11 @@ import app.model.*;
 
 public class DataManager {
     public SongLibrary songLibrary;
-    public PlaylistManager playlistManager;
+    public PlaylistLibrary playlistLibrary;
 
-    public DataManager(SongLibrary songLibrary, PlaylistManager playlistManager) {
+    public DataManager(SongLibrary songLibrary, PlaylistLibrary playlistLibrary) {
         this.songLibrary = songLibrary;
-        this.playlistManager = playlistManager;
+        this.playlistLibrary = playlistLibrary;
     }
 
     public void loadFromCSV(String fileName) throws IOException {
@@ -35,7 +35,7 @@ public class DataManager {
             writer.newLine();  
     
             // Loop through each playlist
-            for (Playlist playlist : playlistManager.listOfPlayLists) {
+            for (Playlist playlist : playlistLibrary.listOfPlayLists) {
                 Node currentNode = playlist.songList.head;
                 
                 // Handle empty playlist (no songs in the playlist)

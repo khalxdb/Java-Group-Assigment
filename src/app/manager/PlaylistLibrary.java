@@ -2,11 +2,11 @@ package app.manager;
 import java.util.ArrayList;
 import app.model.*;
 import app.util.*;
-public class PlaylistManager {
+public class PlaylistLibrary {
     public ArrayList<Playlist> listOfPlayLists;
 
     // Constructor
-    public PlaylistManager() {
+    public PlaylistLibrary() {
         listOfPlayLists = new ArrayList<>();
     }
 

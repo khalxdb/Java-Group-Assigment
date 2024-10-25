@@ -68,7 +68,6 @@ public class CircularDoublyLinkedList {
             curNode = curNode.next;
         } 
         while (curNode != head); // Stop when we loop back to the head
-
         System.out.println();
     }
 
@@ -94,7 +93,6 @@ public class CircularDoublyLinkedList {
             curNode = curNode.next;
         } 
         while (curNode != head && curIndex <= index);  // Stop if looped back to head or found index
-
         return null;  // Index is out of bounds
     }
 
@@ -116,7 +114,6 @@ public class CircularDoublyLinkedList {
             curNode = curNode.next;
         } 
         while (curNode != head);  // Stop when we loop back to the head
-
         return size;
     }
 
@@ -140,7 +137,6 @@ public class CircularDoublyLinkedList {
             curNode = curNode.next;
         } 
         while (curNode != head);  // Stop when we loop back to the head
-
         return false;  // Song not found after traversing the list
     }
 }
