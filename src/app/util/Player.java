@@ -27,6 +27,14 @@ public class Player {
         this.currentSongNode = songQueue.head; // start at the head of the playlists
     }
 
+    // Another Method Overloading
+    public void setPlaylist(CircularDoublyLinkedList queue) {
+        clearPlayer(); // Clear the queue
+        this.songQueue = queue; 
+        this.currentSongNode = songQueue.head; // start at the head of the playlists
+    }
+
+
     //Clears the song queue and resets the current song pointer.
     public void clearPlayer() {
         songQueue = new CircularDoublyLinkedList();   // Empty song queue

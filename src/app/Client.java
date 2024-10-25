@@ -43,7 +43,7 @@ public class Client {
         favorite.addSong(b);
         favorite.addSong(c);
 
-        System.out.println("All songs in favorite:");
+        System.out.println("All songs in favorite:\n");
         songManager.showPlayListSong("favorite");
         System.out.println();
 

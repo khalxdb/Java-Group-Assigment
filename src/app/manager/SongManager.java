@@ -162,6 +162,7 @@ public class SongManager {
             System.out.println("Can't enqueue a null songs");
         }
         player.enqueueSong(song);
+        System.out.println(song.title + " Has been put into queue");
     }
 
     // Method to play the next song in the queue
@@ -206,7 +207,7 @@ public class SongManager {
             System.err.println("There is no playlist");
         }
         for (int i = 0 ; i < playlistName.size(); i++){
-            System.out.println(i + " " + playlistName);
+            System.out.println(i + " " + playlistName.get(i));
         }
     }
 

@@ -59,9 +59,8 @@ public class SearchState implements State {
         String artist = songManager.songLibrary.listOfArtist.get(idx);
 
         // Find all songs by the artist and display them
-        songManager.player.songQueue = songManager.songLibrary.findSongByArtist(artist);
-        songManager.player.songQueue.printList();
-
+        CircularDoublyLinkedList artistSongs = songManager.songLibrary.findSongByArtist(artist);
+        console.displayQueue(artistSongs, artistSongs.head);
         console.showMessage("Type 'play' to play the queue, or 'q' to go back, or keep on adding more songs");
 
         // Handle subcommand input
@@ -71,12 +70,13 @@ public class SearchState implements State {
             simulator.goBack();
             return;
         } else if (subCommand.equals("play") || subCommand.equals("p")) {
+            // Set the current queue to the list of artist and play them in the play queue states.
+            songManager.player.setPlaylist(artistSongs);
             simulator.setState(new PlayQueueState(simulator, null));
         } else {
             console.showMessage("Invalid input. Please try again.");
             console.waitForEnter();
         } 
-
         display();  // Redisplay the options after subcommand
     }
 
