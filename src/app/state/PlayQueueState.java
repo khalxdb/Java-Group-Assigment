@@ -14,7 +14,7 @@ public class PlayQueueState implements State {
     public PlayQueueState(MusicSimulator simulator, Playlist playlist) {
         this.simulator = simulator;
         this.songManager = simulator.songManager;
-        this.console = simulator.getConsole();
+        this.console = simulator.console;
         this.curPlaylist = playlist;
 
         // Set playlist and initialize current song node

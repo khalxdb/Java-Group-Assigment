@@ -51,8 +51,17 @@ public class AddToPlaylistState implements State {
                 simulator.setState(new PlayQueueState(simulator, playlist));
 
             default:
-                if (input.startsWith("add") || input.startsWith("a")) {
-                    handleAddToPlaylist(input);
+                //Expecting our input to be <action> <number>
+                if (!CommandParserUtil.validCommand(input, simulator.console)){
+                    return; // Invalided input
+                }
+
+                String[] parts = input.split(" ");
+                String action = parts[0].toLowerCase();
+                String indexPart = parts[1]; // Extract the index part directly
+
+                if (input.equals("add") || input.equals("a")) {
+                    handleAddToPlaylist(indexPart);
                 } else {
                     console.showMessage("\033[31mInvalid command. Use 'add <number>' to add song to playlist.\033[0m");
                     console.waitForEnter();
@@ -63,34 +72,15 @@ public class AddToPlaylistState implements State {
     }
 
     // Method to handle adding an existing song to the playlist
-    public void handleAddToPlaylist(String addCommand) {
-        Song songToAdd = getSongFromCommand(addCommand, "add");
-        if (songToAdd == null) return;
-        playlist.addSong(songToAdd);
+    public void handleAddToPlaylist(String indexPart) {
+        Integer songIndex = CommandParserUtil.parseIndexCommand(indexPart, simulator.console);
+        if (songIndex == null) {
+            return;
+        }
+        Song songToAdd = songManager.getSongAtIndex(songIndex);
+        if (songToAdd != null) {
+            playlist.addSong(songToAdd);
+        }
         console.waitForEnter();
-    }
-
-    // Helper to validate and retrieve song by command
-    public Song getSongFromCommand(String command, String expectedAction) {
-        String[] parts = command.split(" ");
-        if (parts.length != 2 || !isNumeric(parts[1])) {
-            console.showMessage("\033[31mInvalid command format. Use '" + expectedAction + " <number>'.\033[0m");
-            console.waitForEnter();
-            return null;
-        }
-
-        int songIndex = Integer.parseInt(parts[1]);
-        ArrayList<Song> listOfSongs = songManager.getListofSong();
-        if (songIndex < 0 || songIndex >= listOfSongs.size()) {
-            console.showMessage("\033[31mInvalid index. Please try again.\033[0m");
-            console.waitForEnter();
-            return null;
-        }
-        return listOfSongs.get(songIndex);
-    }
-
-    // check for numeric
-    public boolean isNumeric(String str) {
-        return str.matches("\\d+");
     }
 }

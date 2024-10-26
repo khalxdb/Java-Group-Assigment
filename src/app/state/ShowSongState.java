@@ -16,7 +16,7 @@ public class ShowSongState implements State {
     public ShowSongState(MusicSimulator simulator) {
         this.simulator = simulator;
         this.songManager = simulator.songManager;
-        this.console = simulator.getConsole();
+        this.console = simulator.console;
     }
 
     @Override
@@ -59,16 +59,35 @@ public class ShowSongState implements State {
                 break;
 
             default:
-                // Case where we have more than one input
-                if (input.startsWith("add") || input.startsWith("a")) {
-                    handleAddSong(input); // Add to song library
-                } 
-                else if (input.startsWith("play") || input.startsWith("p")){
-                    handlePlaySong(input); // Enqueue song to play
+                // expecting add command
+                String[] parts = input.split(" ");
+                if (parts.length < 1) {
+                    simulator.console.showMessage("\033[31mInvalid command format. Use 'add \"<title>\" by \"<artist>\"' or 'play <number>'.\033[0m");
+                    simulator.console.waitForEnter();
+                    return;
                 }
-                console.showMessage("\033[31mInvalid Input \033[0m");
-                console.waitForEnter();
-                break;
+
+                String action = parts[0].toLowerCase();
+            
+                switch (action) {
+                    case "add":
+                    case "a":
+                        handleAddSong(input); // add command have different format
+                        break;
+                    case "play":
+                    case "p":
+                        // validated our play <number> command
+                        if (!CommandParserUtil.validCommand(input,console)){
+                            return;
+                        }
+                        String indexPart = parts[1];
+                        handlePlaySong(indexPart);
+                        break;
+                    default:
+                        simulator.console.showMessage("\033[31mInvalid Input.\033[0m");
+                        simulator.console.waitForEnter();
+                        break;
+                }
         }
         display();
     }
@@ -92,37 +111,17 @@ public class ShowSongState implements State {
         console.waitForEnter();
     }
 
-    // Method to handle showing songs
-    public void handlePlaySong(String showSongCommand) {
-        Song songToPlay = getSongFromCommand(showSongCommand, "play");
-        if (songToPlay == null) return;
-
-        songManager.enqueueSong(songToPlay);
-        console.showMessage("\033[32mSong '" + songToPlay.title + "' added to queue.\033[0m");
+    // Method to handle playing a song
+    public void handlePlaySong(String indexPart) {
+        Integer songIndex = CommandParserUtil.parseIndexCommand(indexPart, simulator.console);
+        if (songIndex == null){
+            return;
+        } 
+        Song songToPlay = songManager.getSongAtIndex(songIndex);
+        if (songToPlay != null) {
+            songManager.enqueueSong(songToPlay);
+        }
         console.waitForEnter();
     }
 
-    // Helper to get song by command index
-    public Song getSongFromCommand(String command, String expectedAction) {
-        String[] parts = command.split(" ");
-        if (parts.length != 2 || !isNumeric(parts[1])) {
-            console.showMessage("\033[31mInvalid command format. Use '" + expectedAction + " <number>'.\033[0m");
-            console.waitForEnter();
-            return null;
-        }
-
-        int songIndex = Integer.parseInt(parts[1]);
-        ArrayList<Song> listOfSongs = songManager.getListofSong();
-        if (songIndex < 0 || songIndex >= listOfSongs.size()) {
-            console.showMessage("\033[31mInvalid index. Please try again.\033[0m");
-            console.waitForEnter();
-            return null;
-        }
-        return listOfSongs.get(songIndex);
-    }
-
-    // Check for Numeric
-    public boolean isNumeric(String str) {
-        return str.matches("\\d+");
-    }
 }

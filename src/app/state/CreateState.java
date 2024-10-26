@@ -13,7 +13,7 @@ public class CreateState implements State {
     public CreateState(MusicSimulator simulator) {
         this.simulator = simulator;
         this.songManager = simulator.songManager;
-        this.console = simulator.getConsole();
+        this.console = simulator.console;
     }
 
     @Override

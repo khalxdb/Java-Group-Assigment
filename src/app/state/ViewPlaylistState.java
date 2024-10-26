@@ -15,7 +15,7 @@ public class ViewPlaylistState implements State {
     public ViewPlaylistState(MusicSimulator simulator, Playlist playlist) {
         this.simulator = simulator;
         this.songManager = simulator.songManager;
-        this.console = simulator.getConsole();
+        this.console = simulator.console;
         this.playlist = playlist;
     }
 

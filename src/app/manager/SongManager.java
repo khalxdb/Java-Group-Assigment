@@ -158,11 +158,16 @@ public class SongManager {
 
     // Method to enqueue a song for playing
     public void enqueueSong(Song song) {
-        if (song == null){
+        if (song == null){ // invalid songs
             System.out.println("Can't enqueue a null songs");
         }
-        player.enqueueSong(song);
-        System.out.println(song.title + " Has been put into queue");
+        
+        if (player.songQueue.contains(song)){
+            System.out.println(song.title + " is already in the queue.");
+        }else {
+            player.enqueueSong(song);  // Add the song to the queue
+            System.out.println(song.title + " has been added to the queue.");
+        }
     }
 
     // Method to play the next song in the queue
@@ -241,7 +246,7 @@ public class SongManager {
 
     // Get a songs from teh playlistlibrary at specific index
     public Playlist getPlaylistAtIndex(int n){
-        if (n >= 0 && n < songLibrary.listOfSongs.size()) {
+        if (n >= 0 && n < playlistLibrary.listOfPlaylists.size()) {
             return playlistLibrary.listOfPlaylists.get(n);
         } else {
             System.out.println("Index out of range.");

@@ -13,7 +13,7 @@ public class SearchState implements State {
     public SearchState(MusicSimulator simulator) {
         this.simulator = simulator;
         this.songManager = simulator.songManager;
-        this.console = simulator.getConsole();
+        this.console = simulator.console;
     }
 
     @Override

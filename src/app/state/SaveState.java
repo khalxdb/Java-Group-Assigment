@@ -13,7 +13,7 @@ public class SaveState implements State {
     public SaveState(MusicSimulator simulator) {
         this.simulator = simulator;
         this.songManager = simulator.songManager;
-        this.console = simulator.getConsole();
+        this.console = simulator.console;
     }
 
     @Override
