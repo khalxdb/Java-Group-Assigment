@@ -12,8 +12,8 @@ import app.util.*;
  * searching by song title or artist.
  */
 public class SongLibrary {
-    public ArrayList<Song> listOfSongs; // List of all songs in the library
-    public ArrayList<String> listOfArtist; // List of unique artists in the library
+    public ArrayList<Song> listOfSongs; 
+    private ArrayList<String> listOfArtist; // should only be accessible through a method as we need to update it
 
     // Constructor
     public SongLibrary(){
@@ -84,7 +84,7 @@ public class SongLibrary {
     /**
      * Finds songs by a specific artist and returns them in a circular doubly linked list.
      * 
-     * @param artist The artist name to search for.
+     * @param artistName The artist name to search for.
      * @return A CircularDoublyLinkedList of songs by the specified artist, or an empty list if none found.
      */
     public CircularDoublyLinkedList findSongByArtist(String artistName) {
@@ -106,42 +106,19 @@ public class SongLibrary {
      */
     private void updateArtistList() {
         Set<String> artistSet = new HashSet<>();
-        listOfSongs.forEach(song -> artistSet.add(song.artist));
-        listOfArtist.clear();
+        for (Song song : listOfSongs) {
+            artistSet.add(song.artist);
+        }
+        listOfArtist.clear(); // clear the current one for update.
         listOfArtist.addAll(artistSet);
         Collections.sort(listOfArtist);
     }
 
     /**
      * Returns all songs in the library.
-     * 
      * @return An ArrayList of all songs.
      */
     public ArrayList<Song> getAllSongs() {
         return new ArrayList<>(listOfSongs); // Return a copy for encapsulation
     }
-
-//    // method to display all songs in the song library
-//     public void showSongs() {
-//         System.out.println("Songs in the library:");
-//         for (int i = 0 ; i < listOfSongs.size();i++){
-//             Song song = listOfSongs.get(i);
-//             System.out.println(i  + " " + song.toString());
-//         }
-//     }
-
-//     public void showArtist() {
-//         ArrayList<String> artists = getArtist();  // Ensure the artist list is updated
-//         System.out.println("Artists in the library:");
-
-//         if (artists.isEmpty()) {
-//             System.out.println("No artists found in the library.");
-//             return;
-//         }
-        
-//         for (int i = 0; i < artists.size(); i++) {
-//             System.out.println(i + ". " + artists.get(i)); 
-//         }
-//     }
-
 }

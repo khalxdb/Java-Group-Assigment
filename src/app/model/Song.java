@@ -17,8 +17,8 @@ public class Song {
     }
 
     /**
-     * Parsed a String in "artist,title" formatted to Song Object;
-     * @param songString
+     * Parsed a String in "artist , title" formatted to Song Object;
+     * @param songString String to get the song from
      * @return Song Object;
      */
     public Song fromString(String songString){

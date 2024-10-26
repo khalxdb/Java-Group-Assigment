@@ -22,8 +22,12 @@ public class PlaylistLibrary {
      * @return true if the playlist was successfully created, false otherwise.
      */
     public boolean createPlaylist(String name) {
-        if (playlistExists(name)) {
-            return false;  // Playlist with the same name already exists
+        /*
+         * Check if input is valid so no null or "" empty string
+         * Check if the playlist exist already
+         */
+        if (name == null || name.isEmpty() || playlistExists(name)) {
+            return false;  
         }
         listOfPlaylists.add(new Playlist(name));
         return true;
@@ -36,7 +40,7 @@ public class PlaylistLibrary {
      * @return true if the playlist was added successfully, false if it already exists or is null.
      */
     public boolean addPlaylist(Playlist playlist) {
-        if (playlist == null || playlistExists(playlist.name)) {
+        if (playlist == null || playlistExists(playlist.name)|| playlist.name == null) {
             return false;  // Cannot add a null playlist or a duplicate
         }
         listOfPlaylists.add(playlist);
@@ -44,29 +48,28 @@ public class PlaylistLibrary {
     }
 
     /**
-     * Removes a playlist by its name.
-     * @param name The name of the playlist to remove.
-     * @return true if the playlist was removed, false if it was not found.
+     * Removes a playlist by either name or playlist object.
+     * @param input The name of the playlist (String) or the Playlist object to remove.
+     * @return true if the playlist was removed, false otherwise.
      */
-    public boolean removePlaylist(String name) {
-        Playlist playlistToRemove = findPlaylistByName(name);
-        if (playlistToRemove == null) {
-            return false;  // Playlist does not exist
+    public boolean removePlaylist(Object input) {
+        if (input == null) {
+            return false; // Null input is invalid
         }
-        listOfPlaylists.remove(playlistToRemove);
-        return true;
-    }
 
-    /**
-     * Removes a playlist object from the library.
-     * @param playlist The playlist to remove.
-     * @return true if the playlist was successfully removed, false if it was not found.
-     */
-    public boolean removePlaylist(Playlist playlist) {
-        if (playlist == null || !listOfPlaylists.remove(playlist)) {
-            return false;  // Cannot remove a null playlist or a non-existent playlist
+        if (input instanceof String) {
+            String name = (String) input;
+            Playlist playlistToRemove = findPlaylistByName(name);
+            if (playlistToRemove == null) {
+                return false; // Playlist by this name does not exist
+            }
+            listOfPlaylists.remove(playlistToRemove);
+            return true;
+        } else if (input instanceof Playlist) {
+            Playlist playlist = (Playlist) input;
+            return listOfPlaylists.remove(playlist); // Returns true if found and removed, false otherwise
         }
-        return true;
+        return false; // Unsupported type return false
     }
 
     /**
@@ -84,6 +87,10 @@ public class PlaylistLibrary {
      * @return The Playlist object if found, otherwise null.
      */
     public Playlist findPlaylistByName(String playlistName) {
+        if (playlistName == null || playlistName.isEmpty()){
+            return null;
+        }
+
         for (Playlist playlist : listOfPlaylists) {
             if (playlist.name.equals(playlistName)) {  // Case-sensitive check
                 return playlist;
@@ -112,12 +119,15 @@ public class PlaylistLibrary {
      * @return true if the song was added, false if the playlist was not found.
      */
     public boolean addSongToPlaylist(Song song, String playlistName) {
-        Playlist playlist = findPlaylistByName(playlistName);
-        if (playlist == null) {
-            return false;  // Playlist does not exist
+        if (playlistName.isEmpty()){
+            return false;
         }
-        playlist.addSong(song);
-        return true;
+        
+        Playlist playlist = findPlaylistByName(playlistName);
+        if (playlist == null || song == null) {
+            return false;  // null check for song and playlist
+        }
+        return playlist.addSong(song);
     }
 
     /**

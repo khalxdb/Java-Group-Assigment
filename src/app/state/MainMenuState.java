@@ -3,35 +3,42 @@ import app.*;
 import app.manager.*;
 import app.util.*;
 
+/**
+ * MainMenuState handles the main menu interaction of the MusicSimulator application. 
+ * This class displays the welcome screen and processes user input to navigate to different 
+ * states of the application, such as showing songs, playing playlists, creating playlists, 
+ * searching by artist, saving data, or exiting.
+ */
 public class MainMenuState implements State{
     public MusicSimulator simulator; 
     public ConsoleManager console;
     public SongManager songManager;
 
+    // Constructor
     public MainMenuState(MusicSimulator simulator) {
         this.simulator = simulator;
         this.console = simulator.console;
         this.songManager = simulator.songManager;
     }
 
+    /**
+     * Displays the main menu welcome message and available commands.
+     */
     @Override
     public void display() {
         // Print out the welcome message and relevant details
        console.printWelcome();
     }
 
+    /**
+     * Handles user input at the main menu, routing commands to appropriate states or actions. 
+     * Recognized commands include showing songs/playlists, playing songs/playlists, managing 
+     * the queue, creating playlists, searching for songs, saving data, and exiting.
+     *
+     * @param input The user's input command.
+     */
     @Override
     public void handleInput(String input){
-        /*
-         * The main menu have 5 main different states
-         * show: show songs and playlists
-         * play: play songs and playlists
-         * queue: play the current queue
-         * create: create a playlists
-         * search: search for song by artist
-         * save: save our current output
-         * exit: exit out of the program
-         */
         input = input.toLowerCase(); // Make the input not case sensitive
         switch (input) {
             case "show":
@@ -87,12 +94,15 @@ public class MainMenuState implements State{
             default:
                 // Error none of the message
                 console.showMessage("\033[31mError: Unrecognized command. Please try again.\033");
-                console.waitForEnter(); // for showing message
+                console.waitForEnter(); // For showing message
                 break;
             }
     }
     
-    // Handle selection for checking out songs or plays
+    /**
+     * Displays options for viewing either the list of songs or playlists. If the user selects
+     * an option, the state transitions to the corresponding view.
+     */
     public void handlePlaySelection(){
         String showCommand = console.promptUser("Would you like to see all the songs <s> or playlists <pl>?");
         showCommand = showCommand.toLowerCase();

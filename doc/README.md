@@ -1,67 +1,179 @@
 # Design Documentation: Music Library Management System
 ## Project Overview
-The Song library is a java based application, aims to provide an interactive command line interface for user to manage their music collection efficiently. The system allows users to create playlists, add song to those playlists, and manage their favorite track
+The **Music Library** Management System is a Java-based application that provides an interactive command-line interface for users to manage their music collections efficiently. It allows users to create playlists, add songs to playlists, and manage track queues with options for shuffling and navigating through songs.
 
-## Problem statement:
-In the problem, there are songs by artists (artists can be bands or solo artists), and these songs can be singles or belong to albums. You are required to create song catalogues or libraries or playlists with ability to go to the previous song or the next song, as well as shuffle play.
+## **Functional Requirements**
+### **1. Song and Playlist Management**
 
-## Initial Functional Requirements
-- Unique Song List: The systems maintains a unique set of all inputted song
-- Playlist Functionality: Playlists are collections that stored the song from the unique song list.
-- Queue Management: Users can queue songs, with functionality to go next, previous, and shuffle.
-- Terminal Interface: A terminal-based interface allows for user interaction.
-- Library Tracking: The system tracks both the song list and the playlists.
+- **Unique Song Library**:
+  - The system maintains a **unique collection** of all songs inputted into the library.
+  - User can added song to the library.
 
+- **Playlist Creation and Management**:
+  - Users can create playlists, add songs to them, and perform various actions such as displaying, searching, and removing playlists.
+  
+### **2. Playback and Queue Management**
 
-Possible Extra Feature
-- Search Feature: Users can search for songs by artist, name, or album.
-- Album Management: Albums are treated like playlists, enabling similar functionality.
-Playback Control
+- **Queue Control**:
+  - Users can **queue songs** with the ability to navigate to the `next`, `previous`, or `shuffle` songs in the queue.
 
-## Initial Non-Functional Requirements:
-- Persistent Storage: The system saves the song library and playlists using file input/output (eg CSV)
-- Reliability: handle error of wrong command
-- Performances: quick response to the command allow for smooth interaction
+- **Player Integration**:
+  - The application features a **playback controller** that manages song queues and highlights the currently playing track.
 
-#### User Flow Interaction
-Ideally loaded in a the terminal by calling the file for the interface
-1. Added or load some preloaded songs and playlist
-2. Interaction : user can use the following pseudo command: create, play, show, exit, add.
-- create a new playlist, 
-- add song to song list
-- add song to a specific playlist 
-- show all song
-- show all playlist , then show song in playlist
-- play a single song, in a queue then added more song in queue
-- play a playlist / album
-- exit out of the program  
-3 Reliability: handle error of wrong command
-4. Exist application 
+### **3. Command Parsing and User Input**
 
-## Technology
-- Programming Language and Environment: Java
-- Data Structure: Using Doubly Linked List and ArrayList for Storing song and playlists
-- Testing: 
-- Documentation: Java doc, user guide
+- **General Command Parsing**:
+  - Commands for actions across states follow a `<action> <number>` format and are parsed using `CommandParserUtil` to ensure correct formatting.
+  
+- **Context-Specific Commands**:
+  -`ShowSongState` support unique commands, such as `add "<title>" by "<artist>"`, enabling users to add new songs directly to the library.
 
-## System Design
+### **4. Data Output**
 
+- **Saving and Loading Library**:
+  - Data is persisted using a CSV format that stores song and playlist information for future access.
+  - The system reads two columns (artist and title) on input and outputs three columns (playlist name, song title, artist) for saved playlists.
 
-## Project MileStone
-### Milestone 1: Initial System design and core Requirements 
-### MileStone 2: Core Functionality Implementation
-### complete the song manager class
-### Break song manager class to delegated the task even further
-### Make Unit testing for the song manager class
-### Implemented basic interfaces
-### Input CSV 
-
-### Implemneted circular linked list 
-### Ouput CSV
-### completete the console intercaees
-### Refactors the class based on different design pattern
 
 ---
+
+# **Non-Functional Requirements**
+
+### **1. Data Persistence and Compatibility**
+
+- **CSV Format**:
+  - Saves data in **CSV format** for easy import/export with spreadsheet applications and other data-processing tools.
+
+- **File Accessibility**:
+  - Ensures that files are **easily accessible** for sharing and backup.
+
+### **2. Performance and Efficiency**
+
+- **Low Latency**:
+  - The application efficiently processes command inputs and outputs for a smooth user experience.
+
+- **Memory Management**:
+  - Optimized for **minimal resource usage**, making it accessible on systems with limited processing power.
+
+### **3. Flexibility and Extensibility**
+
+- **Dynamic Adjustments**:
+  - Users can **update playlists and song information** dynamically, with changes immediately reflected in the system.
+
+- **Modular Structure**:
+  - Designed for easy updates and additions to accommodate future feature enhancements, such as expanded search capabilities. This is done through the use of the State Design Pattern.
+
+### **4. Error Handling and Validation**
+
+- **Command Validation**:
+  - The `CommandParserUtil` validates all command inputs to prevent incorrect or unsupported actions.
+
+- **Conflict Resolution**:
+  - Ensures that users are informed of **invalid operations** (e.g., duplicate playlists or songs), guiding them to make corrections.
+
+- **User Feedback**:
+  - Provides **informative error messages** to aid users in navigating errors and input mistakes.
+
+### **5. Documentation and Usability**
+
+- **User Guide**:
+  - Provides a comprehensive **step-by-step guide** on application usage and features, including common commands.
+- **User-Friendly Interface:**
+  - The application ensure **clear and intuitive command-line interactions**.
+
+- **Developer Documentation**:
+  - Includes detailed class and method descriptions for **easy reference and future development**.
+
+---
+## **Technical Specifications**
+### **1. Programming Language and Environment**
+- **Language**:
+  - Developed using **Java SE 11 or higher**.
+
+- **Development Tools**:
+  - Utilizes **JUnit** for testing.
+
+
+### **2. Data Structures**
+
+- **Song Representation**:
+  - Each song is represented as a **class object** with attributes for title and artist.
+
+- **Circular Doubly Linked List**:
+  - Used for playlist navigation and playback queue management, allowing efficient traversal and shuffling.
+
+### **3. Algorithms and Logic**
+
+- **Queue Navigation Algorithm**:
+  - Provides `next`, `previous`, and `shuffle` options for seamless playlist navigation.
+
+- **Command Parsing and Validation**:
+  - Checks for correct command formats (e.g., `<action> <number>`) and extracts parameters to streamline user input processing.
+
+### **4. Testing and Quality Assurance**
+ **Unit Testing**:
+  - Tests the `SongManager` class for playlist management, song addition, playback control, 
+- **CSV Validation**:
+  - Verifies that generated CSV files adhere to correct formatting and are readable by spreadsheet applications.
+
+## **Project Milestones**
+
+### **Milestone 1: Core Functionality Implementation**
+
+- **Duration**:
+- **Deliverables**:
+  - Implement `SongManager`, `PlaylistManager`, and basic playlist and song functionality.
+
+### **Milestone 2: Playback Queue and Navigation**
+
+- **Duration**:
+- **Deliverables**:
+  - Develop playback functionality for `next`, `previous`, and `shuffle` actions.
+  - Integrate circular doubly linked list for song navigation.
+
+### **Milestone 3: Data Persistence**
+
+- **Duration**: 
+- **Deliverables**:
+  - Implement CSV import/export for playlists and songs.
+
+### **Milestone 4: Testing and Optimization**
+
+- **Duration**: 
+- **Deliverables**:
+  - Conduct unit and integration testing, refine performance, and implement error handling.
+
+### **Milestone 5: Documentation and Finalization**
+
+- **Duration**:
+- **Deliverables**:
+  - Complete user and developer documentation, finalize project, and prepare for demo.
+
+---
+## **Sample CSV Output**
+### **Sample Playlist Output**
+```csv
+Playlist Name,Song Title,Artist
+favorite,My Way,Frank Sinatra
+favorite,Fly me to the Moon,Frank Sinatra
+favorite,Thriller,Michael Jackson
+favorite,I Wanna Dance with Somebody,Whitney Houston
+favorite,Someone Like You,Adele
+Classic Hits,Thriller,Michael Jackson
+Classic Hits,I Wanna Dance with Somebody,Whitney Houston
+Classic Hits,Rocket Man,Elton John
+Pop Songs,Someone Like You,Adele
+Pop Songs,Whole Lotta Love,Led Zeppelin
+```
+
+Below is a sample CSV output generated by the application, demonstrating how the program store the playlists 
+The first oclumns is the playlist name then follow by the song title and artist.
+- **`favorite`** Playlist contains the following songs:
+  - My Way by Frank Sinatra
+  - Fly me to the Moon by Frank Sinatra
+  - Thriller by Michael Jackson
+  - I Wanna Dance with Somebody by Whitney Houston
+  - Someone Like You by Adele
 # **Class Structure: Music Library Management System**
 
 ## **1. Entry Point**
@@ -98,6 +210,8 @@ Ideally loaded in a the terminal by calling the file for the interface
   - **Purpose**: Displays the list of available songs and handles song-related actions.
 - **ShowPlaylistsState**
   - **Purpose**: Displays the list of playlists and handles playlist selection.
+- **EditPlaylistState**
+  - **purpose**: allow for the abilities to add new songs into the program
 - **ViewPlaylistState**
   - **Purpose**: Shows the songs within a selected playlist and allows actions on them.
 - **PlayQueueState**
@@ -186,11 +300,11 @@ Ideally loaded in a the terminal by calling the file for the interface
   - Controls playback actions like play, pause, next, previous, and shuffle.
   - Maintains the current song and play queue.
 
-### playlistaction helper 
+### Playlistaction helper 
 - purpose: help with actoins that associated with playlists
   
-### command parserutil 
-purpose: parse the command to validated and ensure that the command is correct
+### Command parserutil 
+- purpose: parse the command to validated and ensure that the command is correct
 
 ---
 
@@ -205,6 +319,7 @@ purpose: parse the command to validated and ensure that the command is correct
 ---
 
 ## **Summary**
+Please Check the UML Diagram for a representation on how the class are connected together.
 Class organization:
 
 - **Core Classes**: `MusicSimulator`, `Client`
@@ -227,30 +342,24 @@ Class organization:
   ```bash
   java -cp bin app.Client
 
-### 3. Saving output:
+- Open up the project in vscode and click run on the Client.java file.
+
+### 3. Navigating the Program:
+- The program itself contain instruction on the commands that can be use and error handling help to user to figure out the instruction as well. 
+
+### 4. Saving output:
 - Within the program you can save output by typing the save command and specifiying the sources or name
 - Otherwise the program doesn't save the output 
 
-### 4. Exiting the Program
+### 5. Exiting the Program
 - To exit, use the exit command in the program or press Ctrl + C to terminate.
 
-Responsibility: 
-### Vathana Khun:
-- Setting up the initial documentation
-- came up with the class structure
-- Plan out the overview of the project, documented initial requirement
-- Complete the Initial class structure
-- delegated class songManager into different class
-- Make Unit testing for the song manager class
-- Implemented basic interfaces
-- Make Input CSV 
-- Implemneted circular linked list 
-- Implemented Ouput CSV
-- completete the console intercaees
-- Refactors the class based on different design pattern
-  
-### Sunny And Angus
-- complete the song manager class
+---
+## Next Steps
+- **Requirement Review:**
+  - More requirements could be implemented
+- **Feedback and Iteration:**
+  - Incorporate user feedback throughout the development process to refine and enhance the application's functionality and usability.
 
-### Kahlid
+
 

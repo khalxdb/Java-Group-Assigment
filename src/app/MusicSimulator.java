@@ -21,7 +21,10 @@ public class MusicSimulator {
         this.currentState = new MainMenuState(this); // our default states is the main menu one
     }
 
-    // Setting states, every times we set a state we keep track of a history with a stack
+    /**
+     * Setting states, every times we set a state we keep track of a history with a stack
+     * @param newState The new States of our context the music simulator
+     */
     public void setState(State newState) {
         if (currentState != null) {
             stateStack.push(currentState);  // Save current state to the stack
@@ -29,7 +32,9 @@ public class MusicSimulator {
         this.currentState = newState;
     }
     
-    // going back to the previous page by poping the stack
+    /**
+     * Go back to the previous page by checking and popping the stack
+     */
     public void goBack() {
         if (!stateStack.isEmpty()) {
             this.currentState = stateStack.pop();  // Restore the previous state
@@ -38,24 +43,21 @@ public class MusicSimulator {
         }
     }
 
-    // clear the stack
+    /**
+     * Clear the State Stack
+     */
     public void clearStateStack() {
         stateStack.clear();
     }
 
-    /*
-     * When we run the simulator, we do the following
-     * loop to stay in the current states or page
-     * display the state or page
-     * get input for the state or page and handle the input
+    /**
+     * When we run the simulator, we do the following , loop to stay in the current states or page
+     * display the state or page, get input for the state or page and handle the input
      */
     public void run(){
         while(true){
-            // Activated the display method in every states class
             currentState.display();
-            // Trim the input for spaces only
-            String input = console.getCommandInput().trim();
-            // Activated Handling Input in every state class
+            String input = console.getCommandInput().trim(); // Trim the input to ignored white spaces
             currentState.handleInput(input);
         }
     }

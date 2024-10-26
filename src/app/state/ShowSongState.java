@@ -8,17 +8,27 @@ import app.manager.*;
 import app.util.*;
 import app.model.*;
 
+/**
+ * ShowSongState displays the list of songs available in the library and allows
+ * the user to perform actions such as adding new songs, playing songs, and managing 
+ * the queue.
+ */
 public class ShowSongState implements State {
-    private MusicSimulator simulator;
-    private SongManager songManager;
-    private ConsoleManager console;
+    public MusicSimulator simulator;
+    public SongManager songManager;
+    public ConsoleManager console;
 
+    // Constructor
     public ShowSongState(MusicSimulator simulator) {
         this.simulator = simulator;
         this.songManager = simulator.songManager;
         this.console = simulator.console;
     }
 
+    /**
+     * Displays the song library, the current queue, and the available commands for the user. 
+     * Commands include options to play songs, add songs, go back, or exit.
+     */
     @Override
     public void display() {
         console.clearConsole();
@@ -35,11 +45,17 @@ public class ShowSongState implements State {
         console.showMessage("\nCurrent Queue:");
 
         // Display the queue and current song
-        CircularDoublyLinkedList songQueue = songManager.player.songQueue;
+        CircularDoublyLinkedList songQueue = songManager.getSongQueue();
         Node curSongNode = songManager.player.currentSongNode;
         console.displayQueue(songQueue, curSongNode);
     }
 
+    /**
+     * Handles user input, routing commands to actions related to displaying songs, playing songs,
+     * adding songs, and queue management. This method checks command validity before executing actions.
+     *
+     * @param input The command input from the user.
+     */
     @Override
     public void handleInput(String input) {
         switch (input.toLowerCase()) {
@@ -89,12 +105,15 @@ public class ShowSongState implements State {
                         break;
                 }
         }
-        display();
+        display(); // continue displaying the states
     }
 
-    // Method to handle adding a new song to the song library
+    /**
+     * Adds a new song to the song library based on user input in the format 
+     * 'add "title" by "artist"'. Using Regex to split into 3 groups
+     * @param addCommand The user input command for adding a song.
+     */
     public void handleAddSong(String addCommand) {
-        // Get the pattern for adding songs add or a follow by " " "by" ""
         Pattern pattern = Pattern.compile("(add|a)\\s+\"([^\"]+)\"\\s+by\\s+\"([^\"]+)\"", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(addCommand);
 
@@ -102,8 +121,8 @@ public class ShowSongState implements State {
             String title = matcher.group(2); 
             String artist = matcher.group(3);
 
-            Song newSong = new Song(title, artist);
-            songManager.addSongToLibrary(newSong);
+            Song newSong = new Song(title, artist); // make the new songs
+            songManager.addSongToLibrary(newSong); 
             console.showMessage("\033[32mSong '" + title + "' by '" + artist + "' has been added to the library.\033[0m");
         } else {
             console.showMessage("\033[31mInvalid format. Use 'add \"<song title>\" by \"<artist>\"'.\033[0m");
@@ -111,17 +130,19 @@ public class ShowSongState implements State {
         console.waitForEnter();
     }
 
-    // Method to handle playing a song
+    /**
+     * Adds a song to the queue based on the song's index in the song library.
+     * @param indexPart The index of the song to play, provided as a string.
+     */
     public void handlePlaySong(String indexPart) {
         Integer songIndex = CommandParserUtil.parseIndexCommand(indexPart, simulator.console);
         if (songIndex == null){
-            return;
+            return; // Incorrect Input
         } 
         Song songToPlay = songManager.getSongAtIndex(songIndex);
         if (songToPlay != null) {
             songManager.enqueueSong(songToPlay);
         }
-        console.waitForEnter();
+        console.waitForEnter(); // to display message
     }
-
 }

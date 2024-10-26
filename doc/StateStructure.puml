@@ -1,0 +1,80 @@
+@startuml
+
+' Define Concrete State Classes
+class MainMenuState <<state>> {
+    + display()
+    + handleInput(String input)
+}
+
+class CreateState <<state>> {
+    + display()
+    + handleInput(String input)
+}
+
+class ShowSongState <<state>> {
+    + display()
+    + handleInput(String input)
+}
+
+class ShowPlaylistsState <<state>> {
+    + display()
+    + handleInput(String input)
+}
+
+class EditPlaylistState <<state>>{
+    + display()
+    + handleInput(String input)
+}
+
+class ViewPlaylistState <<state>>{
+    + display()
+    + handleInput(String input)
+}
+
+class PlayQueueState <<state>> {
+    + display()
+    + handleInput(String input)
+}
+
+class SearchState <<state>>{
+    + display()
+    + handleInput(String input)
+}
+
+class SaveState <<state>>{
+    + display()
+    + handleInput(String input)
+}
+
+
+
+class PlaylistActionHelper{
+    + handlePlaylistAction()
+    + handleShowPlaylist()
+    + handlePlayPlaylist()
+}
+
+'Every singel states can always go back to the main menu
+MainMenuState --> ShowPlaylistsState: go to
+MainMenuState --> ShowSongState: go to
+MainMenuState --> CreateState: go to
+MainMenuState --> SearchState: go to
+MainMenuState --> PlayQueueState: go to
+MainMenuState --> SaveState: goto
+
+SearchState --> PlayQueueState: goto
+
+ShowPlaylistsState --> PlaylistActionHelper: goto
+CreateState --> PlaylistActionHelper:goto
+
+PlaylistActionHelper --> ViewPlaylistState: goto
+PlaylistActionHelper --> PlayQueueState: go to
+
+PlayQueueState <-->ShowSongState:go to
+
+ViewPlaylistState --> PlayQueueState: go to
+ViewPlaylistState --> EditPlaylistState: goto
+EditPlaylistState --> PlayQueueState: goto
+
+
+@enduml

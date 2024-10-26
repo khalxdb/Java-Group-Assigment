@@ -6,12 +6,17 @@ import app.manager.*;
 import app.util.*;
 import app.model.*;
 
+/**
+ * The ViewPlaylistState class represents the state where the user can view
+ * a specific playlist, play it, add songs to it, or return to the playlist menu.
+ */
 public class ViewPlaylistState implements State {
     public MusicSimulator simulator;
     public SongManager songManager;
     public ConsoleManager console;
     public Playlist playlist;
 
+    // Constructor
     public ViewPlaylistState(MusicSimulator simulator, Playlist playlist) {
         this.simulator = simulator;
         this.songManager = simulator.songManager;
@@ -19,6 +24,11 @@ public class ViewPlaylistState implements State {
         this.playlist = playlist;
     }
 
+    /**
+     * Displays the playlist contents and available options.
+     * Shows the songs in the current playlist and prompts the user with
+     * available commands for managing the playlist.
+     */
     @Override
     public void display() {
         console.clearConsole();
@@ -27,6 +37,13 @@ public class ViewPlaylistState implements State {
         console.showMessage("add | a for adding songs");
     }
 
+    /**
+     * Handles user input specific to viewing and managing a playlist.
+     * Based on the input, this method allows the user to go back to the playlist
+     * menu, play the playlist, add songs to it, or exit to the main menu.
+     *
+     * @param input The user input command.
+     */
     @Override
     public void handleInput(String input) {
         input = input.toLowerCase().trim();
@@ -52,7 +69,7 @@ public class ViewPlaylistState implements State {
                 return;
             case "add":
             case "a":
-                simulator.setState(new AddToPlaylistState(simulator ,playlist));
+                simulator.setState(new EditPlaylistState(simulator ,playlist));
                 return;
 
             default:
@@ -60,8 +77,6 @@ public class ViewPlaylistState implements State {
                 console.waitForEnter();
                 break;
         }
-
-        // After handling input, display the state again
-        display();
+        display(); // refresh page
     }
 }

@@ -6,7 +6,12 @@ import app.manager.*;
 import app.state.*;
 
 public class PlaylistActionHelper {
-
+    /**
+     * Parses and handles the playlist command, routing to the appropriate action
+     * either show or play a playlist based on user input.
+     * @param playlistCommand The command input by the user in the form of 'action' 'number'.
+     * @param simulator The main MusicSimulator context to access song manager and console.
+     */
     public static void handlePlaylistAction(String playlistCommand, MusicSimulator simulator) {
         //Expecting our input to be <action> <number>
         if (!CommandParserUtil.validCommand(playlistCommand, simulator.console)){
@@ -33,6 +38,13 @@ public class PlaylistActionHelper {
         }
     }
 
+     /**
+     * Handles the action to show a playlist by retrieving it at the specified index
+     * and transitioning to the ViewPlaylistState if the playlist exists.
+     *
+     * @param indexPart The index of the playlist to be displayed, as a string.
+     * @param simulator The main MusicSimulator context to access the song manager.
+     */
     public static void handleShowPlaylist(String indexPart, MusicSimulator simulator){
         Integer playlistIndex = CommandParserUtil.parseIndexCommand(indexPart, simulator.console);
         if (playlistIndex == null) {
@@ -45,11 +57,17 @@ public class PlaylistActionHelper {
             simulator.setState(new ViewPlaylistState(simulator, selectedPlaylist));
         }
         else{
-            simulator.console.waitForEnter();// print out the error
+            simulator.console.waitForEnter(); // Display error if found
         }
     }
 
-    // Method to handle playing a playlist
+    /**
+     * Handles the action to play a playlist by retrieving it at the specified index
+     * and transitioning to the PlayQueueState if the playlist exists.
+     *
+     * @param indexPart The index of the playlist to be played, as a string.
+     * @param simulator The main MusicSimulator context to access the song manager.
+     */
     public static void handlePlayPlaylist(String indexPart, MusicSimulator simulator) {
         Integer playlistIndex = CommandParserUtil.parseIndexCommand(indexPart, simulator.console);
         if (playlistIndex == null) {
@@ -61,7 +79,7 @@ public class PlaylistActionHelper {
             simulator.setState(new PlayQueueState(simulator, selectedPlaylist));
         }
         else{
-            simulator.console.waitForEnter();// print out the error
+            simulator.console.waitForEnter(); // Display error if found
         }
     }
 

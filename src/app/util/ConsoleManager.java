@@ -4,28 +4,34 @@ import app.model.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * The ConsoleManager class handles user input and output operations in the console.
+ * It manages displaying messages, reading commands, and formatting outputs for songs,
+ * playlists, artists, and queue.
+ */
 public class ConsoleManager {
     public Scanner scanner;
-    /*
-     * main purpose of this class is to handle input and output like reading commands, printing out message etc.
-     */
+
     // Constructor
     public ConsoleManager() {
         scanner = new Scanner(System.in);
     }
 
-    // Method to clear the console
+    /**
+     * Clears the console screen by printing multiple blank lines and resetting the cursor.
+     */
     public void clearConsole() {
-        // Print out a bunch of white lines
         for(int i = 0; i < 40; i++){
             System.out.println();
         }
-        // move the cursor back to the top left corner and clear the screen
-        System.out.print("\033[H\033[2J");
+        
+        System.out.print("\033[H\033[2J"); // resetting cursor
         System.out.flush();
     }
 
-    // Method to print the welcome message and commands
+    /**
+     * Displays a welcome message and available commands for users.
+     */
     public void printWelcome() {
         clearConsole();//\033[1;32m
         //\033[0m\n
@@ -47,47 +53,54 @@ public class ConsoleManager {
     }
 
 
-    // Method to prompt and get user command input
+    /**
+     * Prompts the user for input and returns the command entered.
+     * 
+     * @return The user command as a String.
+     */
     public String getCommandInput() {
         System.out.print("\n\033[35mCommands: \033[0m");
         return scanner.nextLine();
     }
 
+    /**
+     * Displays a message in the console.
+     *
+     * @param message The message to be displayed.
+     */
     public void showMessage(String message) {
         System.out.println(message);
     }
 
-    // Method to prompt for input and return user's response
-    public void getInput(){
-        scanner.nextLine();
-    }
-    public String promptUser(String promptMessage) {
-        System.out.println(promptMessage);
-        return getCommandInput();
-    }
-
-    // Method to wait for user to press Enter
+    /**
+     * Prompts the user to press Enter to continue. use for displaying stopping the while loop to display message
+     */
     public void waitForEnter() {
         System.out.println("\033[33mPress Enter to continue...\033[0m");
         scanner.nextLine();
     }
 
-    // Method to close the scanner (when exiting the program)
+    /**
+     * Prompts the user with a messages and get input
+     * @param promptMessage String a message to prompt the user
+     * @return the input string that the user inputted
+     */
+    public String promptUser(String promptMessage) {
+        System.out.println(promptMessage);
+        return getCommandInput();
+    }
+
+    /**
+     * Closes the scanner used for reading input.
+     */
     public void closeScanner() {
         scanner.close();
     }
 
-    public boolean goBack(String command){
-        if (command.equalsIgnoreCase("exit") || command.equalsIgnoreCase("q")) {
-            clearConsole();
-            showMessage("\033[31mExiting to the main menu...\033[0m");
-            return true; 
-        }
-        return false; 
-
-    }
-
-    // TODO: Method for Display song list for nice fommating
+    /**
+     * Displays a list of songs in a formatted table.
+     * @param listOfSongs The list of songs to display an ArrayList of Song.
+     */
     public void displaySongList(ArrayList<Song> listOfSongs) {
         System.out.println("\033[1;34m==========================================\033[0m");
         System.out.println("\033[1;34m                Available Songs           \033[0m");
@@ -105,6 +118,10 @@ public class ConsoleManager {
         System.out.println("\033[1;34m==========================================\033[0m");
     }
 
+    /**
+     * Displays songs in a specified playlist with formatted columns.
+     * @param playlist The playlist whose songs will be displayed.
+     */
     public void displayPlaylistSong(Playlist playlist){
         System.out.println("\033[1;33m==========================================\033[0m");
         System.out.println("\033[1;33m       Selected Playlist: \033[0m" + "\033[34m" + playlist.name + "\033[0m");
@@ -128,12 +145,16 @@ public class ConsoleManager {
             System.out.printf("%-5d %-30s %-20s\n", countIdx, current.song.title, current.song.artist);
             current = current.next;
             countIdx++;
-        } while (current != playlist.songList.head);
+        } 
+        while (current != playlist.songList.head);
 
         System.out.println("\033[1;33m==========================================\033[0m\n");
-
     }
 
+    /**
+     * Displays a list of playlists with their indices and names.
+     * @param playlists The list of playlists to display.
+     */
     public void displayPlaylistList(ArrayList<Playlist> playlists) {
         System.out.println("\033[1;34m==========================================\033[0m");
         System.out.println("\033[1;34m            Available Playlists               \033[0m");
@@ -147,11 +168,14 @@ public class ConsoleManager {
         for (int i = 0; i < playlists.size(); i++) {
             System.out.printf("%-5d %-30s\n", i, playlists.get(i).name);
         }
-    
+
         System.out.println("\033[34m==========================================\033[0m\n");
     }
 
-    // METHOD FOR DISPLAYING ARTIST
+    /**
+     * Displays a list of artists with their indices and names.
+     * @param artists The list of artists to display.
+     */
     public void displayArtist(ArrayList<String> artists) {
         System.out.println("\033[1;36m==========================================\033[0m");
         System.out.println("\033[1;36m          Artists in the Library              \033[0m");
@@ -174,15 +198,17 @@ public class ConsoleManager {
         System.out.println("\033[1;36m==========================================\033[0m\n");
     }
 
+    /**
+     * Displays the current song queue, highlighting the currently playing song.
+     * @param songQueue The queue of songs.
+     * @param currentSongNode The node of the currently playing song.
+     */
     public void displayQueue(CircularDoublyLinkedList songQueue, Node currentSongNode) {
         if (songQueue.head == null) { // Check if the queue is empty
             System.out.println("Queue is empty.");
             return;
         }
 
-        /*
-         * Traverse the linked list, then highlight the node that is our currentSongNode
-         */
         Node curNode = songQueue.head; 
         System.out.println("\033[1;34mQueue:\033[0m");
     
@@ -198,11 +224,9 @@ public class ConsoleManager {
             if (curNode != songQueue.head) {
                 System.out.print(" -> ");
             }
-        } while (curNode != songQueue.head); // Stop after a full circle back to the head
+        } 
+        while (curNode != songQueue.head); // Stop after a full circle back to the head
         
         System.out.println();
     }
-    
-    
-
 }

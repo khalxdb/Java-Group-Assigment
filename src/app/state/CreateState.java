@@ -5,28 +5,42 @@ import app.manager.*;
 import app.util.*;
 import app.model.*;
 
+/**
+ * The CreateState class handles user interactions for creating and removing playlists,
+ * as well as navigating to playlist view or play states.
+ */
 public class CreateState implements State {
     public MusicSimulator simulator;
     public SongManager songManager;
     public ConsoleManager console;
 
+    // Constructor
     public CreateState(MusicSimulator simulator) {
         this.simulator = simulator;
         this.songManager = simulator.songManager;
         this.console = simulator.console;
     }
 
+    /**
+     * Displays the list of available playlists along with command options for creating,
+     * removing, viewing, or playing playlists.
+     */
     @Override
     public void display() {
         console.clearConsole();
         ArrayList<Playlist> playlists = songManager.getPlaylists();
         console.displayPlaylistList(playlists);
-        console.showMessage("Commands: Remove (r <number>), Create (c \"<name>\", use \"\"), Show (s), Play (p), or Exit (q)");
+        console.showMessage("\033[33mType: Remove (r <number>), Create (c \"<name>\", use \" \"), Show (s), Play (p), or Exit (q) \033[");
     }
 
+     /**
+     * Processes user input for creating or removing playlists, showing or playing playlists, 
+     * or navigating between menus.
+     *
+     * @param input The user input command.
+     */
     @Override
     public void handleInput(String input) {
-        // Take in 2 inputs, one for command like create and remove
         String[] parts = input.split(" ");
         
         if (parts.length < 1) {
@@ -39,7 +53,11 @@ public class CreateState implements State {
         switch (action) {
             case "r":
             case "remove":
-                handleRemove(parts);
+                //Expecting our input to be <action> <number>
+                if (!CommandParserUtil.validCommand(input, simulator.console)){
+                    break; // Invalided input
+                }
+                handleRemove(parts[1]);
                 break;
 
             case "c":
@@ -49,18 +67,14 @@ public class CreateState implements State {
 
             case "s":
             case "show":
-                // Handle Selecting Songs 
-                PlaylistActionHelper.handlePlaylistAction(input, simulator);
-                break;
-
             case "p":
             case "play":
-                simulator.setState(new PlayQueueState(simulator, null)); // Transition to play state
+                PlaylistActionHelper.handlePlaylistAction(input, simulator);
                 break;
 
             case "q":
             case "exit":
-                simulator.goBack(); // Go back to the previous state
+                simulator.goBack();
                 break;
 
             default:
@@ -68,34 +82,32 @@ public class CreateState implements State {
         }
     }
 
-    // Function for removing playlists 
-    public void handleRemove(String[] parts) {
-        if (parts.length != 2) {
-            console.showMessage("\033[31mInvalid command format. Use 'r <number>'.\033[0m");
-            console.waitForEnter();
+    /**
+     * Handles the removal of a playlist by its index.
+     * @param indexPart The command split into parts, where the second part should be the index.
+     */
+    public void handleRemove(String indexPart) {
+        Integer playlistIndex = CommandParserUtil.parseIndexCommand(indexPart, console);
+        if (playlistIndex == null) {
             return;
         }
 
-        String indexStr = parts[1];
-        if (!isNumeric(indexStr)) {
-            console.showMessage("\033[31mInvalid input. Please enter a valid number.\033[0m");
-            console.waitForEnter();
-            return;
-        }
-
-        int idx = Integer.parseInt(indexStr);
-        if (idx < 0 || idx >= songManager.playlistLibrary.listOfPlaylists.size()) {
+        if (playlistIndex < 0 || playlistIndex >= songManager.playlistLibrary.listOfPlaylists.size()) {
             console.showMessage("\033[31mInvalid index. Please try again.\033[0m");
             console.waitForEnter();
             return;
         }
 
-        Playlist removePlaylist = songManager.getPlaylistAtIndex(idx);
+        Playlist removePlaylist = songManager.getPlaylistAtIndex(playlistIndex);
         songManager.removePlaylist(removePlaylist);
         console.waitForEnter();
     }
 
-    // Function for handling creating playlists
+    /**
+     * Handles the creation of a new playlist using the name provided in the input command.
+     *
+     * @param input The full input command containing the playlist name in quotes.
+     */
     public void handleCreate(String input) {
         /*
         * Use regular expression to check for both 'c' or 'create', followed by space(s),
@@ -111,24 +123,9 @@ public class CreateState implements State {
         // Extract the playlist name from the quotes
         int firstQuoteIndex = input.indexOf("\"");
         int lastQuoteIndex = input.lastIndexOf("\"");
-
-        // Get the playlist name between the quotes
         String playlistName = input.substring(firstQuoteIndex + 1, lastQuoteIndex).trim();
 
-        // Create the playlist with the full name
-        songManager.createPlayList(playlistName);
-        // console.showMessage("Playlist '" + playlistName + "' created successfully!");
+        songManager.createPlayList(playlistName); // Create the playlist with the full name
         console.waitForEnter();
-    }
-
-    public void showPlaylistPage() {
-        console.clearConsole();
-        songManager.showPlayList();
-        console.waitForEnter();
-    }
-
-    // Helper method to check if a string is numeric
-    public boolean isNumeric(String str) {
-        return str.matches("\\d+");
     }
 }

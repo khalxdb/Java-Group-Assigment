@@ -19,13 +19,14 @@ public class CircularDoublyLinkedList {
     public void addNode(Song song){
         // Create New Node with the given songs
         Node newNode = new Node(song);
-
-        // If the list is empty, initialized head and tail to the new Node;
+        /*
+         * List is empty so we intialized head and tail to newNode 
+         * and Make the pointer point to itself by pointing to the head
+         */
         if (head == null){
             head = newNode;
             tail = newNode;
 
-            // For a circular linked list, it's next and prev point to itself
             head.next = head; 
             head.prev = head;  
         }
@@ -135,11 +136,60 @@ public class CircularDoublyLinkedList {
     }
 
     /**
-     * Given a song remove it from the doubly linked list
-     * @param Song
-     * @return true if the song was removed successfully, false otherwise
+     * Removes the given song from the circular doubly linked list.
+     * In order to do this we must skip the Node to be removed by changing it's previousNode and NextNode pointer
+     * we set our previousNode next pointer to the NextNode pointer by using a temporary Node.
+     * @param song The song to be removed.
+     * @return true if the song was removed successfully, false otherwise.
      */
-    public void removeNode(Song Node){
-        //TODO: removeNode from the Circular Doubly Linked List
+    public boolean removeNode(Song song) {
+        if (head == null) {
+            return false; // List is empty, so nothing to remove.
+        }
+
+        Node curNode = head; // act as both a node to keep track of the position and the temporary node.
+        Node prevNode = null;
+
+        do {
+            if (curNode.song.equals(song)) {
+                /*
+                * Case 1: The node to be removed is the only node in the list.
+                * Since there is only one node we set it to null
+                */
+                if (curNode.next == curNode && curNode.prev == curNode) {
+                    head = null;
+                } 
+
+                /*
+                * Case 2: Removing the head node (first node in the list).
+                * If the node to be removed is `head`, we need to:
+                * 1. Update `head` Node next pointer to  the nextNode.
+                * 2. Link the previous (last) node to the new `head`.
+                * 3. Link the new `head` back to the last node, maintaining the circular nature.
+                */
+                else if (curNode == head) {
+                    head = head.next;
+                    head.prev = curNode.prev;
+                    curNode.prev.next = head;
+                } 
+
+                /*
+                * Case 3: Removing any node that is not the head.
+                * For non-head nodes, we simply:
+                * 1. Update the `next` pointer of the previousNode to skip the current node.
+                * 2. Update the `prev` pointer of the nextNode to link back to the previous node.
+                */
+                else {
+                    prevNode.next = curNode.next;
+                    curNode.next.prev = prevNode;
+                }
+                return true;
+            }
+            // Move to the next node, updating previous to current
+            prevNode = curNode;
+            curNode = curNode.next;
+        } while (curNode != head);
+
+        return false; // Song not found in the list.
     }
 }

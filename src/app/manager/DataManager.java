@@ -2,15 +2,24 @@ package app.manager;
 import java.io.*;
 import app.model.*;
 
+/**
+ * DataManager class handles loading and saving song and playlist data from/to CSV files.
+ */
 public class DataManager {
     public SongLibrary songLibrary;
     public PlaylistLibrary playlistLibrary;
-
+    
+    // Constructor
     public DataManager(SongLibrary songLibrary, PlaylistLibrary playlistLibrary) {
         this.songLibrary = songLibrary;
         this.playlistLibrary = playlistLibrary;
     }
 
+    /**
+     * Loads song data from a CSV file and adds it to the song library,using a buffer reader
+     * @param fileName The name of the CSV file to load.
+     * @throws IOException if there is an issue with reading the file, such as an invalid path or file format.
+     */
     public void loadFromCSV(String fileName) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(fileName));
         reader.readLine();
@@ -27,14 +36,22 @@ public class DataManager {
         reader.close();
     }
 
+    /**
+     * Save playlist and song data into a CSV file, using a buffer reader
+     * @param fileName The name /path of the CSV file to save.
+     * @throws IOException if there is an issue with saving the file.
+     */
     public void saveToCSV(String fileName) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
-        try {
-            // Write headers
-            writer.write("Playlist Name,Song Title,Artist");
+        try {            
+            writer.write("Playlist Name,Song Title,Artist");// Write headers
             writer.newLine();  
     
-            // Loop through each playlist
+            /*
+             * Loop through the listOfPlaylists
+             * if the playlist is empty we say there are no songs and no artist
+             * then for each playlist we traverse it and printout the playlist name, title, artist format 
+             */
             for (Playlist playlist : playlistLibrary.listOfPlaylists) {
                 Node currentNode = playlist.songList.head;
                 
@@ -48,21 +65,14 @@ public class DataManager {
                 // Handle playlists with songs
                 do {
                     Song song = currentNode.song;
-    
-                    // Handle null song cases
-                    if (song != null) {
-                        writer.write(playlist.name + "," + song.title + "," + song.artist);
-                    } else {
-                        writer.write(playlist.name + ",Unknown song,Unknown artist");
-                    }
-    
+                    writer.write(playlist.name + "," + song.title + "," + song.artist);
                     writer.newLine();  // Move to the next line for the next song
                     currentNode = currentNode.next;
-                } while (currentNode != playlist.songList.head);  // Circular list, stop at the head
+                } 
+                while (currentNode != playlist.songList.head);  // Circular list, stop at the head
             }
         } finally {
-            // Ensure the writer is always closed, even if an exception occurs
-            writer.close();
+            writer.close();// Ensure the writer is always closed, even if an exception occurs
         }
     }
 }
