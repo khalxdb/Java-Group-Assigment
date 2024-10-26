@@ -19,7 +19,7 @@ public class PlayQueueState implements State {
 
         // Set playlist and initialize current song node
         if (curPlaylist != null) {
-            songManager.player.setPlaylist(curPlaylist);
+            songManager.playPlaylist(curPlaylist);
         }
     }
 
@@ -35,8 +35,8 @@ public class PlayQueueState implements State {
         }
 
         songManager.playCurrentSong();
-        CircularDoublyLinkedList songQueue = songManager.player.songQueue;
-        Node curSongNode = songManager.player.currentSongNode;
+        CircularDoublyLinkedList songQueue = songManager.getSongQueue();
+        Node curSongNode = songManager.getCurSongNode();
         console.displayQueue(songQueue,curSongNode);
 
         console.showMessage("\nAvailable Commands:");

@@ -1,5 +1,8 @@
 package app.util;
 
+/*
+ * Class for parsing and validating the inputs
+ */
 public class CommandParserUtil {
     // Parses command to retrieve the index and validates it
     public static Integer parseIndexCommand(String index, ConsoleManager console) {

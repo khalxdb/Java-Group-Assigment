@@ -179,13 +179,15 @@ public class ConsoleManager {
             System.out.println("Queue is empty.");
             return;
         }
-    
-        Node curNode = songQueue.head; // Start from the head of the queue
+
+        /*
+         * Traverse the linked list, then highlight the node that is our currentSongNode
+         */
+        Node curNode = songQueue.head; 
         System.out.println("\033[1;34mQueue:\033[0m");
     
         do {
-            // Highlight the current song node in the queue
-            if (curNode == currentSongNode) {
+            if (curNode == currentSongNode) { // Highlight the current song node in the queue
                 System.out.print("\033[1;32m[" + curNode.song.title + "]\033[0m"); // Highlight in green
             } else {
                 System.out.print(curNode.song.title);

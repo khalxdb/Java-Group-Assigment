@@ -1,6 +1,5 @@
 package app.state;
 
-import java.util.ArrayList;
 import app.*;
 import app.manager.*;
 import app.util.*;
@@ -60,7 +59,7 @@ public class AddToPlaylistState implements State {
                 String action = parts[0].toLowerCase();
                 String indexPart = parts[1]; // Extract the index part directly
 
-                if (input.equals("add") || input.equals("a")) {
+                if (action.equals("add") || action.equals("a")) {
                     handleAddToPlaylist(indexPart);
                 } else {
                     console.showMessage("\033[31mInvalid command. Use 'add <number>' to add song to playlist.\033[0m");

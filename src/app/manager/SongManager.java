@@ -258,4 +258,15 @@ public class SongManager {
     public void printQueue() {
         player.songQueue.printList();
     }
+
+    // Method for getting song queue
+    public CircularDoublyLinkedList getSongQueue(){
+        return player.songQueue;
+    }
+
+    // Method for getting current Song Node
+    public Node getCurSongNode() {
+        return player.currentSongNode;
+    }
 }
+

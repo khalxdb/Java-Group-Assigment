@@ -45,9 +45,7 @@ Ideally loaded in a the terminal by calling the file for the interface
 - Documentation: Java doc, user guide
 
 ## System Design
-###
- Image of the class structure to be changed
-![alt text](image-1.png)
+
 
 ## Project MileStone
 ### Milestone 1: Initial System design and core Requirements 
@@ -188,6 +186,12 @@ Ideally loaded in a the terminal by calling the file for the interface
   - Controls playback actions like play, pause, next, previous, and shuffle.
   - Maintains the current song and play queue.
 
+### playlistaction helper 
+- purpose: help with actoins that associated with playlists
+  
+### command parserutil 
+purpose: parse the command to validated and ensure that the command is correct
+
 ---
 
 ## **8. Testing**
@@ -211,8 +215,24 @@ Class organization:
 - **Testing**: `SongManagerTest`
 
 
+# Instructions for Running the Program
 
+### 1. Setup Requirements
+- Ensure [JDK 8 or higher](https://www.oracle.com/java/technologies/javase-downloads.html) is installed.
+- Clone or download the project files, including the `bin` directory with compiled classes.
 
+### 2. Running the Program
+- Open a terminal and navigate to the root directory of the project.
+- Run the program using the following command:
+  ```bash
+  java -cp bin app.Client
+
+### 3. Saving output:
+- Within the program you can save output by typing the save command and specifiying the sources or name
+- Otherwise the program doesn't save the output 
+
+### 4. Exiting the Program
+- To exit, use the exit command in the program or press Ctrl + C to terminate.
 
 Responsibility: 
 ### Vathana Khun:
@@ -233,3 +253,4 @@ Responsibility:
 - complete the song manager class
 
 ### Kahlid
+
