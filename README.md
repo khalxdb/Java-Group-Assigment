@@ -2,6 +2,31 @@
 ## Project Overview
 The **Music Library** Management System is a Java-based application that provides an interactive command-line interface for users to manage their music collections efficiently. It allows users to create playlists, add songs to playlists, and manage track queues with options for shuffling and navigating through songs.
 
+# Instructions for Running the Program
+
+### 1. Setup Requirements
+- Ensure [JDK 8 or higher](https://www.oracle.com/java/technologies/javase-downloads.html) is installed.
+- Clone or download the project files, including the `bin` directory with compiled classes.
+
+### 2. Running the Program
+- Open a terminal and navigate to the root directory of the project.
+- Run the program using the following command:
+  ```bash
+  java -cp bin app.Client
+
+- Or Open up the project in vscode and click run on the Client.java file.
+
+### 3. Navigating the Program:
+- The program itself contain instruction on the commands that can be use and error handling help to user to figure out the instruction as well. 
+- To reset any inconsistent formatting issue pressed enter multiple times to reprint out the text
+
+### 4. Saving output:
+- Within the program you can save output by typing the save command and specifiying the sources or name
+- Otherwise the program doesn't save the output 
+
+### 5. Exiting the Program
+- To exit, use the exit command in the program or press Ctrl + C to terminate.
+
 ## **Functional Requirements**
 ### **1. Song and Playlist Management**
 
@@ -324,32 +349,6 @@ Class organization:
 - **Managers**: `SongManager`, `PlaylistManager`, `SongLibrary`, `DataManager`
 - **Utilities**: `ConsoleManager`, `Player`, `CircularDoublyLinkedList`
 - **Testing**: `SongManagerTest`
-
-
-# Instructions for Running the Program
-
-### 1. Setup Requirements
-- Ensure [JDK 8 or higher](https://www.oracle.com/java/technologies/javase-downloads.html) is installed.
-- Clone or download the project files, including the `bin` directory with compiled classes.
-
-### 2. Running the Program
-- Open a terminal and navigate to the root directory of the project.
-- Run the program using the following command:
-  ```bash
-  java -cp bin app.Client
-
-- Or Open up the project in vscode and click run on the Client.java file.
-
-### 3. Navigating the Program:
-- The program itself contain instruction on the commands that can be use and error handling help to user to figure out the instruction as well. 
-- To reset any inconsistent formatting issue pressed enter multiple times to reprint out the text
-
-### 4. Saving output:
-- Within the program you can save output by typing the save command and specifiying the sources or name
-- Otherwise the program doesn't save the output 
-
-### 5. Exiting the Program
-- To exit, use the exit command in the program or press Ctrl + C to terminate.
 
 ---
 ## Next Steps
