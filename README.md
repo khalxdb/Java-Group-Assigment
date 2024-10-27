@@ -120,32 +120,27 @@ The **Music Library** Management System is a Java-based application that provide
 
 ### **Milestone 1: Core Functionality Implementation**
 
-- **Duration**:
 - **Deliverables**:
   - Implement `SongManager`, `PlaylistManager`, and basic playlist and song functionality.
 
 ### **Milestone 2: Playback Queue and Navigation**
 
-- **Duration**:
 - **Deliverables**:
   - Develop playback functionality for `next`, `previous`, and `shuffle` actions.
   - Integrate circular doubly linked list for song navigation.
 
 ### **Milestone 3: Data Persistence**
 
-- **Duration**: 
 - **Deliverables**:
   - Implement CSV import/export for playlists and songs.
 
 ### **Milestone 4: Testing and Optimization**
 
-- **Duration**: 
 - **Deliverables**:
   - Conduct unit and integration testing, refine performance, and implement error handling.
 
 ### **Milestone 5: Documentation and Finalization**
 
-- **Duration**:
 - **Deliverables**:
   - Complete user and developer documentation, finalize project, and prepare for demo.
 
@@ -175,6 +170,7 @@ The first oclumns is the playlist name then follow by the song title and artist.
   - I Wanna Dance with Somebody by Whitney Houston
   - Someone Like You by Adele
 # **Class Structure: Music Library Management System**
+There is a PUML file that contains a UML diagram of the overall structure of the program and a UML diagram of how specific states interact with each other.
 
 ## **1. Entry Point**
 
@@ -342,10 +338,11 @@ Class organization:
   ```bash
   java -cp bin app.Client
 
-- Open up the project in vscode and click run on the Client.java file.
+- Or Open up the project in vscode and click run on the Client.java file.
 
 ### 3. Navigating the Program:
 - The program itself contain instruction on the commands that can be use and error handling help to user to figure out the instruction as well. 
+- To reset any inconsistent formatting issue pressed enter multiple times to reprint out the text
 
 ### 4. Saving output:
 - Within the program you can save output by typing the save command and specifiying the sources or name
@@ -360,6 +357,5 @@ Class organization:
   - More requirements could be implemented
 - **Feedback and Iteration:**
   - Incorporate user feedback throughout the development process to refine and enhance the application's functionality and usability.
-
 
 
