@@ -1,4 +1,8 @@
 # Responsibility Documentation 
+https://github.com/vathana0/major-assignment/
+- Here is the Github for further validation if necessary.
+- Any Change by other memeber are not committed through them but are pointed out in the commit log
+
 ### Vathana Khun: 95% of the Work
 - Setting up the initial documentation
 - Came up with the class structure
