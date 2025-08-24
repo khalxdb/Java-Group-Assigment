@@ -1,6 +1,6 @@
 # Music Library Management System (Group Project)
 
-This project was developed as part of a university group assignment with three students.
+This project was developed as part of a university group assignment for Fundamentals of Computer Sciences COMP1010 with three students.
 
 ## Team Members
 - Vathana Khun (Repository Owner)
