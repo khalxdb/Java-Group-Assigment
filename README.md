@@ -1,3 +1,21 @@
+# Music Library Management System (Group Project)
+
+This project was developed as part of a university group assignment with three students.
+
+## Team Members
+- Vathana Khun (Repository Owner)
+- Khalid Bakhshi
+- Cheuk Yip
+
+## Key Contributions
+
+- Developed **user input validation** and command parsing for a smooth and error-proof command-line interface.
+- Implemented **SongManager** and **PlaylistManager** modules to handle music library, playlist creation, and queue management.
+- Built the **playback queue system** using a **Circular Doubly Linked List** for efficient next, previous, and shuffle functionality.
+- Designed and implemented **CSV-based data persistence** for saving and loading songs and playlists.
+- Conducted **unit testing and debugging** to ensure system stability and reliability.
+- Assisted with **user instructions and documentation**, enhancing usability for first-time users.
+
 # Design Documentation: Music Library Management System
 https://github.com/vathana0/major-assignment/
 ## Project Overview
@@ -59,7 +77,6 @@ The **Music Library** Management System is a Java-based application that provide
 - **Saving and Loading Library**:
   - Data is persisted using a CSV format that stores song and playlist information for future access.
   - The system reads two columns (artist and title) on input and outputs three columns (playlist name, song title, artist) for saved playlists.
-
 
 ---
 
